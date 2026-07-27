@@ -21,6 +21,6 @@ class ProfileCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.profile.profile-card');
+        return view('admin.components.profile.profile-card');
     }
 }

@@ -21,6 +21,6 @@ class Avatar extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.ui.avatar');
+        return view('admin.components.ui.avatar');
     }
 }

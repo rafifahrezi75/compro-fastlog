@@ -21,6 +21,6 @@ class AddressCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.profile.address-card');
+        return view('admin.components.profile.address-card');
     }
 }

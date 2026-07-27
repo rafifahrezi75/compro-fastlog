@@ -186,6 +186,6 @@ class SidebarController extends Controller
             ],
         ];
 
-        return view('components.sidebar', compact('menuGroups'));
+        return view('admin.components.sidebar', compact('menuGroups'));
     }
 }

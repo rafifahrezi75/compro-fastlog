@@ -21,6 +21,6 @@ class Radio extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.form.input.radio');
+        return view('admin.components.form.input.radio');
     }
 }

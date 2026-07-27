@@ -21,6 +21,6 @@ class BasicTablesThree extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.tables.basic-tables.basic-tables-three');
+        return view('admin.components.tables.basic-tables.basic-tables-three');
     }
 }

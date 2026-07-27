@@ -21,6 +21,6 @@ class CalenderArea extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.calender-area');
+        return view('admin.components.calender-area');
     }
 }

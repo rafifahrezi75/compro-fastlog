@@ -21,7 +21,7 @@ class Modal extends Component
     //  */
     // public function render(): View|Closure|string
     // {
-    //     return view('components.ui.modal');
+    //     return view('admin.components.ui.modal');
     // }
 
 
@@ -51,6 +51,6 @@ class Modal extends Component
          */
         public function render(): View|Closure|string
         {
-            return view('components.ui.modal');
+            return view('admin.components.ui.modal');
         }
 }

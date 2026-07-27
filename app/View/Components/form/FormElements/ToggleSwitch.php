@@ -21,6 +21,6 @@ class ToggleSwitch extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.form.form-elements.toggle-switch');
+        return view('admin.components.form.form-elements.toggle-switch');
     }
 }

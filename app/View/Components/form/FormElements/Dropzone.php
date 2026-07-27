@@ -21,6 +21,6 @@ class Dropzone extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.form.form-elements.dropzone');
+        return view('admin.components.form.form-elements.dropzone');
     }
 }
