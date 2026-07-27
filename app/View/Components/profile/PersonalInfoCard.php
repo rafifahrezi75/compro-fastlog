@@ -21,6 +21,6 @@ class PersonalInfoCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.profile.personal-info-card');
+        return view('admin.components.profile.personal-info-card');
     }
 }

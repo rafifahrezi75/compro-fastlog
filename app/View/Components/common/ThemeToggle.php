@@ -21,6 +21,6 @@ class ThemeToggle extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.common.theme-toggle');
+        return view('admin.components.common.theme-toggle');
     }
 }

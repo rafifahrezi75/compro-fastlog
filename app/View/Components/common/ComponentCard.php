@@ -21,6 +21,6 @@ class ComponentCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.common.component-card');
+        return view('admin.components.common.component-card');
     }
 }

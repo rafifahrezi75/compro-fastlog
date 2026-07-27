@@ -21,6 +21,6 @@ class PageBreadcrumb extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.common.page-breadcrumb');
+        return view('admin.components.common.page-breadcrumb');
     }
 }

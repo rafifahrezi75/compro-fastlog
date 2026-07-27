@@ -15,6 +15,6 @@ class EcommerceMetrics extends Component
 
     public function render(): View|Closure|string
     {
-        return view('components.ecommerce.ecommerce-metrics');
+        return view('admin.components.ecommerce.ecommerce-metrics');
     }
 }

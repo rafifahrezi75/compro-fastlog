@@ -21,6 +21,6 @@ class CommonGridShape extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.common.common-grid-shape');
+        return view('admin.components.common.common-grid-shape');
     }
 }

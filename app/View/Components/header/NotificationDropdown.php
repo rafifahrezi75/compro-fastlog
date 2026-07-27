@@ -21,6 +21,6 @@ class NotificationDropdown extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.header.notification-dropdown');
+        return view('admin.components.header.notification-dropdown');
     }
 }

@@ -15,7 +15,7 @@ class MonthlyTarget extends Component
 
     public function render(): View|Closure|string
     {
-        return view('components.ecommerce.monthly-target');
+        return view('admin.components.ecommerce.monthly-target');
     }
 }
 
