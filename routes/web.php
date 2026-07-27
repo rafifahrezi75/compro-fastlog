@@ -17,6 +17,40 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/register', [AuthController::class, 'register'])
         ->name('register.process');
+
+    // WEB USER
+    // dashboard pages
+    Route::get('/', function () {
+        return view('user.pages.index');
+    })->name('home');
+
+    Route::get('/about', function () {
+        return view('user.pages.about');
+    })->name('about');
+
+    Route::get('/services', function () {
+        return view('user.pages.services');
+    })->name('services');
+
+    Route::get('/blog', function () {
+        return view('user.pages.blog');
+    })->name('blog');
+
+    Route::get('/blog-details', function () {
+        return view('user.pages.blog-details');
+    })->name('blog-details');
+
+    Route::get('/contact', function () {
+        return view('user.pages.contact');
+    })->name('contact');
+
+    Route::get('/gallery', function () {
+        return view('user.pages.gallery');
+    })->name('gallery');
+
+    Route::get('/career', function () {
+        return view('user.pages.career');
+    })->name('career');
 });
 
 Route::middleware('auth')->group(function () {
@@ -109,47 +143,13 @@ Route::middleware('auth')->group(function () {
 //     return view('pages.ui-elements.videos', ['title' => 'Videos']);
 // })->name('videos');
 
-// WEB USER
-// dashboard pages
-Route::get('/', function () {
-    return view('user.pages.index');
-})->name('home');
+// Route::get('/', function () {
+//     if (Auth::check()) {
+//         return redirect()->route('dashboard');
+//     }
 
-Route::get('/about', function () {
-    return view('user.pages.about');
-})->name('about');
-
-Route::get('/services', function () {
-    return view('user.pages.services');
-})->name('services');
-
-Route::get('/blog', function () {
-    return view('user.pages.blog');
-})->name('blog');
-
-Route::get('/blog-details', function () {
-    return view('user.pages.blog-details');
-})->name('blog-details');
-
-Route::get('/contact', function () {
-    return view('user.pages.contact');
-})->name('contact');
-
-Route::get('/gallery', function () {
-    return view('user.pages.gallery');
-})->name('gallery');
-
-Route::get('/career', function () {
-    return view('user.pages.career');
-})->name('career');
-Route::get('/', function () {
-
-    if (Auth::check()) {
-        return redirect()->route('dashboard');
-    }
-
-    return redirect()->route('login');
-});
+//     return redirect()->route('login');
+// });
 
 //TEMPLATE
 
