@@ -83,77 +83,84 @@
       </div>
     </div>
 
-   {{-- 2. MAIN NAVBAR --}}
-<div id="nav-body" class="bg-transparent text-white transition-all duration-300">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <div class="flex items-center justify-between h-24">
+    {{-- 2. MAIN NAVBAR --}}
+    <div id="nav-body" class="bg-[#083C4A]/80 backdrop-blur-md text-white transition-all duration-300">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex items-center justify-between h-24">
 
-      <a href="{{ route('home') }}" class="flex items-center">
-        <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Era Mandiri"
-          class="h-14 w-auto object-contain">
-      </a>
+          <a href="{{ route('home') }}" class="flex items-center">
+            <img src="{{ asset('images/frontend/logo2.png') }}" alt="Fastlog Era Mandiri"
+              class="h-16 w-auto object-contain">
+          </a>
 
-      {{-- Nav + Button digabung jadi 1 grup di kanan --}}
-      <div class="hidden lg:flex items-center gap-8">
-        <nav class="flex items-center gap-7">
-          <a href="{{ route('home') }}"
-            class="text-white text-[15px] font-medium hover:text-[#FF7A3D] transition duration-200">Home</a>
-          <a href="#about"
-            class="nav-item text-white text-[15px] font-medium hover:text-[#FF7A3D] transition duration-200">Tentang Kami</a>
-
-          {{-- Dropdown Layanan --}}
-          <div class="relative group">
-            <a href="#services"
-              class="nav-item text-white text-[15px] font-medium hover:text-[#FF7A3D] transition duration-200 flex items-center gap-1">
-              Layanan
-              <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
+          <nav class="flex items-center space-x-9">
+            {{-- Home: Tetap Putih --}}
+            <a href="{{ route('home') }}"
+              class="text-white text-lg font-medium hover:text-[#FF7A3D] transition duration-200">
+                Home
             </a>
-            <div
-              class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64">
-              <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
+
+            {{-- Tentang Kami --}}
+            <a href="{{ route('about') }}"
+              class="text-lg font-medium transition duration-200 {{ request()->routeIs('about*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
+                Tentang Kami
+            </a>
+
+            {{-- Dropdown Layanan --}}
+            <div class="relative group">
                 <a href="#services"
-                  class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Custom Clearance</a>
-                <a href="#services"
-                  class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Reefer Logistic</a>
-                <a href="#services"
-                  class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Freight Forwarding</a>
-                <a href="#services"
-                  class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Inland Transport</a>
-              </div>
+                  class="text-lg font-medium transition duration-200 flex items-center gap-1 {{ request()->is('layanan*') || request()->routeIs('services*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
+                    Layanan
+                    <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+                <div class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64">
+                    <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
+                        <a href="#services" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Custom Clearance</a>
+                        <a href="#services" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Reefer Logistic</a>
+                        <a href="#services" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Freight Forwarding</a>
+                        <a href="#services" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Inland Transport</a>
+                    </div>
+                </div>
             </div>
           </div>
 
-          <a href="#destination"
-            class="nav-item text-white text-[15px] font-medium hover:text-[#FF7A3D] transition duration-200">Destinasi</a>
-          <a href="#gallery"
-            class="nav-item text-white text-[15px] font-medium hover:text-[#FF7A3D] transition duration-200">Galeri</a>
-
-          {{-- Dropdown Berita --}}
-          <div class="relative group">
-            <a href="#news"
-              class="nav-item text-white text-[15px] font-medium hover:text-[#FF7A3D] transition duration-200 flex items-center gap-1">
-              Berita
-              <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
+            {{-- Destinasi --}}
+            <a href="{{ route('destination') }}"
+              class="text-lg font-medium transition duration-200 {{ request()->routeIs('destination*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
+                Destinasi
             </a>
-            <div
-              class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-56">
-              <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
-                <a href="#news"
-                  class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Berita</a>
-                <a href="#news"
-                  class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Detail Berita</a>
-              </div>
+
+            {{-- Galeri --}}
+            <a href="{{ route('gallery') }}"
+              class="text-lg font-medium transition duration-200 {{ request()->routeIs('gallery*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
+                Galeri
+            </a>
+
+            {{-- Dropdown Berita --}}
+            <div class="relative group">
+                <a href="{{ route('berita') }}"
+                  class="text-lg font-medium transition duration-200 flex items-center gap-1 {{ request()->routeIs('berita*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
+                    Berita
+                    <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+                <div class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-56">
+                    <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
+                        <a href="{{ route('berita') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Berita</a>
+                        <a href="#news" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Detail Berita</a>
+                    </div>
+                </div>
             </div>
           </div>
 
-          <a href="#career"
-            class="nav-item text-white text-[15px] font-medium hover:text-[#FF7A3D] transition duration-200">Karir</a>
+            {{-- Karir --}}
+            <a href="#career"
+              class="text-lg font-medium transition duration-200 {{ request()->routeIs('career*') || request()->is('karir*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
+                Karir
+            </a>
         </nav>
 
         <a href="#contact"
