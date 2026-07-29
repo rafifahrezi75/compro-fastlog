@@ -14,8 +14,7 @@
   <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
 
     {{-- 1. TOP BAR INFO --}}
-    <div id="top-bar"
-      class="bg-[#052B35] text-white text-xs sm:text-sm py-2.5 border-b border-white/10 transition-all duration-300 overflow-hidden">
+<div id="top-bar" class="bg-[#052B35] text-white text-xs sm:text-sm py-2.5 transition-all duration-300 overflow-hidden">
       <div class="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
 
         {{-- Language Switcher (Left) --}}
@@ -125,6 +124,7 @@
                     </div>
                 </div>
             </div>
+          </div>
 
             {{-- Destinasi --}}
             <a href="{{ route('destination') }}"
@@ -154,6 +154,7 @@
                     </div>
                 </div>
             </div>
+          </div>
 
             {{-- Karir --}}
             <a href="#career"
@@ -162,22 +163,22 @@
             </a>
         </nav>
 
-          <a href="#contact"
-            class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold transition duration-300 shadow-md whitespace-nowrap">
-            Contact Us
-          </a>
-        </div>
-
-        <button id="menu-button" class="lg:hidden text-white focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-
+        <a href="#contact"
+          class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-300 shadow-md whitespace-nowrap">
+          Contact Us
+        </a>
       </div>
+
+      <button id="menu-button" class="lg:hidden text-white focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
     </div>
-    </div>
+  </div>
+  </div>
 
     {{-- 3. MOBILE MENU --}}
     <div id="mobile-menu" class="hidden lg:hidden bg-[#052B35] border-t border-white/10">
@@ -204,7 +205,7 @@
 
         {{-- Logo & Desc --}}
         <div class="md:col-span-1">
-          <img src="{{ asset('images/frontend/logo2.png') }}" alt="Fastlog Era Mandiri" class="h-14 mb-4">
+          <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Era Mandiri" class="h-14 mb-4">
           <p class="text-white/60 text-sm mb-5">
             World Leading Contract Logistics Provider
           </p>
@@ -308,15 +309,15 @@
     }
 
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
+    if (window.scrollY > 40) {
         topBar.classList.add('-mt-14', 'opacity-0');
-        navBody.classList.remove('bg-[#083C4A]/80', 'backdrop-blur-md');
+        navBody.classList.remove('bg-transparent');
         navBody.classList.add('bg-[#052B35]', 'shadow-lg');
-      } else {
+    } else {
         topBar.classList.remove('-mt-14', 'opacity-0');
-        navBody.classList.add('bg-[#083C4A]/80', 'backdrop-blur-md');
+        navBody.classList.add('bg-transparent');
         navBody.classList.remove('bg-[#052B35]', 'shadow-lg');
-      }
-    });
+    }
+  });
   });
 </script>
