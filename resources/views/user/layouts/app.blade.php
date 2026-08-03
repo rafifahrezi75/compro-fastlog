@@ -152,7 +152,7 @@
               {{-- Gallery --}}
               <a href="{{ route('gallery') }}"
                 class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('gallery*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-                Gallery
+                Galeri
               </a>
 
               {{-- Berita --}}

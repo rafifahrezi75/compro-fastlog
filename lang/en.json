@@ -1,6 +1,20 @@
 {
-    "Contact Us": "Contact Us",
     "Home": "Home",
+    "About Us": "About Us",
+    "Services": "Services",
+    "Our Services": "Our Services",
+    "Other Services": "Other Services",
+    "Read More": "Read More",
+    "Integrated Logistics Services": "Integrated Logistics Services",
+    "Integrated logistics supply chain description": "We provide end-to-end supply chain and logistics solutions that are efficient, secure, and reliable for your business.",
+    "Need a Price Quote or Logistics Consultation?": "Need a Price Quote or Logistics Consultation?",
+    "CTA description": "Our professional team is ready to help plan your cargo shipment efficiently and on time.",
+    "Contact Us Now": "Contact Us Now",
+    "Service Description": "Service Description",
+    "Scope & Key Advantages": "Scope & Key Advantages",
+    "Need Consultation for This Service?": "Need Consultation for This Service?",
+    "Contact via WhatsApp": "Contact via WhatsApp",
+    "Contact Us": "Contact Us",
     "Page": "Page",
     "Leave us your info": "Leave us your info",
     "Get interesting offers from us": "Get interesting offers from us",
@@ -10,5 +24,9 @@
     "Message": "Message",
     "Send Message": "Send Message",
     "Location": "Location",
-    "Map": "Map"
+    "Map": "Map",
+    "Career": "Career",
+    "Join Our Team": "Join Our Team",
+    "Open Positions": "Open Positions",
+    "Apply Now": "Apply Now" 
 }

@@ -1,6 +1,6 @@
 @extends('user.layouts.app')
 
-@section('title', 'Layanan Kami - Fastlog Era Mandiri')
+@section('title', __('Our Services') . ' - Fastlog Era Mandiri')
 
 @section('content')
 
@@ -31,28 +31,28 @@
                 $services = [
                     [
                         'title' => 'Custom Clearance',
-                        'desc' => 'Layanan pengurusan dokumen ekspor dan impor cepat serta tepat waktu, memastikan seluruh aturan kepabeanan terpenuhi tanpa kendala.',
+                        'desc' => __('Layanan pengurusan dokumen ekspor dan impor cepat serta tepat waktu, memastikan seluruh aturan kepabeanan terpenuhi tanpa kendala.'),
                         'slug' => 'custom-clearance',
                         'image' => 'fastlog1.png',
                         'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />',
                     ],
                     [
                         'title' => 'Reefer Logistic',
-                        'desc' => 'Spesialis penanganan kargo berpendingin seperti komoditas frozen food, ikan, dan buah dengan kontrol suhu yang ketat.',
+                        'desc' => __('Spesialis penanganan kargo berpendingin seperti komoditas frozen food, ikan, dan buah dengan kontrol suhu yang ketat.'),
                         'slug' => 'reefer-logistic',
                         'image' => 'fastlog2.jpg',
                         'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM19 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 16.5h1.5m0 0V7a1 1 0 011-1h9.5a1 1 0 011 1v2m-11.5 7.5h8m0 0V9m0 7.5h3m2.5 0H17m2.5 0V11a1 1 0 00-1-1h-3" />',
                     ],
                     [
                         'title' => 'Freight Forwarding',
-                        'desc' => 'Pengiriman barang internasional via Laut (Sea Freight) dan Udara (Air Freight) dengan opsi FCL maupun LCL secara efisien.',
+                        'desc' => __('Pengiriman barang internasional via Laut (Sea Freight) dan Udara (Air Freight) dengan opsi FCL maupun LCL secara efisien.'),
                         'slug' => 'freight-forwarding',
                         'image' => 'fastlog3.png',
                         'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.25 15.75l1.5-4.5h16.5l1.5 4.5m-19.5 0v3a1.5 1.5 0 001.5 1.5h16.5a1.5 1.5 0 001.5-1.5v-3m-19.5 0h19.5M6 11.25V6a1.5 1.5 0 011.5-1.5h9A1.5 1.5 0 0118 6v5.25" />',
                     ],
                     [
                         'title' => 'Inland Transport',
-                        'desc' => 'Pengangkutan darat door-to-door menggunakan berbagai jenis armada truk pendukung pengiriman kargo Anda ke seluruh pelosok tanah air.',
+                        'desc' => __('Pengangkutan darat door-to-door menggunakan berbagai jenis armada truk pendukung pengiriman kargo Anda ke seluruh pelosok tanah air.'),
                         'slug' => 'inland-transport',
                         'image' => 'fastlog1.png',
                         'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />',
@@ -80,7 +80,7 @@
                             {{ $service['desc'] }}
                         </p>
                         <span class="inline-flex items-center text-white font-semibold gap-2 text-sm group-hover:gap-3 transition-all duration-300">
-                            Pelajari Selengkapnya
+                            {{ __('Read More') }}
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </span>
                     </div>
@@ -107,12 +107,12 @@
              alt="Fastlog Era Mandiri" 
              class="h-20 md:h-24 mx-auto mb-6 object-contain">
 
-        <h2 class="text-3xl font-bold mb-4">Butuh Penawaran Harga atau Konsultasi Logistik?</h2>
+        <h2 class="text-3xl font-bold mb-4">{{ __('Need a Price Quote or Logistics Consultation?') }}</h2>
         <p class="text-white/80 max-w-2xl mx-auto mb-8">
-            Tim profesional kami siap membantu merencanakan pengiriman barang Anda secara efisien dan tepat waktu.
+            {{ __('CTA description') }}
         </p>
         <a href="#contact" class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-8 py-3.5 rounded-xl font-semibold transition duration-300 inline-block shadow-lg">
-            Hubungi Kami Sekarang
+            {{ __('Contact Us Now') }}
         </a>
     </div>
 </section>
