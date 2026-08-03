@@ -112,7 +112,6 @@ Route::middleware('guest')->group(function () {
     })->name('services.detail');
 
     Route::get('/karir', function () {
-        // Data dummy daftar lowongan pekerjaan
         $careers = [
             [
                 'id' => 1,
@@ -122,12 +121,12 @@ Route::middleware('guest')->group(function () {
                 'location' => 'Surabaya, Indonesia',
                 'type' => 'Full-Time',
                 'posted_at' => '2 Hari yang lalu',
-                'description' => 'Bertanggung jawab atas koordinasi armada, pemantauan status kargo harian, dan memastikan SOP pengiriman berjalan optimal.',
+                'description' => 'Bertanggung jawab dalam mengawasi operasional harian pengiriman barang dan koordinasi dengan armada lapang.',
                 'requirements' => [
-                    'Pendidikan min D3/S1 Manajemen Logistik / Transportasi / Semua Jurusan',
-                    'Pengalaman minimal 1 tahun di industri logistik / freight forwarding',
-                    'Mampu mengoperasikan sistem ERP Logistik & Ms. Excel',
-                    'Komunikatif, teliti, dan siap bekerja shift jika dibutuhkan'
+                    'Pendidikan minimal D3/S1 semua jurusan (diutamakan Manajemen Logistik)',
+                    'Pengalaman minimal 1 tahun di bidang logistik/freight forwarding',
+                    'Mampu berkomunikasi dengan baik dan bekerja dalam tim',
+                    'Menguasai Microsoft Office (Excel & Word)'
                 ]
             ],
             [
@@ -167,7 +166,7 @@ Route::middleware('guest')->group(function () {
         return view('user.pages.career', compact('careers'));
     })->name('career');
 
-    // Halaman Detail Lowongan Kerja (Frontend Only)
+    // Halaman Detail Lowongan Kerja (Frontend Only Dummy)
     Route::get('/karir/{slug}', function ($slug) {
         // Data dummy tunggal untuk simulasi detail
         $job = [
@@ -198,7 +197,7 @@ Route::middleware('guest')->group(function () {
 
     // Route Dummy untuk Simulasi Tombol Submit Form (Hanya menampilkan flash message sukses)
     Route::post('/karir/apply', function (Request $request) {
-        return back()->with('success', 'Simulasi: Lamaran Anda berhasil dikirim!');
+        return back()->with('success', 'Simulasi: Lamaran Anda berhasil dikirim! (Mode Frontend Only)');
     })->name('career.apply');
 
     Route::get('/contact', function () {
