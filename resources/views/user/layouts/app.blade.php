@@ -172,19 +172,38 @@
               Contact Us
             </a>
           </div>
-
-          {{-- HAMBURGER BUTTON MOBILE --}}
-          <button id="menu-button" class="lg:hidden text-white focus:outline-none p-1">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-
-        </div>
       </div>
-    </div>
 
+          <a href="{{ route('destination') }}"
+          class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('destination*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Destinasi</a>
+          <a href="{{ route('gallery') }}"
+            class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('gallery*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Galeri</a>
+
+          <a href="{{ route('berita') }}"
+            class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('berita*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
+            Berita
+          </a>
+
+          <a href="{{ route('career') }}"
+            class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('career*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Karir</a>
+        </nav>
+
+        <a href="#contact"
+          class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-300 shadow-md whitespace-nowrap">
+          Contact Us
+        </a>
+      </div>
+
+      <button id="menu-button" class="lg:hidden text-white focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+    </div>
+  </div>
+</div>
     {{-- 3. MOBILE MENU --}}
     <div id="mobile-menu" class="hidden lg:hidden bg-[#052B35] border-t border-white/10">
       <div class="flex flex-col p-6 space-y-5">

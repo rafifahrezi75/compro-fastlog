@@ -1,12 +1,13 @@
 @extends('user.layouts.app')
 
 @section('content')
-  {{-- ============ HERO HEADER BANNER ============ --}}
-  <section class="relative h-[300px] md:h-[350px] flex items-center justify-center pt-20">
-    <div class="absolute inset-0">
-      <img src="{{ asset('images/hero-cargo.jpg') }}" alt="Gallery" class="w-full h-full object-cover">
-      <div class="absolute inset-0 bg-[#052B35]/70"></div>
-    </div>
+
+{{-- ============ HERO HEADER BANNER ============ --}}
+<section class="relative h-[300px] md:h-[350px] flex items-center justify-center pt-20 bg-cover bg-center bg-fixed"
+         style="background-image: url('{{ asset('images/front-end/fastlog2.jpg') }}');">
+
+    {{-- Overlay Gelap --}}
+    <div class="absolute inset-0 bg-[#052B35]/70"></div>
 
     <div class="relative z-10 text-center text-white px-4 mt-8">
       <h1 class="text-3xl md:text-5xl font-bold mb-3">Gallery</h1>
