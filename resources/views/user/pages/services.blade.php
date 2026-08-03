@@ -11,11 +11,13 @@
     {{-- Overlay Gelap --}}
     <div class="absolute inset-0 bg-[#052B35]/80"></div>
 
-    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ __('Integrated Logistics Services') }}</h1>
-        <p class="text-white/80 max-w-2xl mx-auto text-base md:text-lg">
-            {{ __('Integrated logistics supply chain description') }}
-        </p>
+    <div class="relative z-10 text-center text-white px-4 mt-8">
+        <h1 class="text-3xl md:text-5xl font-bold mb-3">Layanan Logistik Terpadu</h1>
+        <div class="flex items-center justify-center gap-2 text-sm md:text-base text-gray-200">
+            <a href="{{ route('home') }}" class="hover:text-[#FF7A3D] transition">Home</a>
+            <span>/</span>
+            <span class="text-white font-medium">Layanan</span>
+        </div>
     </div>
 </section>
 

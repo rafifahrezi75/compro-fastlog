@@ -3,7 +3,7 @@
 @section('content')
 
 {{-- ============ HERO HEADER BANNER ============ --}}
-<section class="relative h-[250px] md:h-[300px] flex items-center justify-center pt-20 bg-cover bg-center bg-fixed"
+<section class="relative h-[300px] md:h-[350px] flex items-center justify-center pt-20 bg-cover bg-center bg-fixed"
          style="background-image: url('{{ asset('images/front-end/fastlog1.png') }}');">
 
     {{-- Overlay Gelap --}}

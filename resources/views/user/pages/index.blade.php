@@ -61,7 +61,7 @@
               Sea freight, air freight, FCL, LCL, ex-work, pengiriman ulang antar pulau. Mencakup seluruh pengiriman
               logistik
             </p>
-            <a href="#services"
+            <a href="{{ route('services') }}"
               class="inline-flex items-center gap-2 text-[#FF7A3D] font-semibold text-xs hover:gap-3 transition-all">
               Explore More
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -85,7 +85,7 @@
             <p class="text-white/70 text-sm mb-3 leading-relaxed">
               Kirim Barang Ke Berbagai Belahan Dunia
             </p>
-            <a href="#destination"
+            <a href="{{ route('destination') }}"
               class="inline-flex items-center gap-2 text-[#FF7A3D] font-semibold text-xs hover:gap-3 transition-all">
               Explore More
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -139,7 +139,7 @@
             dan sebagainya. Customs clearance dan penanganan dokumen ke pelabuhan di seluruh dunia.
           </p>
 
-          <a href="#services"
+          <a href="{{ route('about') }}"
             class="inline-block bg-[#FF7A3D] hover:bg-orange-600 text-white font-semibold text-sm px-8 py-4 rounded-xl transition">
             Explore More
           </a>
@@ -221,6 +221,7 @@
           $layanan = [
               [
                   'title' => 'Custom Clearance',
+                  'slug' => 'custom-clearance',
                   'desc' =>
                       'Kami memiliki ahli yang memahami betul seluruh peraturan dan prosedur kepabeanan baik untuk ekspor dan impor.',
                   'bg' => 'fastlog1.png',
@@ -229,6 +230,7 @@
               ],
               [
                   'title' => 'Reefer Logistic',
+                  'slug' => 'reefer-logistic',
                   'desc' => 'Mencakup seluruh pengiriman logistik berpendingin termasuk restuffing dalam keadaan beku.',
                   'bg' => 'fastlog2.jpg',
                   'icon' =>
@@ -236,6 +238,7 @@
               ],
               [
                   'title' => 'Freight Forwarding',
+                  'slug' => 'freight-forwarding',
                   'desc' =>
                       'Menyediakan layanan sea freight, air freight, FCL, LCL, ex-work, pengiriman ulang antar pulau.',
                   'bg' => 'fastlog3.png',
@@ -244,6 +247,7 @@
               ],
               [
                   'title' => 'Inland Transport',
+                  'slug' => 'inland-transport',
                   'desc' =>
                       'Pengiriman dalam dan luar pulau melalui berbagai jalur pengiriman menggunakan kapal, truk dan kereta api.',
                   'bg' => 'fastlog1.png',
@@ -278,7 +282,7 @@
                 {{ $item['desc'] }}
               </p>
 
-              <a href="#"
+              <a href="{{ route('services.detail', $item['slug']) }}"
                 class="mt-auto inline-flex items-center gap-2 text-[#FF7A3D] group-hover:text-white font-semibold text-sm transition-colors duration-300">
                 Read More
                 <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none"
@@ -294,35 +298,71 @@
     </div>
   </section>
 
-  <section id="gallery" class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="text-center mb-14">
-        <span class="text-[#FF7A3D] font-semibold">Gallery</span>
-        <h2 class="text-3xl md:text-4xl font-bold text-[#052B35] mt-2">
-          Gallery Terbaru
-        </h2>
+ <section id="gallery" class="py-20 bg-white overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center mb-14">
+      <span class="text-[#FF7A3D] font-semibold">Gallery</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-[#052B35] mt-2">
+        Gallery Terbaru
+      </h2>
+    </div>
+
+    @php
+      $gallery = [
+          ['title' => 'Komisaris & Direksi', 'image' => 'fastlog1.png'],
+          ['title' => '1st Anniversary', 'image' => 'fastlog4.png'],
+          ['title' => '2nd Anniversary', 'image' => 'fastlog2.jpg'],
+          ['title' => 'Outbond 2022', 'image' => 'fastlog3.png'],
+      ];
+    @endphp
+
+    {{-- Carousel Container — FULL WIDTH, TANPA PADDING SAMPING --}}
+    <div x-data="{
+        active: 0,
+        perView: 1,
+        total: {{ count($gallery) }},
+        get maxIndex() { return Math.max(0, this.total - this.perView) },
+        next() { this.active = this.active >= this.maxIndex ? 0 : this.active + 1 },
+        prev() { this.active = this.active <= 0 ? this.maxIndex : this.active - 1 },
+        updatePerView() {
+            this.perView = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+            if (this.active > this.maxIndex) this.active = this.maxIndex;
+        }
+    }" x-init="updatePerView(); window.addEventListener('resize', () => updatePerView())">
+
+      <div class="overflow-hidden">
+        <div class="flex transition-transform duration-500 ease-out"
+             :style="`transform: translateX(-${active * (100 / perView)}%)`">
+          @foreach ($gallery as $item)
+            <a href="#" class="group relative h-[420px] overflow-hidden block shrink-0"
+               :style="`width: ${100 / perView}%`">
+              <img src="{{ asset('images/front-end/' . $item['image']) }}" alt="{{ $item['title'] }}"
+                onerror="this.onerror=null; this.src='{{ asset('images/front-end/fastlog1.png') }}';"
+                class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+              <div class="absolute inset-0 flex items-end justify-center pb-8">
+                <p class="text-white font-bold text-xl md:text-2xl tracking-wide text-center px-4">
+                  {{ $item['title'] }}
+                </p>
+              </div>
+            </a>
+          @endforeach
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        @php
-          $gallery = [
-              ['title' => 'Komisaris & Direksi', 'image' => 'gallery-1.jpg'],
-              ['title' => '2nd Anniversary', 'image' => 'gallery-2.jpg'],
-              ['title' => 'Outbond 2022', 'image' => 'gallery-3.jpg'],
-          ];
-        @endphp
-
-        @foreach ($gallery as $item)
-          <a href="#" class="group relative rounded-2xl overflow-hidden aspect-[4/3] block">
-            <img src="{{ asset('images/' . $item['image']) }}" alt="{{ $item['title'] }}"
-              class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#052B35]/80 via-transparent to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-5">
-              <p class="text-white font-semibold text-lg">{{ $item['title'] }}</p>
-            </div>
-          </a>
-        @endforeach
+      {{-- Nav Arrows --}}
+      <div class="flex justify-center gap-4 mt-10">
+        <button @click="prev()" class="w-11 h-11 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-[#FF7A3D] hover:text-[#FF7A3D] transition">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button @click="next()" class="w-11 h-11 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-[#FF7A3D] hover:text-[#FF7A3D] transition">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
+
     </div>
   </section>
 
@@ -398,10 +438,9 @@
     <div class="absolute inset-0 bg-[#052B35]/85"></div>
 
     <div class="relative max-w-4xl mx-auto px-6 text-center">
-        {{-- Logo Mini --}}
-        <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center">
-            <img src="{{ asset('images/logo.png') }}" alt="Fastlog Logo" class="max-h-full object-contain">
-        </div>
+    {{-- Logo --}}
+    <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Logo" 
+         class="h-20 md:h-24 mx-auto mb-6 object-contain">
 
         <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">
             World Leading Contract Logistics Provider
@@ -410,7 +449,7 @@
             Looking for a business opportunity? Request for a call today!
         </p>
 
-        <a href="#contact" class="inline-block bg-[#FF7A3D] hover:bg-orange-600 text-white font-bold text-sm px-8 py-3.5 rounded-full transition shadow-lg hover:shadow-orange-500/30">
+        <a href="{{ route('contact') }}" class="inline-block bg-[#FF7A3D] hover:bg-orange-600 text-white font-bold text-sm px-8 py-3.5 rounded-full transition shadow-lg hover:shadow-orange-500/30">
             CONTACT US
         </a>
     </div>
@@ -478,7 +517,7 @@
 
                     <a href="https://wa.me/62881036793063" target="_blank" title="Chat Via WhatsApp" class="w-12 h-12 rounded-xl bg-[#052B35] hover:bg-[#FF7A3D] text-white flex items-center justify-center transition-all duration-300 shadow-sm shrink-0">
                         <svg class="w-6 h-6 fill-current text-green-400 hover:text-white transition-colors" viewBox="0 0 24 24">
-                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/>
+                             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/>
                         </svg>
                     </a>
                 </div>
@@ -517,7 +556,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             {{-- Card 1 --}}
-            <a href="#" class="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition block">
+            <a href="{{ route('berita.detail', 'handling-reefer-container-surabaya-ke-los-angeles') }}" class="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition block">
                 <div class="aspect-[16/8] overflow-hidden">
                     <img src="{{ asset('images/news-1.jpg') }}" alt="Handling Reefer Container"
                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
@@ -534,7 +573,7 @@
             </a>
 
             {{-- Card 2 --}}
-            <a href="#" class="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition block">
+            <a href="{{ route('berita.detail', 'penerapan-nle-picu-penurunan-biaya-logistik') }}" class="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition block">
                 <div class="aspect-[16/8] overflow-hidden">
                     <img src="{{ asset('images/news-2.jpg') }}" alt="Penerapan NLE"
                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
@@ -554,7 +593,7 @@
 
         {{-- Button --}}
         <div class="text-center mt-8">
-            <a href="#" class="inline-block bg-[#FF7A3D] hover:bg-orange-600 text-white font-semibold text-sm px-7 py-2.5 rounded-xl transition">
+            <a href="{{ route('berita') }}" class="inline-block bg-[#FF7A3D] hover:bg-orange-600 text-white font-semibold text-sm px-7 py-2.5 rounded-xl transition">
                 Lihat Semua Berita
             </a>
         </div>
