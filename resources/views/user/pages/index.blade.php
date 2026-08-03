@@ -326,60 +326,238 @@
     </div>
   </section>
 
-  <section id="news" class="py-20 bg-white">
+{{-- ============ TESTIMONIAL SECTION ============ --}}
+<section id="testimonials" class="py-20 bg-slate-50 relative overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="text-center mb-14">
-        <span class="text-[#FF7A3D] font-semibold">Berita</span>
-        <h2 class="text-3xl md:text-4xl font-bold text-[#052B35] mt-2">
-          Berita & Event
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {{-- Text Kiri --}}
+            <div class="lg:col-span-5">
+                <span class="text-[#FF7A3D] font-bold tracking-widest text-sm uppercase">OUR TESTIMONIAL</span>
+                <h2 class="text-3xl md:text-5xl font-black text-[#052B35] mt-2 leading-tight">
+                    What They’re<br>Talking<br>About Us
+                </h2>
+            </div>
+
+            {{-- Slider / Cards Kanan --}}
+            <div class="lg:col-span-7 relative"
+                 x-data="{ active: 0, total: 2 }">
+                
+                {{-- Navigation Buttons --}}
+                <button @click="active = active === 0 ? total - 1 : active - 1" 
+                        class="absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-gray-600 hover:text-[#FF7A3D] transition">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+
+                <button @click="active = active === total - 1 ? 0 : active + 1" 
+                        class="absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-gray-600 hover:text-[#FF7A3D] transition">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {{-- Testi 1 --}}
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between min-h-[260px] relative">
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            "Memberikan solusi dalam bisnis ekspor dan Import"
+                        </p>
+                        <div class="mt-6 flex items-end justify-between">
+                            <div>
+                                <h4 class="font-bold text-[#052B35] text-base">Eggo Aeroplane</h4>
+                            </div>
+                            <span class="text-5xl font-serif text-[#FF7A3D]/40 font-bold leading-none">”</span>
+                        </div>
+                    </div>
+
+                    {{-- Testi 2 --}}
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between min-h-[260px] relative">
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            "Terimakasih buat perusahaan forwarding PT. FASTLOG ERA MANDIRI yang telah memberikan pelayanan yang sangat cepat dan prima. Kami sangat puas dan bisa menjadi rekomendasi buat pelaku bisnis ekspor, Impor, maupun domestik."
+                        </p>
+                        <div class="mt-6 flex items-end justify-between">
+                            <div>
+                                <h4 class="font-bold text-[#052B35] text-base">Dita</h4>
+                                <p class="text-xs text-gray-400">Dita Damar Play and Adventure</p>
+                            </div>
+                            <span class="text-5xl font-serif text-[#FF7A3D]/40 font-bold leading-none">”</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{{-- ============ CTA BANNER SECTION ============ --}}
+<section class="relative py-20 bg-fixed bg-center bg-cover" style="background-image: url('{{ asset('images/front-end/fastlog1.png') }}')">
+    <div class="absolute inset-0 bg-[#052B35]/85"></div>
+
+    <div class="relative max-w-4xl mx-auto px-6 text-center">
+        {{-- Logo Mini --}}
+        <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+            <img src="{{ asset('images/logo.png') }}" alt="Fastlog Logo" class="max-h-full object-contain">
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">
+            World Leading Contract Logistics Provider
         </h2>
-      </div>
+        <p class="text-white/80 text-sm md:text-base mb-8">
+            Looking for a business opportunity? Request for a call today!
+        </p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <a href="#contact" class="inline-block bg-[#FF7A3D] hover:bg-orange-600 text-white font-bold text-sm px-8 py-3.5 rounded-full transition shadow-lg hover:shadow-orange-500/30">
+            CONTACT US
+        </a>
+    </div>
+</section>
 
-        <a href="#"
-          class="group rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition block">
-          <div class="aspect-[16/9] overflow-hidden">
-            <img src="{{ asset('images/news-1.jpg') }}" alt="Handling Reefer Container"
-              class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          </div>
-          <div class="p-6">
-            <p class="text-xs text-gray-400 mb-2">Rabu, 15 Nov 2023</p>
-            <h3 class="font-bold text-[#052B35] mb-3 leading-snug group-hover:text-[#FF7A3D] transition">
-              Handling Reefer Container dari Surabaya ke Los Angeles, USA Komoditi Frozen Yellowfin Tuna Ground Meat
-            </h3>
-            <p class="text-sm text-gray-500 line-clamp-2">
-              PT. Fastlog Era Mandiri melakukan handling export container reefer 40 feet ALL-IN dari Surabaya menuju USA -
-              Los Angeles Port.
+{{-- ============ CONTACT & MAP SECTION (BALANCED SPLIT) ============ --}}
+<section id="contact" class="py-16 md:py-20 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        
+        {{-- Section Header --}}
+        <div class="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+            <span class="text-[#FF7A3D] font-bold tracking-widest text-xs uppercase">HUBUNGI KAMI</span>
+            <h2 class="text-3xl md:text-4xl font-black text-[#052B35] mt-2 mb-3 tracking-tight">
+                Lokasi & Tim Marketing
+            </h2>
+            <p class="text-gray-500 text-xs md:text-sm leading-relaxed">
+                Silakan kunjungi kantor kami atau hubungi tim marketing untuk konsultasi pengiriman dan informasi destinasi.
             </p>
-          </div>
-        </a>
+        </div>
 
-        <a href="#"
-          class="group rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition block">
-          <div class="aspect-[16/9] overflow-hidden">
-            <img src="{{ asset('images/news-2.jpg') }}" alt="Penerapan NLE"
-              class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          </div>
-          <div class="p-6">
-            <p class="text-xs text-gray-400 mb-2">Selasa, 05 Jul 2022</p>
-            <h3 class="font-bold text-[#052B35] mb-3 leading-snug group-hover:text-[#FF7A3D] transition">
-              Penerapan NLE Picu Penurunan Biaya Logistik hingga 50 Persen
-            </h3>
-            <p class="text-sm text-gray-500 line-clamp-2">
-              Pemerintah mengoptimalkan pengoperasian Inaportnet di pelabuhan untuk mengurangi biaya logistik nasional.
-            </p>
-          </div>
-        </a>
+        {{-- Split Grid (Kiri: Marketing Cards | Kanan: Map) --}}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+            
+            {{-- KOLOM KIRI: Marketing Cards (5/12 Desktop) --}}
+            <div class="lg:col-span-5 flex flex-col justify-center space-y-4">
+                
+                {{-- Card 1: Wivin Winarsihi --}}
+                <div class="bg-white border border-gray-100 rounded-2xl p-6 md:p-7 flex items-center justify-between shadow-sm hover:shadow-md transition-all duration-300 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-slate-100 group-hover:border-[#FF7A3D]/30 transition-all duration-300">
+                            <img src="{{ asset('images/marketing-1.jpg') }}" alt="Wivin Winarsihi" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h3 class="text-base md:text-lg font-bold text-[#052B35] group-hover:text-[#FF7A3D] transition-colors">Wivin Winarsihi</h3>
+                            <p class="text-xs text-gray-400 font-medium mb-1.5">Marketing Executive</p>
+                            <span class="inline-flex items-center gap-1.5 text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                Online
+                            </span>
+                        </div>
+                    </div>
 
-      </div>
+                    <a href="https://wa.me/6281217906856" target="_blank" title="Chat Via WhatsApp" class="w-12 h-12 rounded-xl bg-[#052B35] hover:bg-[#FF7A3D] text-white flex items-center justify-center transition-all duration-300 shadow-sm shrink-0">
+                        <svg class="w-6 h-6 fill-current text-green-400 hover:text-white transition-colors" viewBox="0 0 24 24">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/>
+                        </svg>
+                    </a>
+                </div>
 
-      <div class="text-center mt-10">
-        <a href="#"
-          class="inline-block bg-[#FF7A3D] hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-xl transition">
-          Lihat Semua Berita
-        </a>
-      </div>
+                {{-- Card 2: Very Ekayanto --}}
+                <div class="bg-white border border-gray-100 rounded-2xl p-6 md:p-7 flex items-center justify-between shadow-sm hover:shadow-md transition-all duration-300 group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-slate-100 group-hover:border-[#FF7A3D]/30 transition-all duration-300">
+                            <img src="{{ asset('images/marketing-2.jpg') }}" alt="Very Ekayanto" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h3 class="text-base md:text-lg font-bold text-[#052B35] group-hover:text-[#FF7A3D] transition-colors">Very Ekayanto</h3>
+                            <p class="text-xs text-gray-400 font-medium mb-1.5">Marketing Executive</p>
+                            <span class="inline-flex items-center gap-1.5 text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                Online
+                            </span>
+                        </div>
+                    </div>
+
+                    <a href="https://wa.me/62881036793063" target="_blank" title="Chat Via WhatsApp" class="w-12 h-12 rounded-xl bg-[#052B35] hover:bg-[#FF7A3D] text-white flex items-center justify-center transition-all duration-300 shadow-sm shrink-0">
+                        <svg class="w-6 h-6 fill-current text-green-400 hover:text-white transition-colors" viewBox="0 0 24 24">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/>
+                        </svg>
+                    </a>
+                </div>
+
+            </div>
+
+            {{-- KOLOM KANAN: Map Container (7/12 Desktop) --}}
+            <div class="lg:col-span-7 h-[310px] rounded-2xl overflow-hidden border border-gray-200/80 shadow-sm">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.9422894589253!2d112.6637346!3d-7.2452788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fd442b288873%3A0xe7d93f0d33eb7b20!2sPT.%20FASTLOG%20ERA%20MANDIRI!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid"
+                    class="w-full h-full border-0" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<{{-- ============ NEWS SECTION (SLIGHTLY COMPACT) ============ --}}
+<section id="news" class="py-14 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        
+        {{-- Section Header --}}
+        <div class="text-center mb-10">
+            <span class="text-[#FF7A3D] font-semibold text-sm">Berita</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-[#052B35] mt-1">
+                Berita & Event
+            </h2>
+        </div>
+
+        {{-- Grid Card (Bentuk Sama, Ukuran Diperkecil Dikit) --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            {{-- Card 1 --}}
+            <a href="#" class="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition block">
+                <div class="aspect-[16/8] overflow-hidden">
+                    <img src="{{ asset('images/news-1.jpg') }}" alt="Handling Reefer Container"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </div>
+                <div class="p-5">
+                    <p class="text-xs text-gray-400 mb-1.5">Rabu, 15 Nov 2023</p>
+                    <h3 class="font-bold text-[#052B35] mb-2 leading-snug group-hover:text-[#FF7A3D] transition text-sm md:text-base">
+                        Handling Reefer Container dari Surabaya ke Los Angeles, USA Komoditi Frozen Yellowfin Tuna Ground Meat
+                    </h3>
+                    <p class="text-xs md:text-sm text-gray-500 line-clamp-2">
+                        PT. Fastlog Era Mandiri melakukan handling export container reefer 40 feet ALL-IN dari Surabaya menuju USA - Los Angeles Port.
+                    </p>
+                </div>
+            </a>
+
+            {{-- Card 2 --}}
+            <a href="#" class="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition block">
+                <div class="aspect-[16/8] overflow-hidden">
+                    <img src="{{ asset('images/news-2.jpg') }}" alt="Penerapan NLE"
+                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </div>
+                <div class="p-5">
+                    <p class="text-xs text-gray-400 mb-1.5">Selasa, 05 Jul 2022</p>
+                    <h3 class="font-bold text-[#052B35] mb-2 leading-snug group-hover:text-[#FF7A3D] transition text-sm md:text-base">
+                        Penerapan NLE Picu Penurunan Biaya Logistik hingga 50 Persen
+                    </h3>
+                    <p class="text-xs md:text-sm text-gray-500 line-clamp-2">
+                        Pemerintah mengoptimalkan pengoperasian Inaportnet di pelabuhan untuk mengurangi biaya logistik nasional.
+                    </p>
+                </div>
+            </a>
+
+        </div>
+
+        {{-- Button --}}
+        <div class="text-center mt-8">
+            <a href="#" class="inline-block bg-[#FF7A3D] hover:bg-orange-600 text-white font-semibold text-sm px-7 py-2.5 rounded-xl transition">
+                Lihat Semua Berita
+            </a>
+        </div>
     </div>
   </section>
 @endsection

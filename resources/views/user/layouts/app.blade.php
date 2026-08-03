@@ -85,7 +85,6 @@
     </div>
 
     {{-- 2. MAIN NAVBAR --}}
-    {{-- 2. MAIN NAVBAR --}}
     <div id="nav-body" class="bg-transparent text-white transition-all duration-300">
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="flex items-center justify-between h-24">
@@ -168,7 +167,7 @@
             </nav>
 
             {{-- Contact Us Button --}}
-            <a href="#contact"
+            <a href="{{ route('contact') }}"
               class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-300 shadow-md whitespace-nowrap">
               Contact Us
             </a>
