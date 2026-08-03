@@ -308,30 +308,69 @@
 
     @php
       $gallery = [
-          ['title' => 'Komisaris & Direksi', 'image' => 'fastlog1.png'],
-          ['title' => '1st Anniversary', 'image' => 'fastlog4.png'],
-          ['title' => '2nd Anniversary', 'image' => 'fastlog2.jpg'],
-          ['title' => 'Outbond 2022', 'image' => 'fastlog3.png'],
+          ['title' => 'Komisaris & Direksi', 'image' => 'komisaris.png'],
+          ['title' => '1st Anniversary', 'image' => 'anniv1.jpg'],
+          ['title' => '2nd Anniversary', 'image' => 'anniv2.png'],
+          ['title' => 'Outbond 2022', 'image' => 'outbond 22.png'],
       ];
     @endphp
 
-    {{-- Carousel Container — FULL WIDTH, TANPA PADDING SAMPING --}}
+    {{-- Carousel Container — INFINITE LOOP, SELALU LANJUT KE KANAN --}}
     <div x-data="{
         active: 0,
         perView: 1,
         total: {{ count($gallery) }},
-        get maxIndex() { return Math.max(0, this.total - this.perView) },
-        next() { this.active = this.active >= this.maxIndex ? 0 : this.active + 1 },
-        prev() { this.active = this.active <= 0 ? this.maxIndex : this.active - 1 },
+        withTransition: true,
+        autoplayTimer: null,
         updatePerView() {
             this.perView = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
-            if (this.active > this.maxIndex) this.active = this.maxIndex;
+        },
+        next() {
+            this.withTransition = true;
+            this.active++;
+            if (this.active >= this.total) {
+                setTimeout(() => {
+                    this.withTransition = false;
+                    this.active = 0;
+                }, 500);
+            }
+        },
+        prev() {
+            this.withTransition = true;
+            if (this.active <= 0) {
+                this.withTransition = false;
+                this.active = this.total;
+                this.$nextTick(() => {
+                    setTimeout(() => {
+                        this.withTransition = true;
+                        this.active = this.total - 1;
+                    }, 20);
+                });
+            } else {
+                this.active--;
+            }
+        },
+        startAutoplay() {
+            this.stopAutoplay();
+            this.autoplayTimer = setInterval(() => this.next(), 4000);
+        },
+        stopAutoplay() {
+            if (this.autoplayTimer) clearInterval(this.autoplayTimer);
         }
-    }" x-init="updatePerView(); window.addEventListener('resize', () => updatePerView())">
+    }" x-init="
+        updatePerView();
+        window.addEventListener('resize', () => updatePerView());
+        startAutoplay();
+    "
+    @mouseenter="stopAutoplay()"
+    @mouseleave="startAutoplay()">
 
       <div class="overflow-hidden">
-        <div class="flex transition-transform duration-500 ease-out"
+        <div class="flex"
+             :class="withTransition ? 'transition-transform duration-500 ease-out' : ''"
              :style="`transform: translateX(-${active * (100 / perView)}%)`">
+
+          {{-- Slide asli --}}
           @foreach ($gallery as $item)
             <a href="#" class="group relative h-[420px] overflow-hidden block shrink-0"
                :style="`width: ${100 / perView}%`">
@@ -346,17 +385,34 @@
               </div>
             </a>
           @endforeach
+
+          {{-- Clone slide pertama, biar transisi ke akhir tetep mulus lanjut ke kanan --}}
+          @foreach ($gallery as $item)
+            <a href="#" class="group relative h-[420px] overflow-hidden block shrink-0"
+               :style="`width: ${100 / perView}%`">
+              <img src="{{ asset('images/front-end/' . $item['image']) }}" alt="{{ $item['title'] }}"
+                onerror="this.onerror=null; this.src='{{ asset('images/front-end/fastlog1.png') }}';"
+                class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+              <div class="absolute inset-0 flex items-end justify-center pb-8">
+                <p class="text-white font-bold text-xl md:text-2xl tracking-wide text-center px-4">
+                  {{ $item['title'] }}
+                </p>
+              </div>
+            </a>
+          @endforeach
+
         </div>
       </div>
 
       {{-- Nav Arrows --}}
       <div class="flex justify-center gap-4 mt-10">
-        <button @click="prev()" class="w-11 h-11 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-[#FF7A3D] hover:text-[#FF7A3D] transition">
+        <button @click="prev(); stopAutoplay(); startAutoplay()" class="w-11 h-11 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-[#FF7A3D] hover:text-[#FF7A3D] transition">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <button @click="next()" class="w-11 h-11 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-[#FF7A3D] hover:text-[#FF7A3D] transition">
+        <button @click="next(); stopAutoplay(); startAutoplay()" class="w-11 h-11 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-[#FF7A3D] hover:text-[#FF7A3D] transition">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
           </svg>
@@ -558,7 +614,7 @@
             {{-- Card 1 --}}
             <a href="{{ route('berita.detail', 'handling-reefer-container-surabaya-ke-los-angeles') }}" class="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition block">
                 <div class="aspect-[16/8] overflow-hidden">
-                    <img src="{{ asset('images/news-1.jpg') }}" alt="Handling Reefer Container"
+                    <img src="{{ asset('images/front-end/news-1.png') }}" alt="Handling Reefer Container"
                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                 </div>
                 <div class="p-5">
@@ -575,7 +631,7 @@
             {{-- Card 2 --}}
             <a href="{{ route('berita.detail', 'penerapan-nle-picu-penurunan-biaya-logistik') }}" class="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition block">
                 <div class="aspect-[16/8] overflow-hidden">
-                    <img src="{{ asset('images/news-2.jpg') }}" alt="Penerapan NLE"
+                    <img src="{{ asset('images/front-end/news-2.png') }}" alt="Penerapan NLE"
                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                 </div>
                 <div class="p-5">
