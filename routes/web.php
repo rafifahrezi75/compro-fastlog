@@ -19,48 +19,95 @@ Route::middleware('guest')->group(function () {
 
     // WEB USER
     // dashboard pages
+    // Route Halaman Utama (Index) -> resources/views/user/pages/index.blade.php
     Route::get('/', function () {
         return view('user.pages.index');
     })->name('home');
 
-    Route::get('/about', function () {
+    // Route Halaman Tentang Kami -> resources/views/user/pages/about.blade.php
+    Route::get('/tentang-kami', function () {
         return view('user.pages.about');
     })->name('about');
 
-    Route::get('/services', function () {
-        return view('user.pages.services');
-    })->name('services');
+    Route::get('/galeri', function () {
+        return view('user.pages.gallery'); // Mengarah ke resources/views/user/pages/gallery.blade.php
+    })->name('gallery'); // Beri nama 'gallery' untuk link di navbar
 
-    Route::get('/blog', function () {
-        return view('user.pages.blog');
-    })->name('blog');
+    Route::get('/destinasi', function () {
+        return view('user.pages.destination');
+    })->name('destination');
 
-    Route::get('/blog-details', function () {
-        return view('user.pages.blog-details');
-    })->name('blog-details');
+    // 2. Route Detail Destinasi (Sesuai nama file kamu: detail-destination)
+    Route::get('/destinasi/{slug}', function ($slug) {
+        // Ubah slug 'surabaya' / 'united-states' menjadi 'Surabaya' / 'United States'
+        $countryName = ucwords(str_replace('-', ' ', $slug));
+        
+        // Panggil file user/pages/detail-destination.blade.php
+        return view('user.pages.detail-destination', compact('countryName'));
+    })->name('destination.detail');
 
-    Route::get('/contact', function () {
-        return view('user.pages.contact');
-    })->name('contact');
+    Route::get('/berita', function () {
+    return view('user.pages.berita');
+    })->name('berita');
 
-    Route::get('/gallery', function () {
-        return view('user.pages.gallery');
-    })->name('gallery');
+    // 2. Route Detail Berita
+    Route::get('/berita/{slug}', function ($slug) {
+        // Simulasi data berdasarkan slug
+        if ($slug === 'handling-reefer-container-surabaya-ke-los-angeles') {
+            $title = 'HANDLING REEFER COUNTAINER DARI SURABAYA KE LOS ANGELES, USA KOMODITY FROZEN YELLOWFIN TUNA GROUND MEAT';
+            $date = 'Wed, 15 Nov 2023';
+            $image = 'news-reefer.jpg';
+        } else {
+            $title = 'Penerapan NLE Picu Penurunan Biaya Logistik hingga 50 Persen';
+            $date = 'Tue, 05 Jul 2022';
+            $image = 'news-nle.jpg';
+        }
 
-    Route::get('/career', function () {
-        return view('user.pages.career');
-    })->name('career');
+        return view('user.pages.detail-berita', compact('title', 'date', 'image', 'slug'));
+    })->name('berita.detail');
 });
+//     Route::get('/', function () {
+//         return view('user.pages.index');
+//     })->name('home');
 
-Route::middleware('auth')->group(function () {
+//     Route::get('/about', function () {
+//         return view('user.pages.about');
+//     })->name('about');
 
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+//     Route::get('/services', function () {
+//         return view('user.pages.services');
+//     })->name('services');
 
-    Route::post('/logout', [AuthController::class, 'logout'])
-        ->name('logout');
-});
+//     Route::get('/blog', function () {
+//         return view('user.pages.blog');
+//     })->name('blog');
+
+//     Route::get('/blog-details', function () {
+//         return view('user.pages.blog-details');
+//     })->name('blog-details');
+
+//     Route::get('/contact', function () {
+//         return view('user.pages.contact');
+//     })->name('contact');
+
+//     Route::get('/gallery', function () {
+//         return view('user.pages.gallery');
+//     })->name('gallery');
+
+//     Route::get('/career', function () {
+//         return view('user.pages.career');
+//     })->name('career');
+
+
+// Route::middleware('auth')->group(function () {
+
+//     Route::get('/dashboard', function () {
+//         return view('admin.dashboard');
+//     })->name('dashboard');
+
+//     Route::post('/logout', [AuthController::class, 'logout'])
+//         ->name('logout');
+// });
 
 // // dashboard pages
 // Route::get('/', function () {
