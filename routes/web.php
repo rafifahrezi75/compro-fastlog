@@ -29,7 +29,7 @@ Route::middleware('guest')->group(function () {
         return view('user.pages.about');
     })->name('about');
 
-    Route::get('/galeri', function () {
+    Route::get('/gallery', function () {
         return view('user.pages.gallery'); // Mengarah ke resources/views/user/pages/gallery.blade.php
     })->name('gallery'); // Beri nama 'gallery' untuk link di navbar
 
@@ -111,7 +111,7 @@ Route::middleware('guest')->group(function () {
         return view('user.pages.detail-service', compact('service', 'slug'));
     })->name('services.detail');
 
-        Route::get('/karir', function () {
+    Route::get('/karir', function () {
         return view('user.pages.career');
     })->name('career');
 });
@@ -160,6 +160,7 @@ Route::middleware('auth')->group(function () {
 
     // Master Berita Admin Routes
     Route::resource('admin/berita', \App\Http\Controllers\Admin\BeritaController::class)->names('admin.berita');
+    Route::resource('admin/gallery', \App\Http\Controllers\Admin\GalleryController::class)->names('admin.gallery');
 
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');

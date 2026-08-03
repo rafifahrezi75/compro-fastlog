@@ -14,7 +14,8 @@
   <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
 
     {{-- 1. TOP BAR INFO --}}
-<div id="top-bar" class="bg-[#052B35] text-white text-xs sm:text-sm py-2.5 transition-all duration-300 overflow-hidden">
+    <div id="top-bar"
+      class="bg-[#052B35] text-white text-xs sm:text-sm py-2.5 transition-all duration-300 overflow-hidden">
       <div class="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
 
         {{-- Language Switcher (Left) --}}
@@ -91,7 +92,8 @@
 
           {{-- LOGO --}}
           <a href="{{ route('home') }}" class="flex items-center shrink-0">
-            <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Era Mandiri" class="h-14 w-auto object-contain">
+            <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Era Mandiri"
+              class="h-14 w-auto object-contain">
           </a>
 
           {{-- DESKTOP MENU + BUTTON --}}
@@ -115,16 +117,26 @@
                 <a href="{{ route('services') }}"
                   class="text-[15px] font-medium transition duration-200 flex items-center gap-1 text-white hover:text-[#FF7A3D]">
                   Layanan
-                  <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </a>
-                <div class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-50">
+                <div
+                  class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-50">
                   <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
-                    <a href="{{ route('services.detail', 'custom-clearance') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Custom Clearance</a>
-                    <a href="{{ route('services.detail', 'reefer-logistic') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Reefer Logistic</a>
-                    <a href="{{ route('services.detail', 'freight-forwarding') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Freight Forwarding</a>
-                    <a href="{{ route('services.detail', 'inland-transport') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Inland Transport</a>
+                    <a href="{{ route('services.detail', 'custom-clearance') }}"
+                      class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Custom
+                      Clearance</a>
+                    <a href="{{ route('services.detail', 'reefer-logistic') }}"
+                      class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Reefer
+                      Logistic</a>
+                    <a href="{{ route('services.detail', 'freight-forwarding') }}"
+                      class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Freight
+                      Forwarding</a>
+                    <a href="{{ route('services.detail', 'inland-transport') }}"
+                      class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Inland
+                      Transport</a>
                   </div>
                 </div>
               </div>
@@ -135,10 +147,10 @@
                 Destinasi
               </a>
 
-              {{-- Galeri --}}
+              {{-- Gallery --}}
               <a href="{{ route('gallery') }}"
                 class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('gallery*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-                Galeri
+                Gallery
               </a>
 
               {{-- Berita --}}
@@ -164,7 +176,8 @@
 
           {{-- HAMBURGER BUTTON MOBILE --}}
           <button id="menu-button" class="lg:hidden text-white focus:outline-none p-1">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
@@ -180,7 +193,7 @@
         <a href="#about" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Tentang Kami</a>
         <a href="#services" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Layanan</a>
         <a href="#destination" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Destinasi</a>
-        <a href="#gallery" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Galeri</a>
+        <a href="#gallery" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Gallery</a>
         <a href="#news" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Berita</a>
         <a href="#career" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Karir</a>
         <a href="#contact" class="bg-[#FF7A3D] text-center py-3 rounded-xl text-white font-semibold">Contact Us</a>
@@ -302,15 +315,15 @@
     }
 
     window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
+      if (window.scrollY > 40) {
         topBar.classList.add('-mt-14', 'opacity-0');
         navBody.classList.remove('bg-transparent');
         navBody.classList.add('bg-[#052B35]', 'shadow-lg');
-    } else {
+      } else {
         topBar.classList.remove('-mt-14', 'opacity-0');
         navBody.classList.add('bg-transparent');
         navBody.classList.remove('bg-[#052B35]', 'shadow-lg');
-    }
-  });
+      }
+    });
   });
 </script>
