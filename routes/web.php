@@ -111,78 +111,93 @@ Route::middleware('guest')->group(function () {
         return view('user.pages.detail-service', compact('service', 'slug'));
     })->name('services.detail');
 
-        Route::get('/karir', function () {
-        $dbCareers = \App\Models\Karir::where('status', 'Aktif')->latest()->get();
-        
-        $careers = $dbCareers->map(function ($karir) {
-            return [
-                'id' => $karir->id,
-                'slug' => $karir->slug,
-                'title' => $karir->nama_karir,
-                'department' => $karir->departemen ?? 'Operations',
-                'location' => $karir->lokasi_lengkap,
-                'type' => $karir->tipe_pekerjaan ?? 'Full-Time',
-                'posted_at' => $karir->time_ago,
-                'description' => $karir->deskripsi,
-                'requirements' => $karir->kualifikasi_array,
-            ];
-        });
-
-        return view('user.pages.career', compact('careers'));
-    })->name('career');
-
-    // Halaman Detail Lowongan Kerja (Dynamic from DB with fallback)
-    Route::get('/karir/{slug}', function ($slug) {
-        $karir = \App\Models\Karir::where('slug', $slug)->first();
-
-        if ($karir) {
-            $job = [
-                'title' => $karir->nama_karir,
-                'department' => $karir->departemen ?? 'Operations',
-                'location' => $karir->lokasi_lengkap,
-                'type' => $karir->tipe_pekerjaan ?? 'Full-Time',
-                'posted_at' => $karir->time_ago,
-                'slug' => $karir->slug,
-                'description' => $karir->deskripsi ?? 'Lowongan pekerjaan di PT Fastlog Era Mandiri.',
-                'responsibilities' => [
-                    'Menjalankan tugas dan tanggung jawab sesuai standar operasional PT Fastlog Era Mandiri.',
-                    'Melakukan koordinasi dengan tim terkait untuk kelancaran operasional.',
-                    'Menjaga standar kualitas dan keselamatan kerja perusahaan.'
-                ],
-                'requirements' => !empty($karir->kualifikasi_array) ? $karir->kualifikasi_array : ['Kualifikasi dan persyaratan akan diinformasikan saat proses interview.'],
-            ];
-        } else {
-            // Data dummy tunggal untuk simulasi detail fallback
-            $job = [
+    Route::get('/karir', function () {
+        $careers = [
+            [
+                'id' => 1,
+                'slug' => 'logistics-operational-staff',
                 'title' => 'Logistics Operational Staff',
                 'department' => 'Operations',
                 'location' => 'Surabaya, Indonesia',
                 'type' => 'Full-Time',
                 'posted_at' => '2 Hari yang lalu',
-                'slug' => $slug,
-                'description' => 'Kami mencari Logistics Operational Staff yang dinamis untuk bergabung dengan tim operasional PT Fastlog Era Mandiri. Anda akan bertanggung jawab untuk memastikan proses distribusi dan logistik berjalan lancar dari titik asal hingga tujuan.',
-                'responsibilities' => [
-                    'Mengkoordinasikan jadwal pengiriman barang dengan driver dan tim terkait.',
-                    'Melakukan pemantauan posisi armada dan pengiriman secara real-time.',
-                    'Menyiapkan dokumen operasional pengiriman (Surat Jalan, Manifest, dll).',
-                    'Menangani kendala operasional di lapangan dengan cepat dan tepat.'
-                ],
+                'description' => 'Bertanggung jawab dalam mengawasi operasional harian pengiriman barang dan koordinasi dengan armada lapang.',
                 'requirements' => [
-                    'Pendidikan minimal D3/S1 semua jurusan (diutamakan Manajemen Logistik/Transportasi).',
-                    'Pengalaman kerja minimal 1-2 tahun di perusahaan logistik atau ekspedisi.',
-                    'Memahami alur proses distribusi darat dan kepabeanan dasar.',
-                    'Mahir menggunakan Microsoft Office (terutama MS Excel).',
-                    'Siap bekerja dalam sistem shift jika diperlukan.'
+                    'Pendidikan minimal D3/S1 semua jurusan (diutamakan Manajemen Logistik)',
+                    'Pengalaman minimal 1 tahun di bidang logistik/freight forwarding',
+                    'Mampu berkomunikasi dengan baik dan bekerja dalam tim',
+                    'Menguasai Microsoft Office (Excel & Word)'
                 ]
-            ];
-        }
+            ],
+            [
+                'id' => 2,
+                'slug' => 'customs-clearance-specialist',
+                'title' => 'Customs Clearance Specialist',
+                'department' => 'Import & Export',
+                'location' => 'Surabaya, Indonesia',
+                'type' => 'Full-Time',
+                'posted_at' => '5 Hari yang lalu',
+                'description' => 'Mengurus seluruh proses dokumen kepabeanan ekspor/impor dan memastikan kepatuhan terhadap regulasi Bea Cukai.',
+                'requirements' => [
+                    'Memiliki Sertifikat Ahli Kepabeanan (PPJK) menjadi nilai tambah',
+                    'Pengalaman minimal 2 tahun mengurus PIB/PEB',
+                    'Memahami sistem CEISA Bea Cukai',
+                    'Teliti dan memiliki analisis dokumen yang kuat'
+                ]
+            ],
+            [
+                'id' => 3,
+                'slug' => 'freight-forwarding-sales-executive',
+                'title' => 'Sales Executive Freight Forwarding',
+                'department' => 'Marketing & Sales',
+                'location' => 'Jakarta, Indonesia',
+                'type' => 'Full-Time',
+                'posted_at' => '1 Minggu yang lalu',
+                'description' => 'Mencari klien baru dan mengembangkan pasar pengiriman ekspor-impor via laut dan udara.',
+                'requirements' => [
+                    'Pendidikan min S1 semua jurusan',
+                    'Memiliki jaringan klien di industri manufaktur/eksportir',
+                    'Target-oriented dan memiliki kemampuan negosiasi tinggi',
+                    'Fasih berbahasa Inggris'
+                ]
+            ]
+        ];
+
+        return view('user.pages.career', compact('careers'));
+    })->name('career');
+
+    // Halaman Detail Lowongan Kerja (Frontend Only Dummy)
+    Route::get('/karir/{slug}', function ($slug) {
+        // Data dummy tunggal untuk simulasi detail
+        $job = [
+            'title' => 'Logistics Operational Staff',
+            'department' => 'Operations',
+            'location' => 'Surabaya, Indonesia',
+            'type' => 'Full-Time',
+            'posted_at' => '2 Hari yang lalu',
+            'slug' => $slug,
+            'description' => 'Kami mencari Logistics Operational Staff yang dinamis untuk bergabung dengan tim operasional PT Fastlog Era Mandiri. Anda akan bertanggung jawab untuk memastikan proses distribusi dan logistik berjalan lancar dari titik asal hingga tujuan.',
+            'responsibilities' => [
+                'Mengkoordinasikan jadwal pengiriman barang dengan driver dan tim terkait.',
+                'Melakukan pemantauan posisi armada dan pengiriman secara real-time.',
+                'Menyiapkan dokumen operasional pengiriman (Surat Jalan, Manifest, dll).',
+                'Menangani kendala operasional di lapangan dengan cepat dan tepat.'
+            ],
+            'requirements' => [
+                'Pendidikan minimal D3/S1 semua jurusan (diutamakan Manajemen Logistik/Transportasi).',
+                'Pengalaman kerja minimal 1-2 tahun di perusahaan logistik atau ekspedisi.',
+                'Memahami alur proses distribusi darat dan kepabeanan dasar.',
+                'Mahir menggunakan Microsoft Office (terutama MS Excel).',
+                'Siap bekerja dalam sistem shift jika diperlukan.'
+            ]
+        ];
 
         return view('user.pages.detail-career', compact('job'));
     })->name('career.detail');
 
     // Route Dummy untuk Simulasi Tombol Submit Form (Hanya menampilkan flash message sukses)
     Route::post('/karir/apply', function (Request $request) {
-        return back()->with('success', 'Simulasi: Lamaran Anda berhasil dikirim!');
+        return back()->with('success', 'Simulasi: Lamaran Anda berhasil dikirim! (Mode Frontend Only)');
     })->name('career.apply');
 
     Route::get('/contact', function () {
