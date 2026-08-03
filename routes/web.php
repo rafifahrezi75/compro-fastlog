@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -111,7 +112,7 @@ Route::middleware('guest')->group(function () {
         return view('user.pages.detail-service', compact('service', 'slug'));
     })->name('services.detail');
 
-        Route::get('/karir', function () {
+    Route::get('/karir', function () {
         $careers = [
             [
                 'id' => 1,
@@ -201,7 +202,7 @@ Route::middleware('guest')->group(function () {
     })->name('career.apply');
 
     Route::get('/contact', function () {
-    return view('user.pages.contact');
+        return view('user.pages.contact');
     })->name('contact');
 
     // Route Dummy untuk Simulasi Kirim Pesan Form
