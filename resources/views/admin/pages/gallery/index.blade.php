@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
-  <div x-data="beritaManager()" x-init="init()" class="space-y-6">
+  <div x-data="galleryManager()" x-init="init()" class="space-y-6">
     <!-- Breadcrumb & Header Section -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
@@ -15,10 +15,10 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 13H13M7 17H17M7 9H9"></path>
             </svg>
           </span>
-          Master Berita & Artikel
+          Master Gallery
         </h1>
         <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Manajemen publikasi berita, rilis pers kargo, dan update industri logistik Fastlog.
+          Manajemen publikasi gallery Fastlog.
         </p>
       </div>
 
@@ -29,14 +29,14 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
           </svg>
-          Tambah Berita Baru
+          Tambah Gallery Baru
         </button>
       </div>
     </div>
 
     <!-- Stat Summary Cards -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
-      <!-- Total Berita -->
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
+      <!-- Total Gallery -->
       <div
         class="p-4 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-3.5">
         <div
@@ -48,12 +48,12 @@
           </svg>
         </div>
         <div class="min-w-0">
-          <p class="text-xs font-medium text-gray-500 dark:text-gray-400 truncate">Total Berita</p>
-          <h4 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-0.5" x-text="beritas.length">0</h4>
+          <p class="text-xs font-medium text-gray-500 dark:text-gray-400 truncate">Total Gallery</p>
+          <h4 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-0.5" x-text="gallerys.length">0</h4>
         </div>
       </div>
 
-      <!-- Berita Terbit -->
+      <!-- Gallery Terbit -->
       <div
         class="p-4 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-3.5">
         <div
@@ -64,13 +64,13 @@
           </svg>
         </div>
         <div class="min-w-0">
-          <p class="text-xs font-medium text-gray-500 dark:text-gray-400 truncate">Berita Terbit</p>
+          <p class="text-xs font-medium text-gray-500 dark:text-gray-400 truncate">Gallery Terbit</p>
           <h4 class="text-lg sm:text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-0.5"
             x-text="countPublished()">0</h4>
         </div>
       </div>
 
-      <!-- Berita Draft -->
+      <!-- Gallery Draft -->
       <div
         class="p-4 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-3.5">
         <div
@@ -84,23 +84,6 @@
         <div class="min-w-0">
           <p class="text-xs font-medium text-gray-500 dark:text-gray-400 truncate">Draft / Arsip</p>
           <h4 class="text-lg sm:text-xl font-bold text-amber-600 dark:text-amber-400 mt-0.5" x-text="countDraft()">0</h4>
-        </div>
-      </div>
-
-      <!-- Sumber Berita -->
-      <div
-        class="p-4 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm flex items-center gap-3.5">
-        <div
-          class="w-11 h-11 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-          </svg>
-        </div>
-        <div class="min-w-0">
-          <p class="text-xs font-medium text-gray-500 dark:text-gray-400 truncate">Sumber Berita</p>
-          <h4 class="text-lg sm:text-xl font-bold text-purple-600 dark:text-purple-400 mt-0.5" x-text="countSources()">0
-          </h4>
         </div>
       </div>
     </div>
@@ -120,7 +103,7 @@
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
           </div>
-          <input type="text" x-model="searchQuery" placeholder="Cari judul berita, slug, atau sumber..."
+          <input type="text" x-model="searchQuery" placeholder="Cari judul gallery atau slug"
             class="w-full pl-9 pr-8 py-2 text-xs sm:text-sm bg-white dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none" />
           <button x-show="searchQuery" @click="searchQuery = ''"
             class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
@@ -158,12 +141,8 @@
           <thead>
             <tr class="border-b border-gray-100 dark:border-gray-800 bg-gray-50/40 dark:bg-white/[0.02]">
               <th
-                class="py-3 px-3.5 sm:px-5 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Berita & Slug
-              </th>
-              <th
-                class="py-3 px-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider hidden sm:table-cell w-36">
-                Sumber
+                class="py-3 px-3 sm:px-5 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider w-36">
+                Gallery & Slug
               </th>
               <th
                 class="py-3 px-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider hidden md:table-cell w-36">
@@ -180,9 +159,9 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100 dark:divide-gray-800/80">
-            <template x-for="item in paginatedBeritas" :key="item.id">
+            <template x-for="item in paginatedGallerys" :key="item.id">
               <tr class="hover:bg-gray-50/60 dark:hover:bg-white/[0.02] transition-colors group">
-                <!-- Berita (Thumbnail + Judul + Slug) -->
+                <!-- Gallery (Thumbnail + Judul + Slug) -->
                 <td class="py-3.5 px-3.5 sm:px-5">
                   <div class="flex items-start gap-3 min-w-0">
                     <!-- Image Thumbnail -->
@@ -217,24 +196,8 @@
                           class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700/60 max-w-[200px] sm:max-w-xs truncate">
                           <span class="text-brand-500">/</span><span x-text="item.slug"></span>
                         </span>
-
-                        <!-- Mobile source & date -->
-                        <span class="text-[11px] text-gray-400 sm:hidden" x-text="item.sumber || 'Fastlog'"></span>
                       </div>
                     </div>
-                  </div>
-                </td>
-
-                <!-- Sumber -->
-                <td class="py-3.5 px-3 hidden sm:table-cell">
-                  <div class="flex items-center gap-1.5 text-xs text-gray-700 dark:text-gray-300">
-                    <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor"
-                      viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                        d="M19 20H5C3.89543 20 3 19.1046 3 18V6C3 4.89543 3.89543 4 5 4H15L21 10V18C21 19.1046 20.1046 20 19 20Z">
-                      </path>
-                    </svg>
-                    <span class="truncate" x-text="item.sumber || '-'"></span>
                   </div>
                 </td>
 
@@ -266,7 +229,7 @@
                 <td class="py-3.5 px-3.5 sm:px-5 text-right">
                   <div class="flex items-center justify-end gap-1">
                     <!-- Detail -->
-                    <button @click="openDetailModal(item)" type="button" title="Lihat Detail Berita"
+                    <button @click="openDetailModal(item)" type="button" title="Lihat Detail Gallery"
                       class="p-1.5 rounded-lg text-gray-400 hover:text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-500/10 transition-colors">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
@@ -278,7 +241,7 @@
                     </button>
 
                     <!-- Edit -->
-                    <button @click="openEditModal(item)" type="button" title="Ubah Berita"
+                    <button @click="openEditModal(item)" type="button" title="Ubah Gallery"
                       class="p-1.5 rounded-lg text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
@@ -288,7 +251,7 @@
                     </button>
 
                     <!-- Delete -->
-                    <button @click="openDeleteModal(item)" type="button" title="Hapus Berita"
+                    <button @click="openDeleteModal(item)" type="button" title="Hapus Gallery"
                       class="p-1.5 rounded-lg text-gray-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
@@ -302,7 +265,7 @@
             </template>
 
             <!-- Empty State -->
-            <tr x-show="filteredBeritas.length === 0">
+            <tr x-show="filteredGallerys.length === 0">
               <td colspan="5" class="py-12 text-center">
                 <div class="flex flex-col items-center justify-center max-w-sm mx-auto">
                   <div
@@ -313,9 +276,9 @@
                       </path>
                     </svg>
                   </div>
-                  <h4 class="text-sm font-semibold text-gray-900 dark:text-white">Tidak Ada Data Berita</h4>
+                  <h4 class="text-sm font-semibold text-gray-900 dark:text-white">Tidak Ada Data Gallery</h4>
                   <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 text-center">
-                    Tidak ditemukan berita yang cocok dengan kata kunci atau filter pencarian saat ini.
+                    Tidak ditemukan gallery yang cocok dengan kata kunci atau filter pencarian saat ini.
                   </p>
                   <button @click="resetFilters()"
                     class="mt-4 px-3.5 py-1.5 text-xs font-medium text-brand-500 bg-brand-50 dark:bg-brand-500/10 rounded-lg hover:bg-brand-100 transition-colors">
@@ -334,14 +297,15 @@
         <div>
           Menampilkan
           <span class="font-semibold text-gray-900 dark:text-white"
-            x-text="filteredBeritas.length > 0 ? ((currentPage - 1) * perPage) + 1 : 0"></span> -
+            x-text="filteredGallerys.length > 0 ? ((currentPage - 1) * perPage) + 1 : 0"></span> -
           <span class="font-semibold text-gray-900 dark:text-white"
-            x-text="Math.min(currentPage * perPage, filteredBeritas.length)"></span>
-          dari <span class="font-semibold text-gray-900 dark:text-white" x-text="filteredBeritas.length"></span> berita
+            x-text="Math.min(currentPage * perPage, filteredGallerys.length)"></span>
+          dari <span class="font-semibold text-gray-900 dark:text-white" x-text="filteredGallerys.length"></span>
+          gallery
         </div>
 
         <!-- Pagination Controls (Muncul otomatis jika total data > 10) -->
-        <template x-if="filteredBeritas.length > 10">
+        <template x-if="filteredGallerys.length > 10">
           <div class="flex items-center gap-1.5 self-center sm:self-auto">
             <button @click="prevPage()" :disabled="currentPage === 1"
               class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed transition">
@@ -372,7 +336,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- MODAL: TAMBAH BERITA (TINYMCE & LIVE AUTO SLUG)                          -->
+    <!-- MODAL: TAMBAH GALLERY (TINYMCE & LIVE AUTO SLUG)                          -->
     <!-- ========================================================================= -->
     <div x-show="isAddModalOpen" x-cloak
       class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
@@ -392,8 +356,9 @@
               </svg>
             </span>
             <div>
-              <h3 class="text-base font-bold text-gray-900 dark:text-white">Tambah Berita & Artikel Baru</h3>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Lengkapi formulir di bawah ini untuk menerbitkan berita
+              <h3 class="text-base font-bold text-gray-900 dark:text-white">Tambah Gallery & Artikel Baru</h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Lengkapi formulir di bawah ini untuk menerbitkan
+                gallery
                 logistik.</p>
             </div>
           </div>
@@ -405,32 +370,22 @@
         </div>
 
         <!-- Modal Form -->
-        <form @submit.prevent="submitAddBerita()" class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
+        <form @submit.prevent="submitAddGallery()" class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
           <!-- Hidden Slug Input -->
           <input type="hidden" x-model="formAdd.slug" />
 
-          <!-- Baris 1: Judul Berita (1 Baris Penuh) -->
+          <!-- Baris 1: Judul Gallery (1 Baris Penuh) -->
           <div>
             <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-              Judul Berita <span class="text-rose-500">*</span>
+              Judul Gallery <span class="text-rose-500">*</span>
             </label>
             <input type="text" x-model="formAdd.judul" @input="formAdd.slug = generateSlug(formAdd.judul)"
               placeholder="Contoh: Pembukaan Rute Baru Kargo Maritim Jawa-Papua 2026" required
               class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
           </div>
 
-          <!-- Baris 2: Sumber & Status (1 Baris - 2 Kolom) -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Sumber -->
-            <div>
-              <label
-                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                Sumber / Penulis
-              </label>
-              <input type="text" x-model="formAdd.sumber" placeholder="Contoh: Humas Fastlog / Warta Logistik"
-                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-            </div>
-
+          <!-- Baris 2: Status (1 Baris - 2 Kolom) -->
+          <div class="grid grid-cols-1 sm:grid-cols-1 gap-4">
             <!-- Status -->
             <div>
               <label
@@ -470,10 +425,10 @@
             </template>
           </div>
 
-          <!-- Baris 4: Isi Berita (TinyMCE Rich Text Editor) -->
+          <!-- Baris 4: Isi Gallery (TinyMCE Rich Text Editor) -->
           <div>
             <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-              Isi Berita Lengkap <span class="text-rose-500">*</span>
+              Deskripsi Gallery <span class="text-rose-500">*</span>
             </label>
             <div class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
               <textarea id="tinymce_add_editor" class="w-full min-h-[220px]"></textarea>
@@ -495,7 +450,7 @@
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                 </svg>
               </template>
-              <span x-text="isSubmitting ? 'Menyimpan...' : 'Terbitkan Berita'"></span>
+              <span x-text="isSubmitting ? 'Menyimpan...' : 'Terbitkan Gallery'"></span>
             </button>
           </div>
         </form>
@@ -503,7 +458,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- MODAL: UBAH BERITA (TINYMCE & AUTO SLUG)                                  -->
+    <!-- MODAL: UBAH GALLERY (TINYMCE & AUTO SLUG)                                  -->
     <!-- ========================================================================= -->
     <div x-show="isEditModalOpen" x-cloak
       class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
@@ -525,8 +480,8 @@
               </svg>
             </span>
             <div>
-              <h3 class="text-base font-bold text-gray-900 dark:text-white">Ubah Data Berita</h3>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Perbarui informasi, judul, sumber, dan artikel berita.
+              <h3 class="text-base font-bold text-gray-900 dark:text-white">Ubah Data Gallery</h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Perbarui informasi, judul, dan artikel gallery.
               </p>
             </div>
           </div>
@@ -538,32 +493,22 @@
         </div>
 
         <!-- Modal Form -->
-        <form @submit.prevent="submitEditBerita()" class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
+        <form @submit.prevent="submitEditGallery()" class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
           <!-- Hidden Slug Input -->
           <input type="hidden" x-model="formEdit.slug" />
 
-          <!-- Baris 1: Judul Berita (1 Baris Penuh) -->
+          <!-- Baris 1: Judul Gallery (1 Baris Penuh) -->
           <div>
             <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-              Judul Berita <span class="text-rose-500">*</span>
+              Judul Gallery <span class="text-rose-500">*</span>
             </label>
             <input type="text" x-model="formEdit.judul" @input="formEdit.slug = generateSlug(formEdit.judul)"
               required
               class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
           </div>
 
-          <!-- Baris 2: Sumber & Status (1 Baris - 2 Kolom) -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Sumber -->
-            <div>
-              <label
-                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                Sumber / Penulis
-              </label>
-              <input type="text" x-model="formEdit.sumber" placeholder="Contoh: Humas Fastlog / Warta Logistik"
-                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-            </div>
-
+          <!-- Baris 2: Status (1 Baris - 2 Kolom) -->
+          <div class="grid grid-cols-1 sm:grid-cols-1 gap-4">
             <!-- Status -->
             <div>
               <label
@@ -604,7 +549,7 @@
           <!-- Baris 4: TinyMCE Editor Edit -->
           <div>
             <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-              Isi Berita Lengkap <span class="text-rose-500">*</span>
+              Deskripsi Gallery <span class="text-rose-500">*</span>
             </label>
             <div class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
               <textarea id="tinymce_edit_editor" class="w-full min-h-[220px]"></textarea>
@@ -634,7 +579,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- MODAL: DETAIL BERITA & ARTIKEL                                            -->
+    <!-- MODAL: DETAIL GALLERY & ARTIKEL                                            -->
     <!-- ========================================================================= -->
     <div x-show="isDetailModalOpen" x-cloak
       class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
@@ -681,11 +626,6 @@
               <!-- Source & Date Grid -->
               <div class="grid grid-cols-2 gap-3 p-3.5 bg-gray-50 dark:bg-gray-800/50 rounded-xl text-xs">
                 <div>
-                  <span class="text-gray-400 block mb-0.5">Sumber / Penulis:</span>
-                  <span class="font-semibold text-gray-800 dark:text-gray-200"
-                    x-text="selectedItem.sumber || 'Humas Fastlog'"></span>
-                </div>
-                <div>
                   <span class="text-gray-400 block mb-0.5">Waktu Rilis:</span>
                   <span class="font-semibold text-gray-800 dark:text-gray-200"
                     x-text="selectedItem.formatted_date || selectedItem.created_at || '-'"></span>
@@ -695,10 +635,10 @@
               <!-- Formatted Content -->
               <div>
                 <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2">Konten
-                  Berita:</span>
+                  Gallery:</span>
                 <div
                   class="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed space-y-3 bg-white dark:bg-gray-900 rounded-xl p-3 border border-gray-100 dark:border-gray-800"
-                  x-html="selectedItem.isi"></div>
+                  x-html="selectedItem.deskripsi"></div>
               </div>
             </div>
 
@@ -712,7 +652,7 @@
                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                   </path>
                 </svg>
-                Ubah Berita Ini
+                Ubah Gallery Ini
               </button>
               <button @click="isDetailModalOpen = false"
                 class="px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors">
@@ -725,7 +665,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- MODAL: HAPUS BERITA                                                       -->
+    <!-- MODAL: HAPUS GALLERY                                                       -->
     <!-- ========================================================================= -->
     <div x-show="isDeleteModalOpen" x-cloak
       class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm"
@@ -743,9 +683,9 @@
             </path>
           </svg>
         </div>
-        <h3 class="text-base font-bold text-gray-900 dark:text-white">Konfirmasi Hapus Berita</h3>
+        <h3 class="text-base font-bold text-gray-900 dark:text-white">Konfirmasi Hapus Gallery</h3>
         <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
-          Apakah Anda yakin ingin menghapus berita <strong class="text-gray-800 dark:text-gray-200"
+          Apakah Anda yakin ingin menghapus gallery <strong class="text-gray-800 dark:text-gray-200"
             x-text="selectedItem?.judul"></strong>? Berkas gambar dan artikel akan dihapus secara permanen.
         </p>
         <div class="mt-6 flex items-center justify-center gap-3">
@@ -753,7 +693,7 @@
             class="px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors">
             Batal
           </button>
-          <button @click="confirmDeleteBerita()" type="button" :disabled="isSubmitting"
+          <button @click="confirmDeleteGallery()" type="button" :disabled="isSubmitting"
             class="inline-flex items-center gap-1.5 px-4 py-2 text-xs sm:text-sm font-medium text-white bg-rose-600 hover:bg-rose-700 rounded-xl transition-colors shadow-sm shadow-rose-600/20 disabled:opacity-50">
             <span x-text="isSubmitting ? 'Menghapus...' : 'Ya, Hapus'"></span>
           </button>
@@ -796,9 +736,9 @@
 
   <!-- Alpine Manager Logic -->
   <script>
-    function beritaManager() {
+    function galleryManager() {
       return {
-        beritas: @json($beritas),
+        gallerys: @json($gallerys),
         searchQuery: '',
         selectedStatus: 'Semua',
 
@@ -817,7 +757,6 @@
         formAdd: {
           judul: '',
           slug: '',
-          sumber: '',
           status: 'published',
           imageFile: null,
           imagePreview: null,
@@ -828,7 +767,6 @@
           id: null,
           judul: '',
           slug: '',
-          sumber: '',
           status: 'published',
           existingImageUrl: null,
           imageFile: null,
@@ -864,7 +802,7 @@
           this.$watch('isEditModalOpen', (value) => {
             if (value) {
               this.$nextTick(() => {
-                const content = this.selectedItem ? this.selectedItem.isi : '';
+                const content = this.selectedItem ? this.selectedItem.deskripsi : '';
                 this.initTinyMCE('tinymce_edit_editor', content);
               });
             } else {
@@ -873,13 +811,12 @@
           });
         },
 
-        get filteredBeritas() {
-          return this.beritas.filter(item => {
+        get filteredGallerys() {
+          return this.gallerys.filter(item => {
             const q = this.searchQuery.toLowerCase();
             const matchSearch = !this.searchQuery ||
               (item.judul && item.judul.toLowerCase().includes(q)) ||
-              (item.slug && item.slug.toLowerCase().includes(q)) ||
-              (item.sumber && item.sumber.toLowerCase().includes(q));
+              (item.slug && item.slug.toLowerCase().includes(q));
 
             const matchStatus = this.selectedStatus === 'Semua' || item.status === this.selectedStatus;
 
@@ -889,12 +826,12 @@
 
         // Pagination Computed & Methods
         get totalPages() {
-          return Math.ceil(this.filteredBeritas.length / this.perPage) || 1;
+          return Math.ceil(this.filteredGallerys.length / this.perPage) || 1;
         },
 
-        get paginatedBeritas() {
+        get paginatedGallerys() {
           const start = (this.currentPage - 1) * this.perPage;
-          return this.filteredBeritas.slice(start, start + this.perPage);
+          return this.filteredGallerys.slice(start, start + this.perPage);
         },
 
         goToPage(page) {
@@ -916,16 +853,11 @@
         },
 
         countPublished() {
-          return this.beritas.filter(b => b.status === 'published' || b.status === 'Aktif').length;
+          return this.gallerys.filter(b => b.status === 'published' || b.status === 'Aktif').length;
         },
 
         countDraft() {
-          return this.beritas.filter(b => b.status === 'draft').length;
-        },
-
-        countSources() {
-          const sources = this.beritas.map(b => b.sumber).filter(s => s && s.trim() !== '');
-          return new Set(sources).size;
+          return this.gallerys.filter(b => b.status === 'draft').length;
         },
 
         resetFilters() {
@@ -1003,7 +935,6 @@
           this.formAdd = {
             judul: '',
             slug: '',
-            sumber: 'Humas Fastlog Indonesia',
             status: 'published',
             imageFile: null,
             imagePreview: null,
@@ -1029,10 +960,10 @@
           }
         },
 
-        async submitAddBerita() {
+        async submitAddGallery() {
           const content = this.getTinyMCEContent('tinymce_add_editor');
           if (!content || content.trim() === '') {
-            alert('Silakan lengkapi isi berita terlebih dahulu.');
+            alert('Silakan lengkapi deskripsi gallery terlebih dahulu.');
             return;
           }
 
@@ -1042,16 +973,15 @@
           formData.append('_token', '{{ csrf_token() }}');
           formData.append('judul', this.formAdd.judul);
           formData.append('slug', this.formAdd.slug || this.generateSlug(this.formAdd.judul));
-          formData.append('sumber', this.formAdd.sumber || '');
           formData.append('status', this.formAdd.status || 'published');
-          formData.append('isi', content);
+          formData.append('deskripsi', content);
 
           if (this.formAdd.imageFile) {
             formData.append('gambar', this.formAdd.imageFile);
           }
 
           try {
-            const response = await fetch('{{ route('admin.berita.store') }}', {
+            const response = await fetch('{{ route('admin.gallery.store') }}', {
               method: 'POST',
               headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -1063,26 +993,25 @@
             const res = await response.json();
 
             if (response.ok && res.status === 'success') {
-              this.beritas.unshift(res.data);
-              this.showToast(res.message || 'Berita berhasil diterbitkan!');
+              this.gallerys.unshift(res.data);
+              this.showToast(res.message || 'Gallery berhasil diterbitkan!');
               this.closeAddModal();
             } else {
-              alert(res.message || 'Gagal menyimpan berita. Silakan periksa inputan Anda.');
+              alert(res.message || 'Gagal menyimpan gallery. Silakan periksa inputan Anda.');
             }
           } catch (error) {
-            console.error('Error submitting berita:', error);
+            console.error('Error submitting gallery:', error);
             const localItem = {
               id: Date.now(),
               judul: this.formAdd.judul,
               slug: this.formAdd.slug || this.generateSlug(this.formAdd.judul),
-              sumber: this.formAdd.sumber,
               status: this.formAdd.status,
-              isi: content,
+              deskripsi: content,
               gambar_url: this.formAdd.imagePreview || '/images/cards/card-01.jpg',
               created_at: new Date().toISOString()
             };
-            this.beritas.unshift(localItem);
-            this.showToast('Berita berhasil disimpan!');
+            this.gallerys.unshift(localItem);
+            this.showToast('Gallery berhasil disimpan!');
             this.closeAddModal();
           } finally {
             this.isSubmitting = false;
@@ -1096,7 +1025,6 @@
             id: item.id,
             judul: item.judul,
             slug: item.slug,
-            sumber: item.sumber || '',
             status: item.status || 'published',
             existingImageUrl: item.gambar_url || (item.gambar ? '/' + item.gambar : null),
             imageFile: null,
@@ -1123,10 +1051,10 @@
           }
         },
 
-        async submitEditBerita() {
+        async submitEditGallery() {
           const content = this.getTinyMCEContent('tinymce_edit_editor');
           if (!content || content.trim() === '') {
-            alert('Silakan lengkapi isi berita terlebih dahulu.');
+            alert('Silakan lengkapi deskripsi gallery terlebih dahulu.');
             return;
           }
 
@@ -1137,15 +1065,14 @@
           formData.append('_method', 'PUT');
           formData.append('judul', this.formEdit.judul);
           formData.append('slug', this.formEdit.slug || this.generateSlug(this.formEdit.judul));
-          formData.append('sumber', this.formEdit.sumber || '');
           formData.append('status', this.formEdit.status || 'published');
-          formData.append('isi', content);
+          formData.append('deskripsi', content);
 
           if (this.formEdit.imageFile) {
             formData.append('gambar', this.formEdit.imageFile);
           }
 
-          const url = `/admin/berita/${this.formEdit.id}`;
+          const url = `/admin/gallery/${this.formEdit.id}`;
 
           try {
             const response = await fetch(url, {
@@ -1160,29 +1087,28 @@
             const res = await response.json();
 
             if (response.ok && res.status === 'success') {
-              const idx = this.beritas.findIndex(b => b.id === this.formEdit.id);
+              const idx = this.gallerys.findIndex(b => b.id === this.formEdit.id);
               if (idx !== -1) {
-                this.beritas[idx] = res.data;
+                this.gallerys[idx] = res.data;
               }
-              this.showToast(res.message || 'Berita berhasil diperbarui!');
+              this.showToast(res.message || 'Gallery berhasil diperbarui!');
               this.closeEditModal();
             } else {
-              alert(res.message || 'Gagal memperbarui berita.');
+              alert(res.message || 'Gagal memperbarui gallery.');
             }
           } catch (error) {
-            console.error('Error updating berita:', error);
-            const idx = this.beritas.findIndex(b => b.id === this.formEdit.id);
+            console.error('Error updating gallery:', error);
+            const idx = this.gallerys.findIndex(b => b.id === this.formEdit.id);
             if (idx !== -1) {
-              this.beritas[idx].judul = this.formEdit.judul;
-              this.beritas[idx].slug = this.formEdit.slug;
-              this.beritas[idx].sumber = this.formEdit.sumber;
-              this.beritas[idx].status = this.formEdit.status;
-              this.beritas[idx].isi = content;
+              this.gallerys[idx].judul = this.formEdit.judul;
+              this.gallerys[idx].slug = this.formEdit.slug;
+              this.gallerys[idx].status = this.formEdit.status;
+              this.gallerys[idx].deskripsi = content;
               if (this.formEdit.imagePreview) {
-                this.beritas[idx].gambar_url = this.formEdit.imagePreview;
+                this.gallerys[idx].gambar_url = this.formEdit.imagePreview;
               }
             }
-            this.showToast('Berita berhasil diperbarui!');
+            this.showToast('Gallery berhasil diperbarui!');
             this.closeEditModal();
           } finally {
             this.isSubmitting = false;
@@ -1201,7 +1127,7 @@
           this.isDeleteModalOpen = true;
         },
 
-        async confirmDeleteBerita() {
+        async confirmDeleteGallery() {
           if (!this.selectedItem) return;
 
           this.isSubmitting = true;
@@ -1210,7 +1136,7 @@
           formData.append('_token', '{{ csrf_token() }}');
           formData.append('_method', 'DELETE');
 
-          const url = `/admin/berita/${this.selectedItem.id}`;
+          const url = `/admin/gallery/${this.selectedItem.id}`;
 
           try {
             const response = await fetch(url, {
@@ -1225,16 +1151,16 @@
             const res = await response.json();
 
             if (response.ok && res.status === 'success') {
-              this.beritas = this.beritas.filter(b => b.id !== this.selectedItem.id);
-              this.showToast(res.message || 'Berita berhasil dihapus!');
+              this.gallerys = this.gallerys.filter(b => b.id !== this.selectedItem.id);
+              this.showToast(res.message || 'Gallery berhasil dihapus!');
               this.isDeleteModalOpen = false;
             } else {
-              alert(res.message || 'Gagal menghapus berita.');
+              alert(res.message || 'Gagal menghapus gallery.');
             }
           } catch (error) {
-            console.error('Error deleting berita:', error);
-            this.beritas = this.beritas.filter(b => b.id !== this.selectedItem.id);
-            this.showToast('Berita berhasil dihapus!');
+            console.error('Error deleting gallery:', error);
+            this.gallerys = this.gallerys.filter(b => b.id !== this.selectedItem.id);
+            this.showToast('Gallery berhasil dihapus!');
             this.isDeleteModalOpen = false;
           } finally {
             this.isSubmitting = false;
