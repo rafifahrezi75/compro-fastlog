@@ -158,6 +158,9 @@ Route::middleware('auth')->group(function () {
         return view('admin.pages.master.index');
     })->name('master');
 
+    // Master Berita Admin Routes
+    Route::resource('admin/berita', \App\Http\Controllers\Admin\BeritaController::class)->names('admin.berita');
+
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 });
