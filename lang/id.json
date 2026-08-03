@@ -1,4 +1,18 @@
 {
+    "About Us": "Tentang Kami",
+    "Services": "Layanan",
+    "Our Services": "Layanan Kami",
+    "Other Services": "Layanan Lainnya",
+    "Read More": "Pelajari Selengkapnya",
+    "Integrated Logistics Services": "Layanan Logistik Terpadu",
+    "Integrated logistics supply chain description": "Kami menyediakan solusi rantai pasok dan logistik end-to-end yang efisien, aman, dan dapat diandalkan untuk bisnis Anda.",
+    "Need a Price Quote or Logistics Consultation?": "Butuh Penawaran Harga atau Konsultasi Logistik?",
+    "CTA description": "Tim profesional kami siap membantu merencanakan pengiriman barang Anda secara efisien dan tepat waktu.",
+    "Contact Us Now": "Hubungi Kami Sekarang",
+    "Service Description": "Deskripsi Layanan",
+    "Scope & Key Advantages": "Cakupan & Keunggulan",
+    "Need Consultation for This Service?": "Butuh Konsultasi Layanan Ini?",
+    "Contact via WhatsApp": "Hubungi via WhatsApp",
     "Contact Us": "Hubungi Kami",
     "Home": "Beranda",
     "Page": "Halaman",
@@ -10,5 +24,9 @@
     "Message": "Pesan",
     "Send Message": "Kirim Pesan",
     "Location": "Lokasi",
-    "Map": "Peta"
+    "Map": "Peta",
+    "Career": "Karir",
+    "Join Our Team": "Bergabung Bersama Kami",
+    "Open Positions": "Posisi yang Tersedia",
+    "Apply Now": "Lamar Sekarang"
 }

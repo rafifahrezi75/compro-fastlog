@@ -501,7 +501,7 @@
     </div>
 </section>
 
-<{{-- ============ NEWS SECTION (SLIGHTLY COMPACT) ============ --}}
+{{-- ============ NEWS SECTION (SLIGHTLY COMPACT) ============ --}}
 <section id="news" class="py-14 bg-white">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
         
