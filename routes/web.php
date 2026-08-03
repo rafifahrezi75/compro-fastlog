@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 
 Route::middleware('guest')->group(function () {
 
@@ -42,13 +41,13 @@ Route::middleware('guest')->group(function () {
     Route::get('/destinasi/{slug}', function ($slug) {
         // Ubah slug 'surabaya' / 'united-states' menjadi 'Surabaya' / 'United States'
         $countryName = ucwords(str_replace('-', ' ', $slug));
-        
+
         // Panggil file user/pages/detail-destination.blade.php
         return view('user.pages.detail-destination', compact('countryName'));
     })->name('destination.detail');
 
     Route::get('/berita', function () {
-    return view('user.pages.berita');
+        return view('user.pages.berita');
     })->name('berita');
 
     // 2. Route Detail Berita
@@ -100,15 +99,15 @@ Route::middleware('guest')->group(function () {
 //     })->name('career');
 
 
-// Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () {
 
-//     Route::get('/dashboard', function () {
-//         return view('admin.dashboard');
-//     })->name('dashboard');
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
 
-//     Route::post('/logout', [AuthController::class, 'logout'])
-//         ->name('logout');
-// });
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
+});
 
 // // dashboard pages
 // Route::get('/', function () {
