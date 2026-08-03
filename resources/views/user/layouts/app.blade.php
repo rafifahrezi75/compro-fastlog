@@ -114,7 +114,7 @@
               {{-- Dropdown Layanan --}}
               <div class="relative group">
                 <a href="{{ route('services') }}"
-                  class="text-[15px] font-medium transition duration-200 flex items-center gap-1 text-white hover:text-[#FF7A3D]">
+                  class="text-[15px] font-medium transition duration-200 flex items-center gap-1 {{ request()->routeIs('services*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
                   Layanan
                   <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -125,22 +125,25 @@
                   class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-50">
                   <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
                     <a href="{{ route('services.detail', 'custom-clearance') }}"
-                      class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Custom
-                      Clearance</a>
+                      class="block px-5 py-2.5 transition {{ request()->is('services/custom-clearance') ? 'text-[#FF7A3D] bg-white/5' : 'text-white/90 hover:text-[#FF7A3D] hover:bg-white/5' }}">
+                      Custom Clearance
+                    </a>
                     <a href="{{ route('services.detail', 'reefer-logistic') }}"
-                      class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Reefer
-                      Logistic</a>
+                      class="block px-5 py-2.5 transition {{ request()->is('services/reefer-logistic') ? 'text-[#FF7A3D] bg-white/5' : 'text-white/90 hover:text-[#FF7A3D] hover:bg-white/5' }}">
+                      Reefer Logistic
+                    </a>
                     <a href="{{ route('services.detail', 'freight-forwarding') }}"
-                      class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Freight
-                      Forwarding</a>
+                      class="block px-5 py-2.5 transition {{ request()->is('services/freight-forwarding') ? 'text-[#FF7A3D] bg-white/5' : 'text-white/90 hover:text-[#FF7A3D] hover:bg-white/5' }}">
+                      Freight Forwarding
+                    </a>
                     <a href="{{ route('services.detail', 'inland-transport') }}"
-                      class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Inland
-                      Transport</a>
+                      class="block px-5 py-2.5 transition {{ request()->is('services/inland-transport') ? 'text-[#FF7A3D] bg-white/5' : 'text-white/90 hover:text-[#FF7A3D] hover:bg-white/5' }}">
+                      Inland Transport
+                    </a>
                   </div>
                 </div>
               </div>
-
-              {{-- Destinasi (Sudah Diperbaiki Tag HTML-nya) --}}
+              {{-- Destinasi --}}
               <a href="{{ route('destination') }}"
                 class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('destination*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
                 Destinasi
@@ -172,49 +175,30 @@
               Contact Us
             </a>
           </div>
+
+          {{-- Hamburger Button (Mobile) --}}
+          <button id="menu-button" class="lg:hidden text-white focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+
+        </div>
       </div>
-
-          <a href="{{ route('destination') }}"
-          class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('destination*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Destinasi</a>
-          <a href="{{ route('gallery') }}"
-            class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('gallery*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Galeri</a>
-
-          <a href="{{ route('berita') }}"
-            class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('berita*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-            Berita
-          </a>
-
-          <a href="{{ route('career') }}"
-            class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('career*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Karir</a>
-        </nav>
-
-        <a href="#contact"
-          class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-300 shadow-md whitespace-nowrap">
-          Contact Us
-        </a>
-      </div>
-
-      <button id="menu-button" class="lg:hidden text-white focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-
     </div>
-  </div>
-</div>
+
     {{-- 3. MOBILE MENU --}}
     <div id="mobile-menu" class="hidden lg:hidden bg-[#052B35] border-t border-white/10">
       <div class="flex flex-col p-6 space-y-5">
         <a href="{{ route('home') }}" class="text-white hover:text-[#FF7A3D]">Home</a>
-        <a href="#about" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Tentang Kami</a>
-        <a href="#services" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Layanan</a>
-        <a href="#destination" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Destinasi</a>
-        <a href="#gallery" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Gallery</a>
-        <a href="#news" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Berita</a>
-        <a href="#career" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Karir</a>
-        <a href="#contact" class="bg-[#FF7A3D] text-center py-3 rounded-xl text-white font-semibold">Contact Us</a>
+        <a href="{{ route('about') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Tentang Kami</a>
+        <a href="{{ route('services') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Layanan</a>
+        <a href="{{ route('destination') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Destinasi</a>
+        <a href="{{ route('gallery') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Gallery</a>
+        <a href="{{ route('berita') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Berita</a>
+        <a href="{{ route('career') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Karir</a>
+        <a href="{{ route('contact') }}" class="bg-[#FF7A3D] text-center py-3 rounded-xl text-white font-semibold">Contact Us</a>
       </div>
     </div>
 
@@ -262,10 +246,10 @@
         <div>
           <h4 class="text-white font-semibold mb-4">Support</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="#about" class="text-white/60 hover:text-[#FF7A3D] transition">About Us</a></li>
-            <li><a href="#contact" class="text-white/60 hover:text-[#FF7A3D] transition">Contact</a></li>
-            <li><a href="#gallery" class="text-white/60 hover:text-[#FF7A3D] transition">Gallery</a></li>
-            <li><a href="#news" class="text-white/60 hover:text-[#FF7A3D] transition">News</a></li>
+            <li><a href="{{ route('about') }}" class="text-white/60 hover:text-[#FF7A3D] transition">About Us</a></li>
+            <li><a href="{{ route('contact') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Contact</a></li>
+            <li><a href="{{ route('gallery') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Gallery</a></li>
+            <li><a href="{{ route('berita') }}" class="text-white/60 hover:text-[#FF7A3D] transition">News</a></li>
           </ul>
         </div>
 
@@ -273,10 +257,10 @@
         <div>
           <h4 class="text-white font-semibold mb-4">Services</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="#services" class="text-white/60 hover:text-[#FF7A3D] transition">Custom Clearance</a></li>
-            <li><a href="#services" class="text-white/60 hover:text-[#FF7A3D] transition">Forwarding</a></li>
-            <li><a href="#services" class="text-white/60 hover:text-[#FF7A3D] transition">Ekspedisi</a></li>
-            <li><a href="#services" class="text-white/60 hover:text-[#FF7A3D] transition">Ekspor Impor</a></li>
+            <li><a href="{{ route('services.detail', 'custom-clearance') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Custom Clearance</a></li>
+            <li><a href="{{ route('services.detail', 'freight-forwarding') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Forwarding</a></li>
+            <li><a href="{{ route('services.detail', 'inland-transport') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Ekspedisi</a></li>
+            <li><a href="{{ route('services.detail', 'reefer-logistic') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Ekspor Impor</a></li>
           </ul>
         </div>
 
@@ -288,8 +272,7 @@
           </p>
           <a href="mailto:admin@fastlogem.co.id"
             class="block text-white/60 hover:text-[#FF7A3D] text-sm mb-1 transition">admin@fastlogem.co.id</a>
-          <a href="tel:0319934392" class="block text-white/60 hover:text-[#FF7A3D] text-sm transition">031 9934
-            3392</a>
+          <a href="tel:0319934392" class="block text-white/60 hover:text-[#FF7A3D] text-sm transition">031 9934 3392</a>
         </div>
 
       </div>
@@ -303,45 +286,33 @@
     </div>
   </footer>
 
-</body>
+  {{-- 4. JAVASCRIPT --}}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const topBar = document.getElementById('top-bar');
+      const navBody = document.getElementById('nav-body');
+      const menuButton = document.getElementById('menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
 
-
-{{-- 4. JAVASCRIPT --}}
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const topBar = document.getElementById('top-bar');
-    const navBody = document.getElementById('nav-body');
-    const menuButton = document.getElementById('menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const navItems = document.querySelectorAll('.nav-item, .nav-item-mobile');
-
-    navItems.forEach(item => {
-      item.addEventListener('click', function() {
-        navItems.forEach(link => {
-          link.classList.remove('text-[#FF7A3D]');
-          link.classList.add('text-white');
+      if (menuButton && mobileMenu) {
+        menuButton.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
         });
-        this.classList.remove('text-white');
-        this.classList.add('text-[#FF7A3D]');
-      });
-    });
-
-    if (menuButton && mobileMenu) {
-      menuButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
-    }
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
-        topBar.classList.add('-mt-14', 'opacity-0');
-        navBody.classList.remove('bg-transparent');
-        navBody.classList.add('bg-[#052B35]', 'shadow-lg');
-      } else {
-        topBar.classList.remove('-mt-14', 'opacity-0');
-        navBody.classList.add('bg-transparent');
-        navBody.classList.remove('bg-[#052B35]', 'shadow-lg');
       }
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+          topBar.classList.add('-mt-14', 'opacity-0');
+          navBody.classList.remove('bg-transparent');
+          navBody.classList.add('bg-[#052B35]', 'shadow-lg');
+        } else {
+          topBar.classList.remove('-mt-14', 'opacity-0');
+          navBody.classList.add('bg-transparent');
+          navBody.classList.remove('bg-[#052B35]', 'shadow-lg');
+        }
+      });
     });
-  });
-</script>
+  </script>
+
+</body>
+</html>
