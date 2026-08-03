@@ -195,7 +195,7 @@
         <a href="{{ route('about') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Tentang Kami</a>
         <a href="{{ route('services') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Layanan</a>
         <a href="{{ route('destination') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Destinasi</a>
-        <a href="{{ route('gallery') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Gallery</a>
+        <a href="{{ route('gallery') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Galeri</a>
         <a href="{{ route('berita') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Berita</a>
         <a href="{{ route('career') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Karir</a>
         <a href="{{ route('contact') }}" class="bg-[#FF7A3D] text-center py-3 rounded-xl text-white font-semibold">Contact Us</a>
