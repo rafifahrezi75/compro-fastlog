@@ -105,6 +105,10 @@ Route::middleware('auth')->group(function () {
         return view('admin.dashboard');
     })->name('dashboard');
 
+    Route::get('/master', function () {
+        return view('admin.pages.master.index');
+    })->name('master');
+
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 });
