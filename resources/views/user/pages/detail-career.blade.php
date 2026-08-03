@@ -5,8 +5,13 @@
 @section('content')
 
 {{-- HERO --}}
-<section class="relative bg-[#052B35] pt-36 pb-16 text-white">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+<section class="relative bg-[#052B35] pt-36 pb-16 text-white bg-cover bg-center bg-fixed"
+         style="background-image: url('{{ asset('images/front-end/fastlog2.jpg') }}');">
+
+    {{-- Overlay Gelap --}}
+    <div class="absolute inset-0 bg-[#052B35]/80"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
         <nav class="flex items-center gap-2 text-sm text-white/70 mb-4">
             <a href="{{ route('home') }}" class="hover:text-[#FF7A3D] transition">Home</a>
             <span>/</span>

@@ -5,8 +5,13 @@
 @section('content')
 
 {{-- HERO BANNER --}}
-<section class="relative bg-[#052B35] pt-36 pb-20 text-white">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+<section class="relative bg-[#052B35] pt-36 pb-20 text-white bg-cover bg-center bg-fixed"
+         style="background-image: url('{{ asset('images/front-end/fastlog1.png') }}');">
+
+    {{-- Overlay Gelap --}}
+    <div class="absolute inset-0 bg-[#052B35]/80"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
         <span class="bg-[#FF7A3D]/20 text-[#FF7A3D] border border-[#FF7A3D]/30 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-4 inline-block">
             Bergabung Bersama Kami
         </span>
