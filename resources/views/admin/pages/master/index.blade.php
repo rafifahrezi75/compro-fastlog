@@ -3,7 +3,7 @@
 @section('content')
 <div 
     x-data="{
-        // Master Dummy Data Statis
+        // Master Dummy Data Statis (14 Layanan Logistik)
         defaultMasters: [
             {
                 id: 1,
@@ -76,6 +76,102 @@
                 description: 'Fasilitas pergudangan berikat (TPS/TPB) dengan sistem WMS modern, CCTV 24 jam, dan handling forklift profesional.',
                 icon: 'warehouse',
                 updated_at: '2026-07-15 11:00'
+            },
+            {
+                id: 7,
+                code: 'FL-OVD-007',
+                name: 'Over-Dimensional & Heavy Cargo Project',
+                category: 'Land Transport',
+                unit: 'Lowbed Multi-Axle Trailer',
+                price: 'Rp 35.000.000 / Trip',
+                status: 'Aktif',
+                description: 'Penanganan kargo alat berat konstruksi dan trafo pembangkit listrik dengan pengawalan resmi kepolisian.',
+                icon: 'truck',
+                updated_at: '2026-08-01 13:40'
+            },
+            {
+                id: 8,
+                code: 'FL-LSS-008',
+                name: 'Liquid Bulk & ISO Tank Container',
+                category: 'Sea Freight',
+                unit: 'ISO Tank 24.000L',
+                price: 'Rp 22.000.000',
+                status: 'Aktif',
+                description: 'Pengangkutan bahan kimia cair food grade, CPO, dan pelumas industri dengan tangki sertifikasi IMO.',
+                icon: 'ship',
+                updated_at: '2026-08-02 09:15'
+            },
+            {
+                id: 9,
+                code: 'FL-DOR-009',
+                name: 'Cross-Border Door to Door Express (Singapore-MY)',
+                category: 'Air Freight',
+                unit: 'Per Shipment (Koli)',
+                price: 'Rp 850.000 / Koli',
+                status: 'Aktif',
+                description: 'Layanan kurir kilat lintas negara dengan pengurusan perizinan lengkap dari pintu pengirim ke penerima.',
+                icon: 'plane',
+                updated_at: '2026-08-02 11:20'
+            },
+            {
+                id: 10,
+                code: 'FL-FUM-010',
+                name: 'Phytosanitary & Cargo Fumigation ISPM-15',
+                category: 'Customs & Port',
+                unit: 'Per 20ft/40ft Box',
+                price: 'Rp 950.000 / Box',
+                status: 'Aktif',
+                description: 'Layanan sertifikasi karantina tumbuhan dan fumigasi kayu palet standar ekspor internasional.',
+                icon: 'file-text',
+                updated_at: '2026-07-30 14:00'
+            },
+            {
+                id: 11,
+                code: 'FL-FUL-011',
+                name: 'E-Commerce Fulfillment & Pick-Pack Service',
+                category: 'Warehousing',
+                unit: 'Per Order / Paket',
+                price: 'Rp 4.500 / Paket',
+                status: 'Aktif',
+                description: 'Solusi pergudangan pintar untuk seller marketplace dengan barcode scanning & integrasi API kurir.',
+                icon: 'warehouse',
+                updated_at: '2026-08-03 09:00'
+            },
+            {
+                id: 12,
+                code: 'FL-CHL-012',
+                name: 'Chilled LTL Consolidation Java Island',
+                category: 'Cold Chain',
+                unit: 'Per Kg (Min 50Kg)',
+                price: 'Rp 8.500 / Kg',
+                status: 'Maintenance',
+                description: 'Konsolidasi kargo dingin muatan parsial untuk produk susu, keju, dan frozen food antar kota di pulau Jawa.',
+                icon: 'snowflake',
+                updated_at: '2026-08-01 17:30'
+            },
+            {
+                id: 13,
+                code: 'FL-BRG-013',
+                name: 'Barge & Tugboat Bulk Coal & Mineral Charter',
+                category: 'Sea Freight',
+                unit: 'Tongkang 300 Feet',
+                price: 'Rp 145.000.000',
+                status: 'Aktif',
+                description: 'Sewa kapal tongkang untuk muatan curah batubara, pasir silika, dan nikel rute Kalimantan-Sulawesi-Jawa.',
+                icon: 'ship',
+                updated_at: '2026-07-29 10:10'
+            },
+            {
+                id: 14,
+                code: 'FL-RLY-014',
+                name: 'Railway Freight Container Express',
+                category: 'Land Transport',
+                unit: '20ft Gerbong Datar',
+                price: 'Rp 6.200.000 / Box',
+                status: 'Aktif',
+                description: 'Pengiriman kontainer jalur rel kereta api rute Stasiun Kalimas Surabaya - Stasiun Pasoso Jakarta Utara bebas macet.',
+                icon: 'truck',
+                updated_at: '2026-08-03 07:45'
             }
         ],
 
@@ -84,6 +180,10 @@
         searchQuery: '',
         selectedCategory: 'Semua',
         selectedStatus: 'Semua',
+        
+        // Pagination State
+        currentPage: 1,
+        perPage: 10,
         
         // Modal States
         isAddModalOpen: false,
@@ -115,6 +215,10 @@
 
         init() {
             this.masters = JSON.parse(JSON.stringify(this.defaultMasters));
+
+            this.$watch('searchQuery', () => { this.currentPage = 1; });
+            this.$watch('selectedCategory', () => { this.currentPage = 1; });
+            this.$watch('selectedStatus', () => { this.currentPage = 1; });
         },
 
         showToast(message, type = 'success') {
@@ -140,6 +244,34 @@
 
                 return matchQuery && matchCategory && matchStatus;
             });
+        },
+
+        // Pagination Computed & Methods
+        get totalPages() {
+            return Math.ceil(this.filteredMasters.length / this.perPage) || 1;
+        },
+
+        get paginatedMasters() {
+            const start = (this.currentPage - 1) * this.perPage;
+            return this.filteredMasters.slice(start, start + this.perPage);
+        },
+
+        goToPage(page) {
+            if (page >= 1 && page <= this.totalPages) {
+                this.currentPage = page;
+            }
+        },
+
+        prevPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
+
+        nextPage() {
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+            }
         },
 
         // KPI Counts
@@ -497,7 +629,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-gray-800 text-xs sm:text-sm">
-                    <template x-for="item in filteredMasters" :key="item.id">
+                    <template x-for="item in paginatedMasters" :key="item.id">
                         <tr class="hover:bg-gray-50/70 dark:hover:bg-white/[0.02] transition">
                             
                             <!-- Kode Master -->
@@ -543,7 +675,7 @@
                             <!-- Kategori (Hidden on mobile, visible on tablet/desktop) -->
                             <td class="py-3.5 px-3 align-middle hidden md:table-cell">
                                 <span 
-                                    class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border"
+                                     class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border"
                                     :class="getCategoryBadgeClass(item.category)"
                                     x-text="item.category">
                                 </span>
@@ -633,15 +765,45 @@
         </div>
 
         <!-- Table Footer Pagination / Info -->
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3.5 sm:px-5 border-t border-gray-100 dark:border-gray-800 gap-2.5 text-xs text-gray-500 dark:text-gray-400">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3.5 sm:px-5 border-t border-gray-100 dark:border-gray-800 gap-3 text-xs text-gray-500 dark:text-gray-400 bg-gray-50/30 dark:bg-white/[0.01]">
             <div>
-                Menampilkan <span class="font-medium text-gray-700 dark:text-gray-200" x-text="filteredMasters.length"></span> dari <span class="font-medium text-gray-700 dark:text-gray-200" x-text="masters.length"></span> data master
+                Menampilkan 
+                <span class="font-medium text-gray-800 dark:text-white" x-text="filteredMasters.length > 0 ? ((currentPage - 1) * perPage) + 1 : 0"></span> - 
+                <span class="font-medium text-gray-800 dark:text-white" x-text="Math.min(currentPage * perPage, filteredMasters.length)"></span> 
+                dari <span class="font-medium text-gray-800 dark:text-white" x-text="filteredMasters.length"></span> data master
             </div>
-            <div class="flex items-center gap-1 self-center sm:self-auto">
-                <button class="px-2.5 py-1 rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-800 disabled:opacity-50 text-gray-600 dark:text-gray-300" disabled>Sebelumnya</button>
-                <button class="px-2.5 py-1 rounded-lg bg-brand-500 text-white font-medium">1</button>
-                <button class="px-2.5 py-1 rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-800 disabled:opacity-50 text-gray-600 dark:text-gray-300" disabled>Selanjutnya</button>
-            </div>
+
+            <!-- Pagination Controls (Muncul otomatis jika total data > 10) -->
+            <template x-if="filteredMasters.length > 10">
+                <div class="flex items-center gap-1.5 self-center sm:self-auto">
+                    <button 
+                        @click="prevPage()" 
+                        :disabled="currentPage === 1"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                    >
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        <span>Sebelumnya</span>
+                    </button>
+
+                    <template x-for="page in totalPages" :key="page">
+                        <button 
+                            @click="goToPage(page)"
+                            :class="currentPage === page ? 'bg-brand-500 text-white font-semibold shadow-xs' : 'border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                            class="min-w-[32px] h-8 rounded-lg text-xs font-medium transition flex items-center justify-center px-2"
+                            x-text="page"
+                        ></button>
+                    </template>
+
+                    <button 
+                        @click="nextPage()" 
+                        :disabled="currentPage === totalPages"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                    >
+                        <span>Selanjutnya</span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </template>
         </div>
     </div>
 
