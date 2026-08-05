@@ -206,40 +206,65 @@
 
   @yield('content')
 
-  <footer class="bg-[#052B35] pt-16 pb-8">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+  <footer class="relative bg-[#052B35] pt-16 pb-8 overflow-hidden">
+
+{{-- World Map / Globe Background Decoration --}}
+<div class="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none opacity-10 z-0">
+    <img src="{{ asset('images/front-end/globe.png') }}" alt="" 
+         class="w-[600px] max-w-none -translate-x-12 object-contain">
+</div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
 
         {{-- Logo & Desc --}}
         <div class="md:col-span-1">
-          <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Era Mandiri" class="h-14 mb-4">
-          <p class="text-white/60 text-sm mb-5">
-            World Leading Contract Logistics Provider
-          </p>
-          <div class="flex gap-3">
-            <a href="#"
-              class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A3D] transition">
-              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z" />
-              </svg>
-            </a>
-            <a href="#"
-              class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A3D] transition">
-              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm5 6.5c0 .28-.22.5-.5.5h-1.75c-.83 0-1.25.42-1.25 1.25v1.25h2.75l-.4 2.75h-2.35v7h-2.75v-7h-1.75v-2.75h1.75V9.5c0-1.93 1.32-3.5 3.5-3.5h1.75c.28 0 .5.22.5.5v1.5z" />
-              </svg>
-            </a>
-            <a href="#"
-              class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A3D] transition">
-              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.34 18v-8.4H5.67V18h2.67zM7 8.48a1.55 1.55 0 100-3.1 1.55 1.55 0 000 3.1zM18.34 18v-4.63c0-2.48-1.32-3.63-3.08-3.63-1.42 0-2.06.78-2.4 1.33V9.6H10.2c.03.7 0 8.4 0 8.4h2.66v-4.7c0-.25.02-.5.1-.68.2-.5.66-1.02 1.44-1.02.99 0 1.44.75 1.44 1.86V18h2.5z" />
-              </svg>
-            </a>
-          </div>
+            <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Era Mandiri" class="h-20 mb-6">
+            <p class="text-white/60 text-sm mb-5">
+                {{ __('World Leading Contract Logistics Provider') }}
+            </p>
+            <div class="flex gap-3">
+                {{-- Facebook --}}
+                <a href="https://www.facebook.com/share/17S7H2PTrG/"
+                  target="_blank" rel="noopener noreferrer"
+                  class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A3D] transition"
+                  aria-label="Facebook">
+                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z" />
+                    </svg>
+                </a>
+
+                {{-- Instagram --}}
+                <a href="https://www.instagram.com/fastlogem_?igsh=MWZ0Njg2emU1Z3g2Ng=="
+                  target="_blank" rel="noopener noreferrer"
+                  class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A3D] transition"
+                  aria-label="Instagram">
+                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+
+                {{-- X (Twitter) --}}
+                <a href="https://x.com"
+                  target="_blank" rel="noopener noreferrer"
+                  class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A3D] transition"
+                  aria-label="X">
+                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+
+                {{-- LinkedIn --}}
+                <a href="#"
+                  target="_blank" rel="noopener noreferrer"
+                  class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A3D] transition"
+                  aria-label="LinkedIn">
+                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.34 18v-8.4H5.67V18h2.67zM7 8.48a1.55 1.55 0 100-3.1 1.55 1.55 0 000 3.1zM18.34 18v-4.63c0-2.48-1.32-3.63-3.08-3.63-1.42 0-2.06.78-2.4 1.33V9.6H10.2c.03.7 0 8.4 0 8.4h2.66v-4.7c0-.25.02-.5.1-.68.2-.5.66-1.02 1.44-1.02.99 0 1.44.75 1.44 1.86V18h2.5z" />
+                    </svg>
+                </a>
+            </div>
         </div>
 
         {{-- Support Links --}}
@@ -287,6 +312,10 @@
   </footer>
 
   {{-- 4. JAVASCRIPT --}}
+
+  {{-- Chart.js Library --}}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const topBar = document.getElementById('top-bar');
