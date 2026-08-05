@@ -31,7 +31,7 @@
                 
                 {{-- Gambar Utama Artikel --}}
                 <div class="rounded-2xl overflow-hidden shadow-sm">
-                    <img src="{{ asset('images/' . $image) }}" alt="{{ $title }}" class="w-full h-auto max-h-[450px] object-cover">
+                    <img src="{{ asset('images/front-end/' . $image) }}" alt="{{ $title }}" class="w-full h-auto max-h-[450px] object-cover">
                 </div>
 
                 {{-- Judul & Tanggal --}}
@@ -92,13 +92,13 @@
                             [
                                 'title' => 'HANDLING REEFER COUNTAINER DARI SURABAYA KE LOS ANGELES, USA KOMODITY FROZEN YELLOWFIN TUNA GROUND MEAT',
                                 'date'  => 'November 15, 2023',
-                                'image' => 'news-reefer.jpg',
+                                'image' => 'news-1.png',
                                 'slug'  => 'handling-reefer-container-surabaya-ke-los-angeles'
                             ],
                             [
                                 'title' => 'Penerapan NLE Picu Penurunan Biaya Logistik hingga 50 Persen',
                                 'date'  => 'July 05, 2022',
-                                'image' => 'news-nle.jpg',
+                                'image' => 'news-2.png',
                                 'slug'  => 'penerapan-nle-picu-penurunan-biaya-logistik-hingga-50-persen'
                             ],
                         ];
@@ -108,7 +108,7 @@
                         @foreach($latestNews as $item)
                             <a href="{{ route('berita.detail', $item['slug']) }}" class="group block border-b border-gray-100 pb-4 last:border-0 last:pb-0">
                                 <div class="overflow-hidden rounded-xl h-28 mb-3">
-                                    <img src="{{ asset('images/' . $item['image']) }}" alt="{{ $item['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    <img src="{{ asset('images/front-end/' . $item['image']) }}" alt="{{ $item['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                                 </div>
                                 <h4 class="text-xs font-bold text-[#052B35] group-hover:text-[#FF7A3D] transition line-clamp-3 leading-snug mb-2 uppercase">
                                     {{ $item['title'] }}

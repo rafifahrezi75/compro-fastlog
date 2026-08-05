@@ -31,17 +31,17 @@
                 'title' => 'Aktivitas Team Building',
                 'desc' =>
                     'Kegiatan outbond tahunan untuk mempererat keakraban dan kerja sama antar karyawan PT. Fastlog Era Mandiri.',
-                'image' => 'gallery-1.jpg',
+                'image' => 'outbond 22.png',
             ],
             [
                 'title' => 'Komisaris & Direksi',
                 'desc' => 'Foto bersama jajaran manajemen utama dan pimpinan PT. Fastlog Era Mandiri.',
-                'image' => 'gallery-2.jpg',
+                'image' => 'komisaris.png',
             ],
             [
                 'title' => 'Tim Fastlog Era Mandiri',
                 'desc' => 'Kebersamaan seluruh anggota tim operasional dan staf kantor Fastlog Era Mandiri.',
-                'image' => 'gallery-3.jpg',
+                'image' => 'anniv2.png',
             ],
         ];
       @endphp
@@ -50,10 +50,10 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         @foreach ($galleries as $item)
           <div
-            @click="openModal = true; activeImage = '{{ asset('images/' . $item['image']) }}'; activeTitle = '{{ $item['title'] }}'; activeDesc = '{{ $item['desc'] }}'"
+            @click="openModal = true; activeImage = '{{ asset('images/front-end/' . $item['image']) }}'; activeTitle = '{{ $item['title'] }}'; activeDesc = '{{ $item['desc'] }}'"
             class="group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300">
 
-            <img src="{{ asset('images/' . $item['image']) }}" alt="{{ $item['title'] }}"
+            <img src="{{ asset('images/front-end/' . $item['image']) }}" alt="{{ $item['title'] }}"
               class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
 
             {{-- Overlay Gradient --}}

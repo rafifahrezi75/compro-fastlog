@@ -27,13 +27,13 @@
                 [
                     'title' => 'Penerapan NLE Picu Penurunan Biaya Logistik hingga 50 Persen',
                     'date'  => 'Tue, 05 Jul 2022',
-                    'image' => 'news-nle.jpg',
+                    'image' => 'news-1.png',
                     'slug'  => 'penerapan-nle-picu-penurunan-biaya-logistik-hingga-50-persen'
                 ],
                 [
                     'title' => 'HANDLING REEFER COUNTAINER DARI SURABAYA KE LOS ANGELES, USA KOMODITY FROZEN YELLOWFIN TUNA GROUND MEAT',
                     'date'  => 'Wed, 15 Nov 2023',
-                    'image' => 'news-reefer.jpg',
+                    'image' => 'news-2.png',
                     'slug'  => 'handling-reefer-container-surabaya-ke-los-angeles'
                 ],
             ];
@@ -46,7 +46,7 @@
                    class="group block bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition duration-300 w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm">
                     
                     <div class="h-52 overflow-hidden">
-                        <img src="{{ asset('images/' . $news['image']) }}" alt="{{ $news['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <img src="{{ asset('images/front-end/' . $news['image']) }}" alt="{{ $news['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                     </div>
 
                     <div class="p-6">

@@ -132,58 +132,38 @@ Route::middleware('guest')->group(function () {
         return view('user.pages.career', compact('careers'));
     })->name('career');
 
-    // Halaman Detail Lowongan Kerja (Dynamic from DB with fallback)
+    // Halaman Detail Lowongan Kerja (Frontend Only Dummy)
     Route::get('/karir/{slug}', function ($slug) {
-        $karir = \App\Models\Karir::where('slug', $slug)->first();
-
-        if ($karir) {
-            $job = [
-                'title' => $karir->nama_karir,
-                'department' => $karir->departemen ?? 'Operations',
-                'location' => $karir->lokasi_lengkap,
-                'type' => $karir->tipe_pekerjaan ?? 'Full-Time',
-                'posted_at' => $karir->time_ago,
-                'slug' => $karir->slug,
-                'description' => $karir->deskripsi ?? 'Lowongan pekerjaan di PT Fastlog Era Mandiri.',
-                'responsibilities' => [
-                    'Menjalankan tugas dan tanggung jawab sesuai standar operasional PT Fastlog Era Mandiri.',
-                    'Melakukan koordinasi dengan tim terkait untuk kelancaran operasional.',
-                    'Menjaga standar kualitas dan keselamatan kerja perusahaan.'
-                ],
-                'requirements' => !empty($karir->kualifikasi_array) ? $karir->kualifikasi_array : ['Kualifikasi dan persyaratan akan diinformasikan saat proses interview.'],
-            ];
-        } else {
-            // Data dummy tunggal untuk simulasi detail fallback
-            $job = [
-                'title' => 'Logistics Operational Staff',
-                'department' => 'Operations',
-                'location' => 'Surabaya, Indonesia',
-                'type' => 'Full-Time',
-                'posted_at' => '2 Hari yang lalu',
-                'slug' => $slug,
-                'description' => 'Kami mencari Logistics Operational Staff yang dinamis untuk bergabung dengan tim operasional PT Fastlog Era Mandiri. Anda akan bertanggung jawab untuk memastikan proses distribusi dan logistik berjalan lancar dari titik asal hingga tujuan.',
-                'responsibilities' => [
-                    'Mengkoordinasikan jadwal pengiriman barang dengan driver dan tim terkait.',
-                    'Melakukan pemantauan posisi armada dan pengiriman secara real-time.',
-                    'Menyiapkan dokumen operasional pengiriman (Surat Jalan, Manifest, dll).',
-                    'Menangani kendala operasional di lapangan dengan cepat dan tepat.'
-                ],
-                'requirements' => [
-                    'Pendidikan minimal D3/S1 semua jurusan (diutamakan Manajemen Logistik/Transportasi).',
-                    'Pengalaman kerja minimal 1-2 tahun di perusahaan logistik atau ekspedisi.',
-                    'Memahami alur proses distribusi darat dan kepabeanan dasar.',
-                    'Mahir menggunakan Microsoft Office (terutama MS Excel).',
-                    'Siap bekerja dalam sistem shift jika diperlukan.'
-                ]
-            ];
-        }
+        // Data dummy tunggal untuk simulasi detail
+        $job = [
+            'title' => 'Logistics Operational Staff',
+            'department' => 'Operations',
+            'location' => 'Surabaya, Indonesia',
+            'type' => 'Full-Time',
+            'posted_at' => '2 Hari yang lalu',
+            'slug' => $slug,
+            'description' => 'Kami mencari Logistics Operational Staff yang dinamis untuk bergabung dengan tim operasional PT Fastlog Era Mandiri. Anda akan bertanggung jawab untuk memastikan proses distribusi dan logistik berjalan lancar dari titik asal hingga tujuan.',
+            'responsibilities' => [
+                'Mengkoordinasikan jadwal pengiriman barang dengan driver dan tim terkait.',
+                'Melakukan pemantauan posisi armada dan pengiriman secara real-time.',
+                'Menyiapkan dokumen operasional pengiriman (Surat Jalan, Manifest, dll).',
+                'Menangani kendala operasional di lapangan dengan cepat dan tepat.'
+            ],
+            'requirements' => [
+                'Pendidikan minimal D3/S1 semua jurusan (diutamakan Manajemen Logistik/Transportasi).',
+                'Pengalaman kerja minimal 1-2 tahun di perusahaan logistik atau ekspedisi.',
+                'Memahami alur proses distribusi darat dan kepabeanan dasar.',
+                'Mahir menggunakan Microsoft Office (terutama MS Excel).',
+                'Siap bekerja dalam sistem shift jika diperlukan.'
+            ]
+        ];
 
         return view('user.pages.detail-career', compact('job'));
     })->name('career.detail');
 
     // Route Dummy untuk Simulasi Tombol Submit Form (Hanya menampilkan flash message sukses)
     Route::post('/karir/apply', function (Request $request) {
-        return back()->with('success', 'Simulasi: Lamaran Anda berhasil dikirim!');
+        return back()->with('success', 'Simulasi: Lamaran Anda berhasil dikirim! (Mode Frontend Only)');
     })->name('career.apply');
 
     Route::get('/contact', function () {
