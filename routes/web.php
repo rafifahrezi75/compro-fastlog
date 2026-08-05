@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -112,56 +113,21 @@ Route::middleware('guest')->group(function () {
     })->name('services.detail');
 
     Route::get('/karir', function () {
-        $careers = [
-            [
-                'id' => 1,
-                'slug' => 'logistics-operational-staff',
-                'title' => 'Logistics Operational Staff',
-                'department' => 'Operations',
-                'location' => 'Surabaya, Indonesia',
-                'type' => 'Full-Time',
-                'posted_at' => '2 Hari yang lalu',
-                'description' => 'Bertanggung jawab dalam mengawasi operasional harian pengiriman barang dan koordinasi dengan armada lapang.',
-                'requirements' => [
-                    'Pendidikan minimal D3/S1 semua jurusan (diutamakan Manajemen Logistik)',
-                    'Pengalaman minimal 1 tahun di bidang logistik/freight forwarding',
-                    'Mampu berkomunikasi dengan baik dan bekerja dalam tim',
-                    'Menguasai Microsoft Office (Excel & Word)'
-                ]
-            ],
-            [
-                'id' => 2,
-                'slug' => 'customs-clearance-specialist',
-                'title' => 'Customs Clearance Specialist',
-                'department' => 'Import & Export',
-                'location' => 'Surabaya, Indonesia',
-                'type' => 'Full-Time',
-                'posted_at' => '5 Hari yang lalu',
-                'description' => 'Mengurus seluruh proses dokumen kepabeanan ekspor/impor dan memastikan kepatuhan terhadap regulasi Bea Cukai.',
-                'requirements' => [
-                    'Memiliki Sertifikat Ahli Kepabeanan (PPJK) menjadi nilai tambah',
-                    'Pengalaman minimal 2 tahun mengurus PIB/PEB',
-                    'Memahami sistem CEISA Bea Cukai',
-                    'Teliti dan memiliki analisis dokumen yang kuat'
-                ]
-            ],
-            [
-                'id' => 3,
-                'slug' => 'freight-forwarding-sales-executive',
-                'title' => 'Sales Executive Freight Forwarding',
-                'department' => 'Marketing & Sales',
-                'location' => 'Jakarta, Indonesia',
-                'type' => 'Full-Time',
-                'posted_at' => '1 Minggu yang lalu',
-                'description' => 'Mencari klien baru dan mengembangkan pasar pengiriman ekspor-impor via laut dan udara.',
-                'requirements' => [
-                    'Pendidikan min S1 semua jurusan',
-                    'Memiliki jaringan klien di industri manufaktur/eksportir',
-                    'Target-oriented dan memiliki kemampuan negosiasi tinggi',
-                    'Fasih berbahasa Inggris'
-                ]
-            ]
-        ];
+        $dbCareers = \App\Models\Karir::where('status', 'Aktif')->latest()->get();
+
+        $careers = $dbCareers->map(function ($karir) {
+            return [
+                'id' => $karir->id,
+                'slug' => $karir->slug,
+                'title' => $karir->nama_karir,
+                'department' => $karir->departemen ?? 'Operations',
+                'location' => $karir->lokasi_lengkap,
+                'type' => $karir->tipe_pekerjaan ?? 'Full-Time',
+                'posted_at' => $karir->time_ago,
+                'description' => $karir->deskripsi,
+                'requirements' => $karir->kualifikasi_array,
+            ];
+        });
 
         return view('user.pages.career', compact('careers'));
     })->name('career');
@@ -201,7 +167,7 @@ Route::middleware('guest')->group(function () {
     })->name('career.apply');
 
     Route::get('/contact', function () {
-    return view('user.pages.contact');
+        return view('user.pages.contact');
     })->name('contact');
 
     // Route Dummy untuk Simulasi Kirim Pesan Form
