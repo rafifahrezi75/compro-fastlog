@@ -5,188 +5,210 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('title', 'Fastlog Era Mandiri')</title>
-
+  <style>
+    [x-cloak] { 
+      display: none !important; 
+    }
+  </style>
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased">
 
-  <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+  <header id="main-header" x-data="{ mobileMenuOpen: false }" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
 
     {{-- 1. TOP BAR INFO --}}
-    <div id="top-bar"
-      class="bg-[#052B35] text-white text-xs sm:text-sm py-2.5 transition-all duration-300 overflow-hidden">
-      <div class="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
+    <div id="top-bar" class="bg-[#052B35] text-white text-xs sm:text-sm py-2.5 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
 
-        {{-- Language Switcher (Left) --}}
-        <div class="flex items-center bg-white/10 rounded-lg p-1 space-x-1">
-          <a href="?lang=id"
-            class="flex items-center space-x-1.5 px-2.5 py-1 rounded-md transition {{ app()->getLocale() === 'id' ? 'bg-white/20' : 'hover:bg-white/10' }}">
-            <svg class="w-4 h-4 rounded-sm shadow-sm" viewBox="0 0 32 32" fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <rect width="32" height="16" fill="#E70011" />
-              <rect y="16" width="32" height="16" fill="#FFFFFF" />
-            </svg>
-            <span class="text-xs font-medium">ID</span>
-          </a>
-          <a href="?lang=en"
-            class="flex items-center space-x-1.5 px-2.5 py-1 rounded-md transition {{ app()->getLocale() === 'en' ? 'bg-white/20' : 'hover:bg-white/10' }}">
-            <svg class="w-4 h-4 rounded-sm shadow-sm overflow-hidden" viewBox="0 0 60 30">
-              <clipPath id="s">
-                <path d="M0,0 v30 h60 v-30 z" />
-              </clipPath>
-              <clipPath id="t">
-                <path d="M30,15 m-30,0 l60,30 m0,-30 l-60,30 h60 v-30 z" />
-              </clipPath>
-              <g clip-path="url(#s)">
-                <path d="M0,0 v30 h60 v-30 z" fill="#012169" />
-                <path d="M0,0 l60,30 m0,-30 l-60,30" stroke="#fff" stroke-width="6" />
-                <path d="M0,0 l60,30 m0,-30 l-60,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4" />
-                <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10" />
-                <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6" />
-              </g>
-            </svg>
-            <span class="text-xs font-medium">EN</span>
-          </a>
+            {{-- LOGO MOBILE (Hanya Muncul di Mobile/Tablet) --}}
+            <a href="{{ route('home') }}" class="flex lg:hidden items-center shrink-0">
+                <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Era Mandiri" class="h-8 sm:h-10 w-auto object-contain">
+            </a>
+
+            {{-- LANGUAGE SWITCHER --}}
+            {{-- Desktop: Di paling kiri | Mobile: Didorong ke kanan bersama hamburger --}}
+            <div class="flex items-center space-x-2 lg:space-x-0 ml-auto lg:ml-0">
+                <div class="flex items-center bg-white/10 rounded-lg p-1 space-x-1">
+                    <a href="?lang=id" class="flex items-center space-x-1.5 px-2 py-1 rounded-md transition {{ app()->getLocale() === 'id' ? 'bg-white/20' : 'hover:bg-white/10' }}">
+                        <svg class="w-4 h-4 rounded-sm shadow-sm" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="16" fill="#E70011" />
+                            <rect y="16" width="32" height="16" fill="#FFFFFF" />
+                        </svg>
+                        <span class="text-xs font-medium">ID</span>
+                    </a>
+                    <a href="?lang=en" class="flex items-center space-x-1.5 px-2 py-1 rounded-md transition {{ app()->getLocale() === 'en' ? 'bg-white/20' : 'hover:bg-white/10' }}">
+                        <svg class="w-4 h-4 rounded-sm shadow-sm overflow-hidden" viewBox="0 0 60 30">
+                            <clipPath id="s"><path d="M0,0 v30 h60 v-30 z" /></clipPath>
+                            <clipPath id="t"><path d="M30,15 m-30,0 l60,30 m0,-30 l-60,30 h60 v-30 z" /></clipPath>
+                            <g clip-path="url(#s)">
+                                <path d="M0,0 v30 h60 v-30 z" fill="#012169" />
+                                <path d="M0,0 l60,30 m0,-30 l-60,30" stroke="#fff" stroke-width="6" />
+                                <path d="M0,0 l60,30 m0,-30 l-60,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4" />
+                                <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10" />
+                                <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6" />
+                            </g>
+                        </svg>
+                        <span class="text-xs font-medium">EN</span>
+                    </a>
+                </div>
+
+                {{-- HAMBURGER BUTTON (Hanya Muncul di Mobile, Berada di sebelah kanan Language Switcher) --}}
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-white focus:outline-none p-1 ml-2">
+                    <svg x-show="!mobileMenuOpen" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg x-show="mobileMenuOpen" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" x-cloak>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            {{-- CONTACT INFO (Hanya Muncul di Desktop 'lg:') --}}
+            <div class="hidden lg:flex items-center space-x-6 text-xs sm:text-sm">
+                <div class="flex items-center space-x-1.5">
+                    <svg class="w-4 h-4 text-white shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5-2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    <span>Surabaya, Indonesia</span>
+                </div>
+
+                <a href="mailto:admin@fastlogem.co.id" class="flex items-center space-x-1.5 hover:text-[#FF7A3D] transition">
+                    <svg class="w-4 h-4 text-white shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                    </svg>
+                    <span>admin@fastlogem.co.id</span>
+                </a>
+
+                <a href="tel:+623199343392" class="flex items-center space-x-1.5 hover:text-[#FF7A3D] transition">
+                    <svg class="w-4 h-4 text-white shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                    </svg>
+                    <span>+62 31 9934 3392</span>
+                </a>
+            </div>
+
         </div>
-
-        {{-- Contact & Location Info (Right) --}}
-        <div class="flex items-center space-x-6 text-xs sm:text-sm">
-          <div class="flex items-center space-x-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white shrink-0" fill="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-            </svg>
-            <span>Surabaya, Indonesia</span>
-          </div>
-
-          <a href="mailto:admin@fastlogem.co.id"
-            class="hidden sm:flex items-center space-x-1.5 hover:text-[#FF7A3D] transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white shrink-0" fill="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-            </svg>
-            <span>admin@fastlogem.co.id</span>
-          </a>
-
-          <a href="tel:+623199343392" class="flex items-center space-x-1.5 hover:text-[#FF7A3D] transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white shrink-0" fill="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-            </svg>
-            <span>+62 31 9934 3392</span>
-          </a>
-        </div>
-
-      </div>
     </div>
 
-    {{-- 2. MAIN NAVBAR --}}
-    <div id="nav-body" class="bg-transparent text-white transition-all duration-300">
-      <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <div class="flex items-center justify-between h-24">
+    {{-- 2. MAIN NAVBAR (Hanya Tampil di Desktop 'hidden lg:block') --}}
+    <div id="nav-body" class="bg-transparent text-white transition-all duration-300 hidden lg:block">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 sm:h-24">
 
-          {{-- LOGO --}}
-          <a href="{{ route('home') }}" class="flex items-center shrink-0">
-            <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Era Mandiri"
-              class="h-14 w-auto object-contain">
-          </a>
-
-          {{-- DESKTOP MENU + BUTTON --}}
-          <div class="hidden lg:flex items-center gap-8">
-            <nav class="flex items-center gap-7">
-
-              {{-- Home --}}
-              <a href="{{ route('home') }}"
-                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('home') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-                Home
-              </a>
-
-              {{-- Tentang Kami --}}
-              <a href="{{ route('about') }}"
-                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('about*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-                Tentang Kami
-              </a>
-
-              {{-- Dropdown Layanan --}}
-              <div class="relative group">
-                <a href="{{ route('services') }}"
-                  class="text-[15px] font-medium transition duration-200 flex items-center gap-1 {{ request()->routeIs('services*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-                  Layanan
-                  <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
+                {{-- LOGO DESKTOP --}}
+                <a href="{{ route('home') }}" class="flex items-center shrink-0">
+                    <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Era Mandiri" class="h-10 sm:h-14 w-auto object-contain">
                 </a>
-                <div
-                  class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-50">
-                  <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
-                    <a href="{{ route('services.detail', 'custom-clearance') }}"
-                      class="block px-5 py-2.5 transition {{ request()->is('services/custom-clearance') ? 'text-[#FF7A3D] bg-white/5' : 'text-white/90 hover:text-[#FF7A3D] hover:bg-white/5' }}">
-                      Custom Clearance
-                    </a>
-                    <a href="{{ route('services.detail', 'reefer-logistic') }}"
-                      class="block px-5 py-2.5 transition {{ request()->is('services/reefer-logistic') ? 'text-[#FF7A3D] bg-white/5' : 'text-white/90 hover:text-[#FF7A3D] hover:bg-white/5' }}">
-                      Reefer Logistic
-                    </a>
-                    <a href="{{ route('services.detail', 'freight-forwarding') }}"
-                      class="block px-5 py-2.5 transition {{ request()->is('services/freight-forwarding') ? 'text-[#FF7A3D] bg-white/5' : 'text-white/90 hover:text-[#FF7A3D] hover:bg-white/5' }}">
-                      Freight Forwarding
-                    </a>
-                    <a href="{{ route('services.detail', 'inland-transport') }}"
-                      class="block px-5 py-2.5 transition {{ request()->is('services/inland-transport') ? 'text-[#FF7A3D] bg-white/5' : 'text-white/90 hover:text-[#FF7A3D] hover:bg-white/5' }}">
-                      Inland Transport
-                    </a>
-                  </div>
+
+                {{-- DESKTOP MENU + BUTTON --}}
+                <div class="flex items-center gap-8">
+                    <nav class="flex items-center gap-7">
+                        <a href="{{ route('home') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('home') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Home</a>
+                        <a href="{{ route('about') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('about*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Tentang Kami</a>
+                        <div class="relative group">
+                            <a href="{{ route('services') }}" class="text-[15px] font-medium transition duration-200 flex items-center gap-1 {{ request()->routeIs('services*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
+                                Layanan
+                                <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </a>
+                            <div class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-50">
+                                <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
+                                    <a href="{{ route('services.detail', 'custom-clearance') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Custom Clearance</a>
+                                    <a href="{{ route('services.detail', 'reefer-logistic') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Reefer Logistic</a>
+                                    <a href="{{ route('services.detail', 'freight-forwarding') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Freight Forwarding</a>
+                                    <a href="{{ route('services.detail', 'inland-transport') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Inland Transport</a>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ route('destination') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('destination*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Destinasi</a>
+                        <a href="{{ route('gallery') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('gallery*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Galeri</a>
+                        <a href="{{ route('berita') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('berita*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Berita</a>
+                        <a href="{{ route('career') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('career*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Karir</a>
+                    </nav>
+
+                    <a href="{{ route('contact') }}" class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-300 shadow-md whitespace-nowrap">Contact Us</a>
                 </div>
-              </div>
-              {{-- Destinasi --}}
-              <a href="{{ route('destination') }}"
-                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('destination*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-                Destinasi
-              </a>
 
-              {{-- Gallery --}}
-              <a href="{{ route('gallery') }}"
-                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('gallery*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-                Galeri
-              </a>
+            </div>
+        </div>
+    </div>
 
-              {{-- Berita --}}
-              <a href="{{ route('berita') }}"
-                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('berita*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-                Berita
-              </a>
 
-              {{-- Karir --}}
-              <a href="{{ route('career') }}"
-                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('career*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-                Karir
-              </a>
 
+    {{-- 3. MOBILE OFF-CANVAS DRAWER (GAMBAR 1 DESIGN) --}}
+    <div x-show="mobileMenuOpen"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="-translate-x-full"
+         x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="translate-x-0"
+         x-transition:leave-end="-translate-x-full"
+         class="fixed inset-y-0 left-0 w-[80%] max-w-xs bg-[#052B35] z-50 overflow-y-auto flex flex-col justify-between shadow-2xl lg:hidden"
+         x-cloak>
+        
+        <div class="p-6">
+            {{-- Header Menu Drawer --}}
+            <div class="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
+                <img src="{{ asset('images/front-end/logo2.png') }}" alt="Logo" class="h-10 w-auto">
+                <button @click="mobileMenuOpen = false" class="text-white hover:text-[#FF7A3D]">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            {{-- Nav Links --}}
+            <nav class="flex flex-col space-y-4 font-semibold uppercase tracking-wider text-sm">
+                <a href="{{ route('home') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">HOME</a>
+                <a href="{{ route('about') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">TENTANG KAMI</a>
+                <a href="{{ route('services') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">LAYANAN</a>
+                <a href="{{ route('destination') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">DESTINASI</a>
+                <a href="{{ route('gallery') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">GALERI</a>
+                <a href="{{ route('berita') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">BERITA</a>
+                <a href="{{ route('career') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">KARIR</a>
             </nav>
 
-            {{-- Contact Us Button --}}
-            <a href="{{ route('contact') }}"
-              class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-300 shadow-md whitespace-nowrap">
-              Contact Us
-            </a>
-          </div>
-
-          {{-- Hamburger Button (Mobile) --}}
-          <button id="menu-button" class="lg:hidden text-white focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-
+            {{-- Button Contact Us --}}
+            <div class="mt-8">
+                <a href="{{ route('contact') }}" class="block w-full text-center bg-[#FF7A3D] hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition uppercase text-xs tracking-wider shadow">
+                    CONTACT US
+                </a>
+            </div>
         </div>
-      </div>
+
+        {{-- Footer Kontak di bagian bawah Drawer --}}
+        <div class="p-6 bg-black/20 text-xs text-white/80 space-y-3">
+            <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 text-[#FF7A3D]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                <span>Surabaya, Indonesia</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 text-[#FF7A3D]" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <span>admin@fastlogem.co.id</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 text-[#FF7A3D]" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                <span>+62 31 9934 3392</span>
+            </div>
+        </div>
+
     </div>
+
+    {{-- Backdrop Hitam saat Drawer Buka --}}
+    <div x-show="mobileMenuOpen" 
+         @click="mobileMenuOpen = false"
+         x-transition:enter="transition-opacity ease-linear duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition-opacity ease-linear duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 bg-black/60 z-40 lg:hidden"
+         x-cloak></div>
+
+</header>
 
     {{-- 3. MOBILE MENU --}}
     <div id="mobile-menu" class="hidden lg:hidden bg-[#052B35] border-t border-white/10">
@@ -220,10 +242,8 @@
 
         {{-- Logo & Desc --}}
         <div class="md:col-span-1">
-            <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Era Mandiri" class="h-20 mb-6">
-            <p class="text-white/60 text-sm mb-5">
-                {{ __('World Leading Contract Logistics Provider') }}
-            </p>
+            <img src="{{ asset('images/front-end/logo2.png') }}" alt="Fastlog Era Mandiri" class="h-34 mb-5">
+            
             <div class="flex gap-3">
                 {{-- Facebook --}}
                 <a href="https://www.facebook.com/share/17S7H2PTrG/"
