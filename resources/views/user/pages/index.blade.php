@@ -441,22 +441,27 @@
                 
                 {{-- Navigation Buttons --}}
                 <button @click="active = active === 0 ? total - 1 : active - 1" 
-                        class="absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-gray-600 hover:text-[#FF7A3D] transition">
+                        class="absolute -left-3 md:-left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-gray-600 hover:text-[#FF7A3D] transition">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
 
                 <button @click="active = active === total - 1 ? 0 : active + 1" 
-                        class="absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-gray-600 hover:text-[#FF7A3D] transition">
+                        class="absolute -right-3 md:-right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-gray-600 hover:text-[#FF7A3D] transition">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
 
+                {{-- Slider Container --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {{-- Testi 1 --}}
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between min-h-[260px] relative">
+                    <div x-show="active === 0 || window.innerWidth >= 768" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 translate-x-4"
+                         x-transition:enter-end="opacity-100 translate-x-0"
+                         class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between min-h-[260px] relative">
                         <p class="text-gray-600 text-sm leading-relaxed">
                             "Memberikan solusi dalam bisnis ekspor dan Import"
                         </p>
@@ -469,7 +474,11 @@
                     </div>
 
                     {{-- Testi 2 --}}
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between min-h-[260px] relative">
+                    <div x-show="active === 1 || window.innerWidth >= 768" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 translate-x-4"
+                         x-transition:enter-end="opacity-100 translate-x-0"
+                         class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between min-h-[260px] relative">
                         <p class="text-gray-600 text-sm leading-relaxed">
                             "Terimakasih buat perusahaan forwarding PT. FASTLOG ERA MANDIRI yang telah memberikan pelayanan yang sangat cepat dan prima. Kami sangat puas dan bisa menjadi rekomendasi buat pelaku bisnis ekspor, Impor, maupun domestik."
                         </p>
