@@ -129,6 +129,44 @@ window.addEventListener('resize', checkMobile);">
 
   </div>
 
+  <!-- Auto Logout Script -->
+  <script>
+    (function() {
+      let inactivityTimer;
+      const INACTIVITY_TIME_LIMIT = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+      function resetTimer() {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(autoLogout, INACTIVITY_TIME_LIMIT);
+      }
+
+      function autoLogout() {
+        // Create and submit logout form
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("logout") }}';
+
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = '{{ csrf_token() }}';
+
+        form.appendChild(csrfToken);
+        document.body.appendChild(form);
+        form.submit();
+      }
+
+      // Track user activity events
+      const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+      events.forEach(event => {
+        document.addEventListener(event, resetTimer, true);
+      });
+
+      // Initialize the timer
+      resetTimer();
+    })();
+  </script>
+
 </body>
 
 @stack('scripts')
