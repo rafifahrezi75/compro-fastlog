@@ -96,4 +96,12 @@ class Karir extends Model
 
         return array_values(array_filter($cleaned));
     }
+
+    /**
+     * Relationship to Pelamars (Applicants)
+     */
+    public function pelamars()
+    {
+        return $this->hasMany(Pelamar::class, 'karir_id');
+    }
 }

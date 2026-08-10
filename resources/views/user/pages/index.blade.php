@@ -306,20 +306,11 @@
       </h2>
     </div>
 
-    @php
-      $gallery = [
-          ['title' => 'Komisaris & Direksi', 'image' => 'komisaris.png'],
-          ['title' => '1st Anniversary', 'image' => 'anniv1.jpg'],
-          ['title' => '2nd Anniversary', 'image' => 'anniv2.png'],
-          ['title' => 'Outbond 2022', 'image' => 'outbond 22.png'],
-      ];
-    @endphp
-
     {{-- Carousel Container — INFINITE LOOP, SELALU LANJUT KE KANAN --}}
     <div x-data="{
         active: 0,
         perView: 1,
-        total: {{ count($gallery) }},
+        total: {{ $galleries->count() }},
         withTransition: true,
         autoplayTimer: null,
         updatePerView() {
@@ -371,32 +362,40 @@
              :style="`transform: translateX(-${active * (100 / perView)}%)`">
 
           {{-- Slide asli --}}
-          @foreach ($gallery as $item)
+          @foreach ($galleries as $item)
             <a href="#" class="group relative h-[420px] overflow-hidden block shrink-0"
                :style="`width: ${100 / perView}%`">
-              <img src="{{ asset('images/front-end/' . $item['image']) }}" alt="{{ $item['title'] }}"
-                onerror="this.onerror=null; this.src='{{ asset('images/front-end/fastlog1.png') }}';"
-                class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+              @if($item->gambar)
+                <img src="{{ str_starts_with($item->gambar, 'uploads/') ? asset($item->gambar) : asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}"
+                  onerror="this.onerror=null; this.src='{{ asset('images/front-end/fastlog1.png') }}';"
+                  class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+              @else
+                <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">No Image</div>
+              @endif
               <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
               <div class="absolute inset-0 flex items-end justify-center pb-8">
                 <p class="text-white font-bold text-xl md:text-2xl tracking-wide text-center px-4">
-                  {{ $item['title'] }}
+                  {{ $item->judul }}
                 </p>
               </div>
             </a>
           @endforeach
 
           {{-- Clone slide pertama, biar transisi ke akhir tetep mulus lanjut ke kanan --}}
-          @foreach ($gallery as $item)
+          @foreach ($galleries as $item)
             <a href="#" class="group relative h-[420px] overflow-hidden block shrink-0"
                :style="`width: ${100 / perView}%`">
-              <img src="{{ asset('images/front-end/' . $item['image']) }}" alt="{{ $item['title'] }}"
-                onerror="this.onerror=null; this.src='{{ asset('images/front-end/fastlog1.png') }}';"
-                class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+              @if($item->gambar)
+                <img src="{{ str_starts_with($item->gambar, 'uploads/') ? asset($item->gambar) : asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}"
+                  onerror="this.onerror=null; this.src='{{ asset('images/front-end/fastlog1.png') }}';"
+                  class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+              @else
+                <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">No Image</div>
+              @endif
               <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
               <div class="absolute inset-0 flex items-end justify-center pb-8">
                 <p class="text-white font-bold text-xl md:text-2xl tracking-wide text-center px-4">
-                  {{ $item['title'] }}
+                  {{ $item->judul }}
                 </p>
               </div>
             </a>
@@ -422,8 +421,20 @@
     </div>
   </section>
 
-       {{-- ============ TESTIMONIAL SECTION ============ --}}
-  <section id="testimonial" class="py-16 md:py-20 bg-gray-50 overflow-hidden" x-data="{ active: 0, total: 2 }">
+  {{-- ============ TESTIMONIAL SECTION ============ --}}
+  <section id="testimonial" class="py-16 md:py-20 bg-gray-50 overflow-hidden" x-data="{
+      active: 0,
+      total: {{ $testimonis->count() }},
+      perView: window.innerWidth >= 768 ? 2 : 1,
+      init() {
+          window.addEventListener('resize', () => {
+              this.perView = window.innerWidth >= 768 ? 2 : 1;
+              this.active = 0;
+          });
+      },
+      next() { if (this.active < this.total - this.perView) this.active++; },
+      prev() { if (this.active > 0) this.active--; }
+  }">
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
           {{-- Heading: tampil di atas untuk MOBILE, tersembunyi di desktop --}}
@@ -432,10 +443,10 @@
               <h2 class="text-2xl font-bold text-[#052B35] mt-2">What They're Talking About Us</h2>
           </div>
 
-          <div class="flex items-center gap-4 lg:gap-8">
+          <div class="flex flex-col lg:flex-row items-center gap-4 lg:gap-8 lg:items-stretch">
 
               {{-- Heading versi desktop, di kiri --}}
-              <div class="hidden lg:block shrink-0 w-64">
+              <div class="hidden lg:flex shrink-0 w-64 flex-col justify-center">
                   <span class="text-[#FF7A3D] font-semibold tracking-widest text-sm">OUR TESTIMONIAL</span>
                   <h2 class="text-3xl md:text-4xl font-bold text-[#052B35] mt-3 leading-tight">
                       What They're Talking About Us
@@ -443,10 +454,10 @@
               </div>
 
               {{-- Cards Container --}}
-              <div class="flex-1 relative">
+              <div class="flex-1 relative w-full overflow-hidden">
 
                   {{-- Panah Kiri --}}
-                  <button @click="active = active === 0 ? total - 1 : active - 1"
+                  <button @click="prev()" x-show="active > 0"
                       class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:text-white hover:bg-[#FF7A3D] active:text-white active:bg-[#FF7A3D] hover:border-transparent active:border-transparent transition">
                       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -454,47 +465,58 @@
                   </button>
 
                   {{-- Panah Kanan --}}
-                  <button @click="active = active === total - 1 ? 0 : active + 1"
+                  <button @click="next()" x-show="active < total - perView"
                       class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:text-white hover:bg-[#FF7A3D] active:text-white active:bg-[#FF7A3D] hover:border-transparent active:border-transparent transition">
                       <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                       </svg>
                   </button>
 
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mx-[22px] items-stretch">
+                  {{-- Carousel Track --}}
+                  <div class="overflow-hidden mx-4 md:mx-6 lg:mx-[22px] py-4">
+                      <div class="flex transition-transform duration-500 ease-in-out -mx-3"
+                           :style="`transform: translateX(-${active * (100 / perView)}%);`">
+                           
+                          @forelse($testimonis as $item)
+                          {{-- Card --}}
+                          <div class="shrink-0 w-full md:w-1/2 px-3">
+                              <div class="h-full bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col min-h-[220px]">
+                                  <p class="text-gray-600 text-sm leading-relaxed">
+                                      "{{ $item->testimoni }}"
+                                  </p>
 
-              {{-- Card 1 --}}
-              <div x-show="active === 0" class="md:!flex bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col min-h-[220px]">
-                  <p class="text-gray-600 text-sm leading-relaxed">
-                      "Memberikan solusi dalam bisnis ekspor dan import"
-                  </p>
-
-                  <div class="mt-auto pt-6 flex items-end justify-between">
-                      <div>
-                          <h4 class="font-bold text-[#052B35] text-base">Eggo Aeroplane</h4>
-                          <p class="text-xs text-gray-400 invisible">placeholder</p>
+                                  <div class="mt-auto pt-6 flex items-end justify-between">
+                                      <div class="flex items-center gap-3">
+                                          {{-- Foto --}}
+                                          @if($item->foto)
+                                              <img src="{{ str_starts_with($item->foto, 'uploads/') ? asset($item->foto) : asset('storage/' . $item->foto) }}" alt="{{ $item->nama }}" 
+                                                   class="w-10 h-10 rounded-full object-cover shrink-0"
+                                                   onerror="this.onerror=null; this.outerHTML='<div class=\'w-10 h-10 rounded-full bg-[#052B35] text-white flex items-center justify-center font-bold text-sm shrink-0\'>{{ strtoupper(substr($item->nama, 0, 1)) }}</div>';">
+                                          @else
+                                              <div class="w-10 h-10 rounded-full bg-[#052B35] text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                                  {{ strtoupper(substr($item->nama, 0, 1)) }}
+                                              </div>
+                                          @endif
+                                          <div>
+                                              <h4 class="font-bold text-[#052B35] text-base">{{ $item->nama }}</h4>
+                                              <p class="text-xs text-gray-400 {{ empty($item->perusahaan) ? 'invisible' : '' }}">{{ $item->perusahaan ?? 'placeholder' }}</p>
+                                          </div>
+                                      </div>
+                                      <span class="text-5xl font-serif text-[#FF7A3D]/40 font-bold leading-none shrink-0" style="margin-bottom: -15px;">”</span>
+                                  </div>
+                              </div>
+                          </div>
+                          @empty
+                          <div class="w-full shrink-0 px-3 text-center py-8">
+                              <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[220px] text-gray-400">
+                                  Belum ada testimoni.
+                              </div>
+                          </div>
+                          @endforelse
                       </div>
-                      <span class="text-5xl font-serif text-[#FF7A3D]/40 font-bold leading-none shrink-0">”</span>
                   </div>
+
               </div>
-
-              {{-- Card 2 --}}
-              <div x-show="active === 1" class="md:!flex bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col min-h-[220px]">
-                  <p class="text-gray-600 text-sm leading-relaxed">
-                      "Terimakasih buat perusahaan forwarding PT. FASTLOG ERA MANDIRI yang telah memberikan pelayanan yang sangat cepat dan prima. Kami sangat puas dan bisa menjadi rekomendasi buat pelaku bisnis ekspor, impor, maupun domestik."
-                  </p>
-
-                  <div class="mt-auto pt-6 flex items-end justify-between">
-                      <div>
-                          <h4 class="font-bold text-[#052B35] text-base">Dita</h4>
-                          <p class="text-xs text-gray-400">Dita Damar Play and Adventure</p>
-                      </div>
-                      <span class="text-5xl font-serif text-[#FF7A3D]/40 font-bold leading-none shrink-0">”</span>
-                  </div>
-              </div>
-
-          </div>
-
           </div>
       </div>
   </section>
@@ -541,53 +563,45 @@
             
             {{-- KOLOM KIRI: Marketing Cards (5/12 Desktop) --}}
             <div class="lg:col-span-5 flex flex-col justify-center space-y-4">
-                
-                {{-- Card 1: Wivin Winarsihi --}}
-                <div class="bg-white border border-gray-100 rounded-2xl p-6 md:p-7 flex items-center justify-between shadow-sm hover:shadow-md transition-all duration-300 group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-slate-100 group-hover:border-[#FF7A3D]/30 transition-all duration-300">
-                            <img src="{{ asset('images/marketing-1.jpg') }}" alt="Wivin Winarsihi" class="w-full h-full object-cover">
+                @forelse($marketings as $marketing)
+                    <div class="bg-white border border-gray-100 rounded-2xl p-6 md:p-7 flex items-center justify-between shadow-sm hover:shadow-md transition-all duration-300 group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-slate-100 group-hover:border-[#FF7A3D]/30 transition-all duration-300 flex items-center justify-center bg-gray-50 text-gray-400 font-bold text-xl">
+                                @if($marketing->foto)
+                                    <img src="{{ asset('storage/' . $marketing->foto) }}" alt="{{ $marketing->nama }}" class="w-full h-full object-cover">
+                                @else
+                                    <span>{{ strtoupper(substr($marketing->nama, 0, 1)) }}</span>
+                                @endif
+                            </div>
+                            <div>
+                                <h3 class="text-base md:text-lg font-bold text-[#052B35] group-hover:text-[#FF7A3D] transition-colors">{{ $marketing->nama }}</h3>
+                                <p class="text-xs text-gray-400 font-medium mb-1.5">{{ $marketing->divisi ?? 'Marketing Executive' }}</p>
+                                
+                                @if($marketing->status === 'online')
+                                    <span class="inline-flex items-center gap-1.5 text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                        Online
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1.5 text-[11px] text-gray-500 font-semibold bg-gray-100 px-2.5 py-0.5 rounded-full">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
+                                        Offline
+                                    </span>
+                                @endif
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="text-base md:text-lg font-bold text-[#052B35] group-hover:text-[#FF7A3D] transition-colors">Wivin Winarsihi</h3>
-                            <p class="text-xs text-gray-400 font-medium mb-1.5">Marketing Executive</p>
-                            <span class="inline-flex items-center gap-1.5 text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                Online
-                            </span>
-                        </div>
+
+                        <a href="https://wa.me/{{ $marketing->no_wa }}" target="_blank" title="Chat Via WhatsApp" class="w-12 h-12 rounded-xl bg-[#052B35] hover:bg-[#FF7A3D] text-white flex items-center justify-center transition-all duration-300 shadow-sm shrink-0">
+                            <svg class="w-6 h-6 fill-current text-green-400 hover:text-white transition-colors" viewBox="0 0 24 24">
+                                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/>
+                            </svg>
+                        </a>
                     </div>
-
-                    <a href="https://wa.me/6281217906856" target="_blank" title="Chat Via WhatsApp" class="w-12 h-12 rounded-xl bg-[#052B35] hover:bg-[#FF7A3D] text-white flex items-center justify-center transition-all duration-300 shadow-sm shrink-0">
-                        <svg class="w-6 h-6 fill-current text-green-400 hover:text-white transition-colors" viewBox="0 0 24 24">
-                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/>
-                        </svg>
-                    </a>
-                </div>
-
-                {{-- Card 2: Very Ekayanto --}}
-                <div class="bg-white border border-gray-100 rounded-2xl p-6 md:p-7 flex items-center justify-between shadow-sm hover:shadow-md transition-all duration-300 group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-slate-100 group-hover:border-[#FF7A3D]/30 transition-all duration-300">
-                            <img src="{{ asset('images/marketing-2.jpg') }}" alt="Very Ekayanto" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <h3 class="text-base md:text-lg font-bold text-[#052B35] group-hover:text-[#FF7A3D] transition-colors">Very Ekayanto</h3>
-                            <p class="text-xs text-gray-400 font-medium mb-1.5">Marketing Executive</p>
-                            <span class="inline-flex items-center gap-1.5 text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                Online
-                            </span>
-                        </div>
+                @empty
+                    <div class="text-center py-6 text-gray-500 bg-white rounded-2xl border border-gray-100">
+                        Belum ada tim marketing yang tersedia.
                     </div>
-
-                    <a href="https://wa.me/62881036793063" target="_blank" title="Chat Via WhatsApp" class="w-12 h-12 rounded-xl bg-[#052B35] hover:bg-[#FF7A3D] text-white flex items-center justify-center transition-all duration-300 shadow-sm shrink-0">
-                        <svg class="w-6 h-6 fill-current text-green-400 hover:text-white transition-colors" viewBox="0 0 24 24">
-                             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/>
-                        </svg>
-                    </a>
-                </div>
-
+                @endforelse
             </div>
 
             {{-- KOLOM KANAN: Map Container (7/12 Desktop) --}}
@@ -621,39 +635,31 @@
         {{-- Grid Card (Bentuk Sama, Ukuran Diperkecil Dikit) --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            {{-- Card 1 --}}
-            <a href="{{ route('berita.detail', 'handling-reefer-container-surabaya-ke-los-angeles') }}" class="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition block">
-                <div class="aspect-[16/8] overflow-hidden">
-                    <img src="{{ asset('images/front-end/news-1.png') }}" alt="Handling Reefer Container"
-                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            @forelse($beritas as $news)
+                <a href="{{ route('berita.detail', $news->slug) }}" class="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition block flex flex-col">
+                    <div class="aspect-[16/8] overflow-hidden shrink-0">
+                        @if($news->gambar)
+                            <img src="{{ str_starts_with($news->gambar, 'uploads/') ? asset($news->gambar) : asset('storage/' . $news->gambar) }}" alt="{{ $news->judul }}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        @else
+                            <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">No Image</div>
+                        @endif
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <p class="text-xs text-gray-400 mb-1.5">{{ \Carbon\Carbon::parse($news->created_at)->translatedFormat('l, d M Y') }}</p>
+                        <h3 class="font-bold text-[#052B35] mb-2 leading-snug group-hover:text-[#FF7A3D] transition text-sm md:text-base">
+                            {{ $news->judul }}
+                        </h3>
+                        <div class="text-xs md:text-sm text-gray-500 line-clamp-2 mt-auto">
+                            {{ strip_tags($news->isi) }}
+                        </div>
+                    </div>
+                </a>
+            @empty
+                <div class="text-center py-6 text-gray-500 w-full col-span-2">
+                    Belum ada berita.
                 </div>
-                <div class="p-5">
-                    <p class="text-xs text-gray-400 mb-1.5">Rabu, 15 Nov 2023</p>
-                    <h3 class="font-bold text-[#052B35] mb-2 leading-snug group-hover:text-[#FF7A3D] transition text-sm md:text-base">
-                        Handling Reefer Container dari Surabaya ke Los Angeles, USA Komoditi Frozen Yellowfin Tuna Ground Meat
-                    </h3>
-                    <p class="text-xs md:text-sm text-gray-500 line-clamp-2">
-                        PT. Fastlog Era Mandiri melakukan handling export container reefer 40 feet ALL-IN dari Surabaya menuju USA - Los Angeles Port.
-                    </p>
-                </div>
-            </a>
-
-            {{-- Card 2 --}}
-            <a href="{{ route('berita.detail', 'penerapan-nle-picu-penurunan-biaya-logistik') }}" class="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition block">
-                <div class="aspect-[16/8] overflow-hidden">
-                    <img src="{{ asset('images/front-end/news-2.png') }}" alt="Penerapan NLE"
-                        class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                </div>
-                <div class="p-5">
-                    <p class="text-xs text-gray-400 mb-1.5">Selasa, 05 Jul 2022</p>
-                    <h3 class="font-bold text-[#052B35] mb-2 leading-snug group-hover:text-[#FF7A3D] transition text-sm md:text-base">
-                        Penerapan NLE Picu Penurunan Biaya Logistik hingga 50 Persen
-                    </h3>
-                    <p class="text-xs md:text-sm text-gray-500 line-clamp-2">
-                        Pemerintah mengoptimalkan pengoperasian Inaportnet di pelabuhan untuk mengurangi biaya logistik nasional.
-                    </p>
-                </div>
-            </a>
+            @endforelse
 
         </div>
 

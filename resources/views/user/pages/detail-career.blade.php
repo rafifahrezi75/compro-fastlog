@@ -1,6 +1,6 @@
 @extends('user.layouts.app')
 
-@section('title', $job['title'] . ' - Karir Fastlog')
+@section('title', $job->nama_karir . ' - Karir Fastlog')
 
 @section('content')
 
@@ -17,22 +17,22 @@
             <span>/</span>
             <a href="{{ route('career') }}" class="hover:text-[#FF7A3D] transition">Karir</a>
             <span>/</span>
-            <span class="text-[#FF7A3D] font-medium">{{ $job['title'] }}</span>
+            <span class="text-[#FF7A3D] font-medium">{{ $job->nama_karir }}</span>
         </nav>
 
         <div class="flex flex-wrap items-center gap-3 mb-3">
             <span class="bg-[#FF7A3D] text-white text-xs font-semibold px-3 py-1 rounded-full">
-                {{ $job['department'] }}
+                {{ $job->departemen }}
             </span>
             <span class="bg-white/10 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                {{ $job['type'] }}
+                {{ $job->tipe_pekerjaan }}
             </span>
         </div>
 
-        <h1 class="text-3xl md:text-5xl font-bold mb-4">{{ $job['title'] }}</h1>
+        <h1 class="text-3xl md:text-5xl font-bold mb-4">{{ $job->nama_karir }}</h1>
         <p class="text-white/80 text-sm md:text-base flex items-center gap-2">
             <svg class="w-4 h-4 text-[#FF7A3D]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            {{ $job['location'] }}
+            {{ $job->kota }}, {{ $job->provinsi }}
         </p>
     </div>
 </section>
@@ -55,38 +55,19 @@
             <div class="lg:col-span-2 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 space-y-8">
                 
                 <div>
-                    <h2 class="text-2xl font-bold text-[#052B35] mb-4">Deskripsi Pekerjaan</h2>
+                    <h2 class="text-2xl font-bold text-[#052B35] mb-4">Deskripsi Pekerjaan & Tanggung Jawab</h2>
                     <p class="text-gray-600 leading-relaxed text-base">
-                        {{ $job['description'] }}
+                        {!! nl2br(e($job->deskripsi)) !!}
                     </p>
                 </div>
 
                 <hr class="border-gray-100">
 
                 <div>
-                    <h2 class="text-xl font-bold text-[#052B35] mb-4">Tanggung Jawab Utama</h2>
-                    <ul class="space-y-3">
-                        @foreach($job['responsibilities'] as $item)
-                        <li class="flex items-start gap-3">
-                            <span class="w-2 h-2 rounded-full bg-[#FF7A3D] mt-2 shrink-0"></span>
-                            <span class="text-gray-600 text-base leading-relaxed">{{ $item }}</span>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <hr class="border-gray-100">
-
-                <div>
                     <h2 class="text-xl font-bold text-[#052B35] mb-4">Kualifikasi & Persyaratan</h2>
-                    <ul class="space-y-3">
-                        @foreach($job['requirements'] as $req)
-                        <li class="flex items-start gap-3">
-                            <span class="w-2 h-2 rounded-full bg-[#052B35] mt-2 shrink-0"></span>
-                            <span class="text-gray-600 text-base leading-relaxed">{{ $req }}</span>
-                        </li>
-                        @endforeach
-                    </ul>
+                    <p class="text-gray-600 leading-relaxed text-base">
+                        {!! nl2br(e($job->kualifikasi)) !!}
+                    </p>
                 </div>
 
             </div>
@@ -95,15 +76,39 @@
             <div class="lg:sticky lg:top-28">
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                     <h3 class="text-xl font-bold text-[#052B35] mb-1">Lamar Posisi Ini</h3>
-                    <p class="text-gray-500 text-xs mb-6">Isi formulir berikut dan unggah CV terbaru Anda.</p>
+                    <p class="text-gray-500 text-xs mb-4">Isi formulir berikut dan unggah CV terbaru Anda.</p>
+
+                    @if(session('success'))
+                        <div class="mb-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-start gap-2.5">
+                            <svg class="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div>
+                                <strong class="font-semibold block text-emerald-900">Lamaran Terkirim!</strong>
+                                <span>{{ session('success') }}</span>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($errors->any())
+                        <div class="mb-4 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs">
+                            <strong class="font-semibold block text-rose-900 mb-1">Gagal mengirim lamaran:</strong>
+                            <ul class="list-disc list-inside space-y-0.5">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <form action="{{ route('career.apply') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                         @csrf
-                        <input type="hidden" name="job_title" value="{{ $job['title'] }}">
+                        <input type="hidden" name="karir_id" value="{{ $job->id }}">
+                        <input type="hidden" name="job_title" value="{{ $job->nama_karir }}">
 
                         <div>
                             <label class="block text-xs font-semibold text-gray-700 mb-1">Nama Lengkap *</label>
-                            <input type="text" name="name" required placeholder="Contoh: Budi Santoso"
+                            <input type="text" name="name" value="{{ old('name') }}" required placeholder="Contoh: Budi Santoso"
                                 class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#FF7A3D] transition">
                         </div>
 
