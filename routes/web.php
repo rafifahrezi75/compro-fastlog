@@ -113,21 +113,38 @@ Route::middleware('guest')->group(function () {
     })->name('services.detail');
 
     Route::get('/karir', function () {
-        $dbCareers = \App\Models\Karir::where('status', 'Aktif')->latest()->get();
-
-        $careers = $dbCareers->map(function ($karir) {
-            return [
-                'id' => $karir->id,
-                'slug' => $karir->slug,
-                'title' => $karir->nama_karir,
-                'department' => $karir->departemen ?? 'Operations',
-                'location' => $karir->lokasi_lengkap,
-                'type' => $karir->tipe_pekerjaan ?? 'Full-Time',
-                'posted_at' => $karir->time_ago,
-                'description' => $karir->deskripsi,
-                'requirements' => $karir->kualifikasi_array,
-            ];
-        });
+        $careers = collect([
+            [
+                'id' => 1,
+                'slug' => 'logistics-operational-staff',
+                'title' => 'Logistics Operational Staff',
+                'department' => 'Operations',
+                'location' => 'Surabaya, Indonesia',
+                'type' => 'Full-Time',
+                'posted_at' => '2 Hari yang lalu',
+                'description' => 'Kami mencari Logistics Operational Staff yang dinamis untuk bergabung dengan tim operasional PT Fastlog Era Mandiri. Anda akan bertanggung jawab untuk memastikan proses distribusi dan logistik berjalan lancar dari titik asal hingga tujuan.',
+                'requirements' => [
+                    'Pendidikan minimal D3/S1 semua jurusan.',
+                    'Pengalaman kerja minimal 1-2 tahun di perusahaan logistik atau ekspedisi.',
+                    'Memahami alur proses distribusi darat dan kepabeanan dasar.',
+                ],
+            ],
+            [
+                'id' => 2,
+                'slug' => 'sales-marketing-executive',
+                'title' => 'Sales & Marketing Executive',
+                'department' => 'Marketing',
+                'location' => 'Jakarta, Indonesia',
+                'type' => 'Full-Time',
+                'posted_at' => '1 Minggu yang lalu',
+                'description' => 'Bergabunglah sebagai Sales & Marketing Executive untuk memperluas jaringan bisnis Fastlog. Anda akan berperan penting dalam mencari klien baru dan menjaga hubungan baik dengan klien yang sudah ada.',
+                'requirements' => [
+                    'Pendidikan minimal S1 semua jurusan.',
+                    'Memiliki pengalaman di bidang sales B2B minimal 2 tahun.',
+                    'Kemampuan komunikasi dan negosiasi yang baik.',
+                ],
+            ]
+        ]);
 
         return view('user.pages.career', compact('careers'));
     })->name('career');
@@ -190,6 +207,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/berita', \App\Http\Controllers\Admin\BeritaController::class)->names('admin.berita');
     Route::resource('admin/gallery', \App\Http\Controllers\Admin\GalleryController::class)->names('admin.gallery');
     Route::resource('admin/karir', \App\Http\Controllers\Admin\KarirController::class)->names('admin.karir');
+    Route::resource('admin/testimoni', \App\Http\Controllers\Admin\TestimoniController::class)->names('admin.testimoni');
 
     // API Wilayah Indonesia (Provinsi, Kota/Kabupaten, Kecamatan, Pencarian)
     Route::prefix('api/wilayah')->group(function () {
