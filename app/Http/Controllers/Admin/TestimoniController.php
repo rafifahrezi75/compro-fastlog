@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Testimoni;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TestimoniController extends Controller
 {
@@ -35,14 +37,19 @@ class TestimoniController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $data = $request->validate([
             'nama' => 'required|string|max:255',
             'perusahaan' => 'nullable|string|max:255',
             'testimoni' => 'required|string',
             'status' => 'required|in:published,draft',
+            'foto' => 'nullable|image|max:2048'
         ]);
 
-        $testimoni = Testimoni::create($validated);
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('testimonis', 'public');
+        }
+
+        $testimoni = Testimoni::create($data);
 
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
@@ -69,14 +76,22 @@ class TestimoniController extends Controller
     {
         $testimoni = Testimoni::findOrFail($id);
 
-        $validated = $request->validate([
+        $data = $request->validate([
             'nama' => 'required|string|max:255',
             'perusahaan' => 'nullable|string|max:255',
             'testimoni' => 'required|string',
             'status' => 'required|in:published,draft',
+            'foto' => 'nullable|image|max:2048'
         ]);
 
-        $testimoni->update($validated);
+        if ($request->hasFile('foto')) {
+            if ($testimoni->foto && Storage::disk('public')->exists($testimoni->foto)) {
+                Storage::disk('public')->delete($testimoni->foto);
+            }
+            $data['foto'] = $request->file('foto')->store('testimonis', 'public');
+        }
+
+        $testimoni->update($data);
 
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
@@ -89,9 +104,11 @@ class TestimoniController extends Controller
         return redirect()->route('admin.testimoni.index')->with('success', 'Testimoni berhasil diperbarui!');
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, Testimoni $testimoni)
     {
-        $testimoni = Testimoni::findOrFail($id);
+        if ($testimoni->foto && Storage::disk('public')->exists($testimoni->foto)) {
+            Storage::disk('public')->delete($testimoni->foto);
+        }
         $testimoni->delete();
 
         if ($request->wantsJson() || $request->ajax()) {

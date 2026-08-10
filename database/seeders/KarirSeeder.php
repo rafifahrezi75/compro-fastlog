@@ -161,12 +161,7 @@ class KarirSeeder extends Seeder
         ];
 
         foreach ($dummyKarirs as $item) {
-            $baseSlug = Str::slug($item['nama_karir'] . '-' . $item['kota']);
-            $slug = $baseSlug;
-            $counter = 1;
-            while (Karir::where('slug', $slug)->exists()) {
-                $slug = "{$baseSlug}-" . $counter++;
-            }
+            $slug = Str::slug($item['nama_karir'] . '-' . $item['kota']);
 
             Karir::updateOrCreate(
                 ['slug' => $slug],

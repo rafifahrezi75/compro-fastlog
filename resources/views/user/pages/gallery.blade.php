@@ -24,36 +24,16 @@
   <section class="py-16 bg-white" x-data="{ openModal: false, activeImage: '', activeTitle: '', activeDesc: '' }">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
-      {{-- Data Gambar --}}
-      @php
-        $galleries = [
-            [
-                'title' => 'Aktivitas Team Building',
-                'desc' =>
-                    'Kegiatan outbond tahunan untuk mempererat keakraban dan kerja sama antar karyawan PT. Fastlog Era Mandiri.',
-                'image' => 'outbond 22.png',
-            ],
-            [
-                'title' => 'Komisaris & Direksi',
-                'desc' => 'Foto bersama jajaran manajemen utama dan pimpinan PT. Fastlog Era Mandiri.',
-                'image' => 'komisaris.png',
-            ],
-            [
-                'title' => 'Tim Fastlog Era Mandiri',
-                'desc' => 'Kebersamaan seluruh anggota tim operasional dan staf kantor Fastlog Era Mandiri.',
-                'image' => 'anniv2.png',
-            ],
-        ];
-      @endphp
 
       {{-- Grid Foto Gallery --}}
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         @foreach ($galleries as $item)
           <div
-            @click="openModal = true; activeImage = '{{ asset('images/front-end/' . $item['image']) }}'; activeTitle = '{{ $item['title'] }}'; activeDesc = '{{ $item['desc'] }}'"
+            data-desc="{{ $item->deskripsi }}"
+            @click="openModal = true; activeImage = '{{ str_starts_with($item->gambar, 'uploads/') ? asset($item->gambar) : asset('storage/' . $item->gambar) }}'; activeTitle = '{{ $item->judul }}'; activeDesc = $el.dataset.desc"
             class="group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300">
 
-            <img src="{{ asset('images/front-end/' . $item['image']) }}" alt="{{ $item['title'] }}"
+            <img src="{{ str_starts_with($item->gambar, 'uploads/') ? asset($item->gambar) : asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}"
               class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
 
             {{-- Overlay Gradient --}}
@@ -64,7 +44,7 @@
             {{-- Teks Preview Singkat + Icon Zoom --}}
             <div class="absolute bottom-0 left-0 p-6 w-full flex items-end justify-between">
               <div>
-                <p class="text-white font-bold text-lg leading-snug">{{ $item['title'] }}</p>
+                <p class="text-white font-bold text-lg leading-snug">{{ $item->judul }}</p>
                 <p class="text-gray-200 text-xs mt-1">Klik untuk memperbesar</p>
               </div>
               <div
@@ -110,7 +90,7 @@
         {{-- Keterangan / Deskripsi Gambar --}}
         <div class="p-6 bg-white">
           <h3 class="text-2xl font-bold text-[#052B35]" x-text="activeTitle"></h3>
-          <p class="text-gray-600 mt-2 text-sm leading-relaxed" x-text="activeDesc"></p>
+          <div class="mt-3 text-gray-600 text-sm leading-relaxed prose prose-sm max-w-none" x-html="activeDesc"></div>
         </div>
       </div>
     </div>

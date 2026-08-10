@@ -14,7 +14,7 @@ class KarirController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Karir::query()->latest();
+        $query = Karir::query()->withCount('pelamars')->latest();
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -51,6 +51,7 @@ class KarirController extends Controller
             'tutup' => Karir::where('status', 'Tutup')->count(),
             'total_kota' => Karir::whereNotNull('kota')->where('kota', '!=', '')->distinct('kota')->count('kota'),
             'total_departemen' => Karir::whereNotNull('departemen')->where('departemen', '!=', '')->distinct('departemen')->count('departemen'),
+            'total_pelamar' => \App\Models\Pelamar::count(),
         ];
 
         // List distinct departments and provinces for filter options

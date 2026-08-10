@@ -22,7 +22,12 @@ Route::middleware('guest')->group(function () {
     // dashboard pages
     // Route Halaman Utama (Index) -> resources/views/user/pages/index.blade.php
     Route::get('/', function () {
-        return view('user.pages.index');
+        $beritas = \App\Models\Berita::where('status', 'published')->latest()->take(2)->get();
+        $galleries = \App\Models\Gallery::latest()->get();
+        $testimonis = \App\Models\Testimoni::where('status', 'published')->latest()->get();
+        $marketings = \App\Models\Marketing::where('status', 'online')->latest()->get();
+
+        return view('user.pages.index', compact('beritas', 'galleries', 'testimonis', 'marketings'));
     })->name('home');
 
     // Route Halaman Tentang Kami -> resources/views/user/pages/about.blade.php
@@ -31,8 +36,9 @@ Route::middleware('guest')->group(function () {
     })->name('about');
 
     Route::get('/gallery', function () {
-        return view('user.pages.gallery'); // Mengarah ke resources/views/user/pages/gallery.blade.php
-    })->name('gallery'); // Beri nama 'gallery' untuk link di navbar
+        $galleries = \App\Models\Gallery::latest()->get();
+        return view('user.pages.gallery', compact('galleries')); 
+    })->name('gallery'); 
 
     Route::get('/destinasi', function () {
         return view('user.pages.destination');
@@ -48,23 +54,16 @@ Route::middleware('guest')->group(function () {
     })->name('destination.detail');
 
     Route::get('/berita', function () {
-        return view('user.pages.berita');
+        $beritas = \App\Models\Berita::where('status', 'published')->latest()->get();
+        return view('user.pages.berita', compact('beritas'));
     })->name('berita');
 
     // 2. Route Detail Berita
     Route::get('/berita/{slug}', function ($slug) {
-        // Simulasi data berdasarkan slug
-        if ($slug === 'handling-reefer-container-surabaya-ke-los-angeles') {
-            $title = 'HANDLING REEFER COUNTAINER DARI SURABAYA KE LOS ANGELES, USA KOMODITY FROZEN YELLOWFIN TUNA GROUND MEAT';
-            $date = 'Wed, 15 Nov 2023';
-            $image = 'news-reefer.jpg';
-        } else {
-            $title = 'Penerapan NLE Picu Penurunan Biaya Logistik hingga 50 Persen';
-            $date = 'Tue, 05 Jul 2022';
-            $image = 'news-nle.jpg';
-        }
-
-        return view('user.pages.detail-berita', compact('title', 'date', 'image', 'slug'));
+        $berita = \App\Models\Berita::where('slug', $slug)->where('status', 'published')->firstOrFail();
+        $latest_beritas = \App\Models\Berita::where('id', '!=', $berita->id)->where('status', 'published')->latest()->take(3)->get();
+        
+        return view('user.pages.detail-berita', compact('berita', 'latest_beritas'));
     })->name('berita.detail');
 
     // Route Halaman Layanan Utama (Daftar Semua Layanan)
@@ -113,74 +112,52 @@ Route::middleware('guest')->group(function () {
     })->name('services.detail');
 
     Route::get('/karir', function () {
-        $careers = collect([
-            [
-                'id' => 1,
-                'slug' => 'logistics-operational-staff',
-                'title' => 'Logistics Operational Staff',
-                'department' => 'Operations',
-                'location' => 'Surabaya, Indonesia',
-                'type' => 'Full-Time',
-                'posted_at' => '2 Hari yang lalu',
-                'description' => 'Kami mencari Logistics Operational Staff yang dinamis untuk bergabung dengan tim operasional PT Fastlog Era Mandiri. Anda akan bertanggung jawab untuk memastikan proses distribusi dan logistik berjalan lancar dari titik asal hingga tujuan.',
-                'requirements' => [
-                    'Pendidikan minimal D3/S1 semua jurusan.',
-                    'Pengalaman kerja minimal 1-2 tahun di perusahaan logistik atau ekspedisi.',
-                    'Memahami alur proses distribusi darat dan kepabeanan dasar.',
-                ],
-            ],
-            [
-                'id' => 2,
-                'slug' => 'sales-marketing-executive',
-                'title' => 'Sales & Marketing Executive',
-                'department' => 'Marketing',
-                'location' => 'Jakarta, Indonesia',
-                'type' => 'Full-Time',
-                'posted_at' => '1 Minggu yang lalu',
-                'description' => 'Bergabunglah sebagai Sales & Marketing Executive untuk memperluas jaringan bisnis Fastlog. Anda akan berperan penting dalam mencari klien baru dan menjaga hubungan baik dengan klien yang sudah ada.',
-                'requirements' => [
-                    'Pendidikan minimal S1 semua jurusan.',
-                    'Memiliki pengalaman di bidang sales B2B minimal 2 tahun.',
-                    'Kemampuan komunikasi dan negosiasi yang baik.',
-                ],
-            ]
-        ]);
+        $careers = \App\Models\Karir::where('status', 'Aktif')->latest()->get();
 
         return view('user.pages.career', compact('careers'));
     })->name('career');
 
-    // Halaman Detail Lowongan Kerja (Frontend Only Dummy)
+    // Halaman Detail Lowongan Kerja
     Route::get('/karir/{slug}', function ($slug) {
-        // Data dummy tunggal untuk simulasi detail
-        $job = [
-            'title' => 'Logistics Operational Staff',
-            'department' => 'Operations',
-            'location' => 'Surabaya, Indonesia',
-            'type' => 'Full-Time',
-            'posted_at' => '2 Hari yang lalu',
-            'slug' => $slug,
-            'description' => 'Kami mencari Logistics Operational Staff yang dinamis untuk bergabung dengan tim operasional PT Fastlog Era Mandiri. Anda akan bertanggung jawab untuk memastikan proses distribusi dan logistik berjalan lancar dari titik asal hingga tujuan.',
-            'responsibilities' => [
-                'Mengkoordinasikan jadwal pengiriman barang dengan driver dan tim terkait.',
-                'Melakukan pemantauan posisi armada dan pengiriman secara real-time.',
-                'Menyiapkan dokumen operasional pengiriman (Surat Jalan, Manifest, dll).',
-                'Menangani kendala operasional di lapangan dengan cepat dan tepat.'
-            ],
-            'requirements' => [
-                'Pendidikan minimal D3/S1 semua jurusan (diutamakan Manajemen Logistik/Transportasi).',
-                'Pengalaman kerja minimal 1-2 tahun di perusahaan logistik atau ekspedisi.',
-                'Memahami alur proses distribusi darat dan kepabeanan dasar.',
-                'Mahir menggunakan Microsoft Office (terutama MS Excel).',
-                'Siap bekerja dalam sistem shift jika diperlukan.'
-            ]
-        ];
+        $job = \App\Models\Karir::where('slug', $slug)->where('status', 'Aktif')->firstOrFail();
 
         return view('user.pages.detail-career', compact('job'));
     })->name('career.detail');
 
-    // Route Dummy untuk Simulasi Tombol Submit Form (Hanya menampilkan flash message sukses)
-    Route::post('/karir/apply', function (Request $request) {
-        return back()->with('success', 'Simulasi: Lamaran Anda berhasil dikirim! (Mode Frontend Only)');
+    // Proses Submit Lamaran Kerja
+    Route::post('/karir/apply', function (\Illuminate\Http\Request $request) {
+        $validated = $request->validate([
+            'karir_id' => 'nullable|exists:karirs,id',
+            'job_title' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:50',
+            'cv' => 'required|file|mimes:pdf|max:5120', // Max 5MB
+            'message' => 'nullable|string|max:2000',
+        ], [
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'email.required' => 'Alamat email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'phone.required' => 'Nomor WhatsApp / telepon wajib diisi.',
+            'cv.required' => 'Berkas CV / Resume (PDF) wajib diunggah.',
+            'cv.mimes' => 'Berkas CV harus dalam format PDF.',
+            'cv.max' => 'Ukuran berkas CV maksimal 5MB.',
+        ]);
+
+        $cvPath = $request->file('cv')->store('pelamars', 'public');
+
+        \App\Models\Pelamar::create([
+            'karir_id' => $validated['karir_id'] ?? null,
+            'posisi' => $validated['job_title'],
+            'nama' => $validated['name'],
+            'email' => $validated['email'],
+            'telepon' => $validated['phone'],
+            'file_cv' => $cvPath,
+            'pesan' => $validated['message'] ?? null,
+            'status' => 'Pending',
+        ]);
+
+        return back()->with('success', 'Lamaran Anda untuk posisi ' . $validated['job_title'] . ' berhasil dikirim! Tim HRD kami akan segera meninjau berkas Anda.');
     })->name('career.apply');
 
     Route::get('/contact', function () {
@@ -203,11 +180,14 @@ Route::middleware('auth')->group(function () {
         return view('admin.pages.master.index');
     })->name('master');
 
-    // Master Berita & Karir Admin Routes
+    // Master Berita, Karir, Pelamar, Testimoni & Marketing Admin Routes
     Route::resource('admin/berita', \App\Http\Controllers\Admin\BeritaController::class)->names('admin.berita');
     Route::resource('admin/gallery', \App\Http\Controllers\Admin\GalleryController::class)->names('admin.gallery');
     Route::resource('admin/karir', \App\Http\Controllers\Admin\KarirController::class)->names('admin.karir');
+    Route::get('admin/pelamar/{id}/cv', [\App\Http\Controllers\Admin\PelamarController::class, 'downloadCv'])->name('admin.pelamar.cv');
+    Route::resource('admin/pelamar', \App\Http\Controllers\Admin\PelamarController::class)->names('admin.pelamar');
     Route::resource('admin/testimoni', \App\Http\Controllers\Admin\TestimoniController::class)->names('admin.testimoni');
+    Route::resource('admin/marketing', \App\Http\Controllers\Admin\MarketingController::class)->names('admin.marketing');
 
     // API Wilayah Indonesia (Provinsi, Kota/Kabupaten, Kecamatan, Pencarian)
     Route::prefix('api/wilayah')->group(function () {

@@ -93,16 +93,16 @@
             <div class="space-y-2">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="bg-[#052B35]/10 text-[#052B35] text-xs font-semibold px-3 py-1 rounded-full">
-                  {{ $job['department'] }}
+                  {{ $job->departemen }}
                 </span>
                 <span
                   class="bg-emerald-50 text-emerald-600 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200">
-                  {{ $job['type'] }}
+                  {{ $job->tipe_pekerjaan }}
                 </span>
               </div>
 
               <h3 class="text-xl font-bold text-[#052B35] hover:text-[#FF7A3D] transition">
-                <a href="{{ route('career.detail', $job['slug']) }}">{{ $job['title'] }}</a>
+                <a href="{{ route('career.detail', $job->slug) }}">{{ $job->nama_karir }}</a>
               </h3>
 
               <div class="flex items-center gap-4 text-xs md:text-sm text-gray-500">
@@ -113,7 +113,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  {{ $job['location'] }}
+                  {{ $job->kota }}, {{ $job->provinsi }}
                 </span>
                 <span>•</span>
                 <span class="flex items-center gap-1">
@@ -121,12 +121,12 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  {{ $job['posted_at'] }}
+                  {{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}
                 </span>
               </div>
             </div>
 
-            <a href="{{ route('career.detail', $job['slug']) }}"
+            <a href="{{ route('career.detail', $job->slug) }}"
               class="bg-[#052B35] hover:bg-[#FF7A3D] text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-200 text-center shrink-0">
               Lihat Detail & Apply
             </a>
