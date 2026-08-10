@@ -435,64 +435,101 @@
                 </h2>
             </div>
 
-            {{-- Slider / Cards Kanan --}}
-            <div class="lg:col-span-7 relative"
-                 x-data="{ active: 0, total: 2 }">
-                
-                {{-- Navigation Buttons --}}
-                <button @click="active = active === 0 ? total - 1 : active - 1" 
-                        class="absolute -left-3 md:-left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-gray-600 hover:text-[#FF7A3D] transition">
+            {{-- Navigation Arrows --}}
+        <div class="flex justify-center gap-4 mt-6">
+            <button @click="prev()"
+                class="w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:text-white hover:bg-[#FF7A3D] transition">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button @click="next()"
+                class="w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:text-white hover:bg-[#FF7A3D] transition">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+
+    </div>
+</section>
+
+       {{-- ============ TESTIMONIAL SECTION ============ --}}
+<section id="testimonial" class="py-16 md:py-20 bg-gray-50 overflow-hidden" x-data="{ active: 0, total: 2 }">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+        {{-- Heading: tampil di atas untuk MOBILE, tersembunyi di desktop --}}
+        <div class="lg:hidden text-center mb-8">
+            <span class="text-[#FF7A3D] font-semibold tracking-widest text-sm">OUR TESTIMONIAL</span>
+            <h2 class="text-2xl font-bold text-[#052B35] mt-2">What They're Talking About Us</h2>
+        </div>
+
+        <div class="flex items-center gap-4 lg:gap-8">
+
+            {{-- Heading versi desktop, di kiri --}}
+            <div class="hidden lg:block shrink-0 w-64">
+                <span class="text-[#FF7A3D] font-semibold tracking-widest text-sm">OUR TESTIMONIAL</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#052B35] mt-3 leading-tight">
+                    What They're Talking About Us
+                </h2>
+            </div>
+
+            {{-- Cards Container --}}
+            <div class="flex-1 relative">
+
+                {{-- Panah Kiri --}}
+                <button @click="active = active === 0 ? total - 1 : active - 1"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:text-white hover:bg-[#FF7A3D] active:text-white active:bg-[#FF7A3D] hover:border-transparent active:border-transparent transition">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
 
-                <button @click="active = active === total - 1 ? 0 : active + 1" 
-                        class="absolute -right-3 md:-right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-gray-600 hover:text-[#FF7A3D] transition">
+                {{-- Panah Kanan --}}
+                <button @click="active = active === total - 1 ? 0 : active + 1"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:text-white hover:bg-[#FF7A3D] active:text-white active:bg-[#FF7A3D] hover:border-transparent active:border-transparent transition">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
 
-                {{-- Slider Container --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{-- Testi 1 --}}
-                    <div x-show="active === 0 || window.innerWidth >= 768" 
-                         x-transition:enter="transition ease-out duration-300"
-                         x-transition:enter-start="opacity-0 translate-x-4"
-                         x-transition:enter-end="opacity-100 translate-x-0"
-                         class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between min-h-[260px] relative">
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            "Memberikan solusi dalam bisnis ekspor dan Import"
-                        </p>
-                        <div class="mt-6 flex items-end justify-between">
-                            <div>
-                                <h4 class="font-bold text-[#052B35] text-base">Eggo Aeroplane</h4>
-                            </div>
-                            <span class="text-5xl font-serif text-[#FF7A3D]/40 font-bold leading-none">”</span>
-                        </div>
-                    </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mx-[22px] items-stretch">
 
-                    {{-- Testi 2 --}}
-                    <div x-show="active === 1 || window.innerWidth >= 768" 
-                         x-transition:enter="transition ease-out duration-300"
-                         x-transition:enter-start="opacity-0 translate-x-4"
-                         x-transition:enter-end="opacity-100 translate-x-0"
-                         class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between min-h-[260px] relative">
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            "Terimakasih buat perusahaan forwarding PT. FASTLOG ERA MANDIRI yang telah memberikan pelayanan yang sangat cepat dan prima. Kami sangat puas dan bisa menjadi rekomendasi buat pelaku bisnis ekspor, Impor, maupun domestik."
-                        </p>
-                        <div class="mt-6 flex items-end justify-between">
-                            <div>
-                                <h4 class="font-bold text-[#052B35] text-base">Dita</h4>
-                                <p class="text-xs text-gray-400">Dita Damar Play and Adventure</p>
-                            </div>
-                            <span class="text-5xl font-serif text-[#FF7A3D]/40 font-bold leading-none">”</span>
-                        </div>
+            {{-- Card 1 --}}
+            <div x-show="active === 0" class="md:!flex bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col min-h-[220px]">
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    "Memberikan solusi dalam bisnis ekspor dan import"
+                </p>
+
+                <div class="mt-auto pt-6 flex items-end justify-between">
+                    <div>
+                        <h4 class="font-bold text-[#052B35] text-base">Eggo Aeroplane</h4>
+                        <p class="text-xs text-gray-400 invisible">placeholder</p>
                     </div>
+                    <span class="text-5xl font-serif text-[#FF7A3D]/40 font-bold leading-none shrink-0">”</span>
                 </div>
-
             </div>
+
+            {{-- Card 2 --}}
+            <div x-show="active === 1" class="md:!flex bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col min-h-[220px]">
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    "Terimakasih buat perusahaan forwarding PT. FASTLOG ERA MANDIRI yang telah memberikan pelayanan yang sangat cepat dan prima. Kami sangat puas dan bisa menjadi rekomendasi buat pelaku bisnis ekspor, impor, maupun domestik."
+                </p>
+
+                <div class="mt-auto pt-6 flex items-end justify-between">
+                    <div>
+                        <h4 class="font-bold text-[#052B35] text-base">Dita</h4>
+                        <p class="text-xs text-gray-400">Dita Damar Play and Adventure</p>
+                    </div>
+                    <span class="text-5xl font-serif text-[#FF7A3D]/40 font-bold leading-none shrink-0">”</span>
+                </div>
+            </div>
+
+        </div>
+
+        </div>
+    </div>
+</section>
 
         </div>
     </div>
