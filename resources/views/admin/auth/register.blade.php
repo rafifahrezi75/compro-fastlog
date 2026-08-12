@@ -1,5 +1,6 @@
 @extends('admin.layouts.fullscreen-layout')
 
+@section('page_title', 'Sign Up')
 @section('content')
     <div class="relative z-1 bg-white p-6 sm:p-0 dark:bg-gray-900">
         <div class="flex h-screen w-full flex-col justify-center sm:p-0 lg:flex-row dark:bg-gray-900">
