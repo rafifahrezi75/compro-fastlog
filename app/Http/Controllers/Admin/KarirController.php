@@ -245,4 +245,61 @@ class KarirController extends Controller
 
         return redirect()->route('admin.karir.index')->with('success', "Data karir '{$namaKarir}' berhasil dihapus!");
     }
+
+    /**
+     * Display frontend career page.
+     */
+    public function frontendIndex()
+    {
+        $careers = Karir::where('status', 'Aktif')->latest()->get();
+        return view('user.pages.career', compact('careers'));
+    }
+
+    /**
+     * Display frontend career detail page.
+     */
+    public function frontendDetail($slug)
+    {
+        $job = Karir::where('slug', $slug)->where('status', 'Aktif')->firstOrFail();
+        return view('user.pages.detail-career', compact('job'));
+    }
+
+    /**
+     * Apply for a career.
+     */
+    public function apply(\Illuminate\Http\Request $request)
+    {
+        $validated = $request->validate([
+            'karir_id' => 'nullable|exists:karirs,id',
+            'job_title' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:50',
+            'cv' => 'required|file|mimes:pdf|max:5120', // Max 5MB
+            'message' => 'nullable|string|max:2000',
+        ], [
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'email.required' => 'Alamat email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'phone.required' => 'Nomor WhatsApp / telepon wajib diisi.',
+            'cv.required' => 'Berkas CV / Resume (PDF) wajib diunggah.',
+            'cv.mimes' => 'Berkas CV harus dalam format PDF.',
+            'cv.max' => 'Ukuran berkas CV maksimal 5MB.',
+        ]);
+
+        $cvPath = $request->file('cv')->store('pelamars', 'public');
+
+        \App\Models\Pelamar::create([
+            'karir_id' => $validated['karir_id'] ?? null,
+            'posisi' => $validated['job_title'],
+            'nama' => $validated['name'],
+            'email' => $validated['email'],
+            'telepon' => $validated['phone'],
+            'file_cv' => $cvPath,
+            'pesan' => $validated['message'] ?? null,
+            'status' => 'Pending',
+        ]);
+
+        return back()->with('success', 'Lamaran Anda untuk posisi ' . $validated['job_title'] . ' berhasil dikirim! Tim HRD kami akan segera meninjau berkas Anda.');
+    }
 }

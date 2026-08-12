@@ -196,4 +196,13 @@ class GalleryController extends Controller
 
         return redirect()->route('admin.gallery.index')->with('success', 'Gallery berhasil dihapus!');
     }
+
+    /**
+     * Display frontend gallery page.
+     */
+    public function frontendIndex()
+    {
+        $galleries = Gallery::latest()->get();
+        return view('user.pages.gallery', compact('galleries')); 
+    }
 }
