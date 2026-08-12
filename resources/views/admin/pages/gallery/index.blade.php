@@ -1,5 +1,6 @@
 @extends('admin.layouts.app')
 
+@section('page_title', 'Gallery')
 @section('content')
   <div x-data="galleryManager()" x-init="init()" class="space-y-6">
     <!-- Breadcrumb & Header Section -->
