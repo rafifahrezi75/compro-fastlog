@@ -12,11 +12,11 @@
     <div class="absolute inset-0 bg-[#052B35]/80"></div>
 
     <div class="relative z-10 text-center text-white px-4 mt-8">
-        <h1 class="text-3xl md:text-5xl font-bold mb-3">Layanan Logistik Terpadu</h1>
+        <h1 class="text-3xl md:text-5xl font-bold mb-3">{{ __('Integrated Logistics Services') }}</h1>
         <div class="flex items-center justify-center gap-2 text-sm md:text-base text-gray-200">
-            <a href="{{ route('home') }}" class="hover:text-[#FF7A3D] transition">Home</a>
+            <a href="{{ route('home') }}" class="hover:text-[#FF7A3D] transition">{{ __('Home') }}</a>
             <span>/</span>
-            <span class="text-white font-medium">Layanan</span>
+            <span class="text-white font-medium">{{ __('Services') }}</span>
         </div>
     </div>
 </section>

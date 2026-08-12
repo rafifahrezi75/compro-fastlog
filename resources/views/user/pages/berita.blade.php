@@ -10,11 +10,11 @@
     <div class="absolute inset-0 bg-[#052B35]/70"></div>
 
     <div class="relative z-10 text-center text-white px-4 mt-8">
-        <h1 class="text-3xl md:text-5xl font-bold mb-3">Berita</h1>
+        <h1 class="text-3xl md:text-5xl font-bold mb-3">{{ __('News') }}</h1>
         <div class="flex items-center justify-center gap-2 text-sm md:text-base text-gray-200">
-            <a href="{{ route('home') }}" class="hover:text-[#FF7A3D] transition">Home</a>
+            <a href="{{ route('home') }}" class="hover:text-[#FF7A3D] transition">{{ __('Home') }}</a>
             <span>/</span>
-            <span class="text-white font-medium">Berita</span>
+            <span class="text-white font-medium">{{ __('News') }}</span>
         </div>
     </div>
 </section>
@@ -50,7 +50,7 @@
 
                 </a>
             @empty
-                <div class="text-center py-10 text-gray-500 w-full">Belum ada berita.</div>
+                <div class="text-center py-10 text-gray-500 w-full">{{ __('No news yet.') }}</div>
             @endforelse
         </div>
     </div>

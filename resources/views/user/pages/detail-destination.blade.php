@@ -16,7 +16,7 @@
             <span>/</span>
             <a href="{{ route('destination') }}" class="hover:text-[#FF7A3D] transition">Destinasi</a>
             <span>/</span>
-            {{-- DINAMIS: Menyesuaikan Kota/Negara --}}
+            {{-- DINAMIS: Menyesuaikan {{ __('City') }}/{{ __('Country') }} --}}
             <span class="text-white font-medium">{{ $countryName }}</span>
         </div>
     </div>
