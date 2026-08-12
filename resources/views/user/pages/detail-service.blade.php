@@ -44,7 +44,7 @@
                          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80';">
                 </div>
 
-                {{-- Deskripsi Layanan --}}
+                {{-- {{ __('Description') }} Layanan --}}
                 <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                     <h2 class="text-2xl font-bold text-[#052B35] mb-4">{{ __('Service Description') }}</h2>
                     <p class="text-gray-600 leading-relaxed text-base mb-6">

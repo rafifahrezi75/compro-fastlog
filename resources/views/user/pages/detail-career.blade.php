@@ -55,7 +55,7 @@
             <div class="lg:col-span-2 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 space-y-8">
                 
                 <div>
-                    <h2 class="text-2xl font-bold text-[#052B35] mb-4">Deskripsi Pekerjaan & Tanggung Jawab</h2>
+                    <h2 class="text-2xl font-bold text-[#052B35] mb-4">{{ __('Description') }} Pekerjaan & {{ __('Responsibilities') }}</h2>
                     <p class="text-gray-600 leading-relaxed text-base">
                         {!! nl2br(e($job->deskripsi)) !!}
                     </p>
@@ -64,7 +64,7 @@
                 <hr class="border-gray-100">
 
                 <div>
-                    <h2 class="text-xl font-bold text-[#052B35] mb-4">Kualifikasi & Persyaratan</h2>
+                    <h2 class="text-xl font-bold text-[#052B35] mb-4">Kualifikasi & {{ __('Requirements') }}</h2>
                     <p class="text-gray-600 leading-relaxed text-base">
                         {!! nl2br(e($job->kualifikasi)) !!}
                     </p>
@@ -75,7 +75,7 @@
             {{-- KANAN: FORM APPLY LAMARAN --}}
             <div class="lg:sticky lg:top-28">
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                    <h3 class="text-xl font-bold text-[#052B35] mb-1">Lamar Posisi Ini</h3>
+                    <h3 class="text-xl font-bold text-[#052B35] mb-1">{{ __('Apply for this Position') }}</h3>
                     <p class="text-gray-500 text-xs mb-4">Isi formulir berikut dan unggah CV terbaru Anda.</p>
 
                     @if(session('success'))

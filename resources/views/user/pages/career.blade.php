@@ -14,11 +14,11 @@
     <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
       <span
         class="bg-[#FF7A3D]/20 text-[#FF7A3D] border border-[#FF7A3D]/30 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-4 inline-block">
-        Bergabung Bersama Kami
+        {{ __('Join Our Team') }}
       </span>
-      <h1 class="text-4xl md:text-5xl font-bold mb-4">Membangun Masa Depan Logistik</h1>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ __('Building the Future of Logistics') }}</h1>
       <p class="text-white/80 max-w-2xl mx-auto text-base md:text-lg">
-        Temukan peluang karir terbaik dan berkembanglah bersama tim profesional PT Fastlog Era Mandiri.
+        {{ __('Find the best career opportunities and grow with the PT Fastlog Era Mandiri professional team.') }}
       </p>
     </div>
   </section>
@@ -34,9 +34,8 @@
             </svg>
           </div>
           <div>
-            <h3 class="font-bold text-[#052B35] text-lg mb-1">Pengembangan Karir</h3>
-            <p class="text-gray-600 text-sm">Peluang kenaikan jenjang karir yang terbuka luas berbasis kinerja dan
-              kompetensi.</p>
+            <h3 class="font-bold text-[#052B35] text-lg mb-1">{{ __('Career Development') }}</h3>
+            <p class="text-gray-600 text-sm">{{ __('Career development opportunities are wide open based on performance and competence.') }}</p>
           </div>
         </div>
 
@@ -48,8 +47,8 @@
             </svg>
           </div>
           <div>
-            <h3 class="font-bold text-[#052B35] text-lg mb-1">Lingkungan Kolaboratif</h3>
-            <p class="text-gray-600 text-sm">Budaya kerja yang saling mendukung, profesional, dan mengedepankan kerja tim.
+            <h3 class="font-bold text-[#052B35] text-lg mb-1">{{ __('Collaborative Environment') }}</h3>
+            <p class="text-gray-600 text-sm">{{ __('A work culture that is mutually supportive, professional, and promotes teamwork.') }}
             </p>
           </div>
         </div>
@@ -62,9 +61,8 @@
             </svg>
           </div>
           <div>
-            <h3 class="font-bold text-[#052B35] text-lg mb-1">Benefit Kompetitif</h3>
-            <p class="text-gray-600 text-sm">Paket remunerasi yang menarik, asuransi kesehatan, dan insentif berbasis
-              performa.</p>
+            <h3 class="font-bold text-[#052B35] text-lg mb-1">{{ __('Competitive Benefit') }}</h3>
+            <p class="text-gray-600 text-sm">{{ __('Attractive remuneration packages, health insurance, and performance-based incentives.') }}</p>
           </div>
         </div>
       </div>
@@ -77,11 +75,11 @@
 
       <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <div>
-          <h2 class="text-2xl font-bold text-[#052B35]">Lowongan Kerja Tersedia</h2>
-          <p class="text-gray-500 text-sm mt-1">Pilih posisi yang sesuai dengan keahlian dan passion Anda</p>
+          <h2 class="text-2xl font-bold text-[#052B35]">{{ __('Available Job Vacancies') }}</h2>
+          <p class="text-gray-500 text-sm mt-1">{{ __('Choose a position that matches your skills and passion') }}</p>
         </div>
         <span class="text-sm bg-white px-4 py-2 rounded-xl shadow-sm border font-semibold text-[#052B35] w-fit">
-          {{ count($careers) }} Posisi Dibuka
+          {{ count($careers) }} {{ __('Positions Open') }}
         </span>
       </div>
 
@@ -128,7 +126,7 @@
 
             <a href="{{ route('career.detail', $job->slug) }}"
               class="bg-[#052B35] hover:bg-[#FF7A3D] text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-200 text-center shrink-0">
-              Lihat Detail & Apply
+              {{ __('View Detail & Apply') }}
             </a>
           </div>
         @endforeach

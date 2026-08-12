@@ -104,31 +104,31 @@
                 {{-- DESKTOP MENU + BUTTON --}}
                 <div class="flex items-center gap-8">
                     <nav class="flex items-center gap-7">
-                        <a href="{{ route('home') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('home') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Home</a>
-                        <a href="{{ route('about') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('about*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Tentang Kami</a>
+                        <a href="{{ route('home') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('home') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Home') }}</a>
+                        <a href="{{ route('about') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('about*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('About Us') }}</a>
                         <div class="relative group">
                             <a href="{{ route('services') }}" class="text-[15px] font-medium transition duration-200 flex items-center gap-1 {{ request()->routeIs('services*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-                                Layanan
+                                {{ __('Services') }}
                                 <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                                 </svg>
                             </a>
                             <div class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-50">
                                 <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
-                                    <a href="{{ route('services.detail', 'custom-clearance') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Custom Clearance</a>
-                                    <a href="{{ route('services.detail', 'reefer-logistic') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Reefer Logistic</a>
-                                    <a href="{{ route('services.detail', 'freight-forwarding') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Freight Forwarding</a>
-                                    <a href="{{ route('services.detail', 'inland-transport') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">Inland Transport</a>
+                                    <a href="{{ route('services.detail', 'custom-clearance') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Custom Clearance') }}</a>
+                                    <a href="{{ route('services.detail', 'reefer-logistic') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Export Import') }}</a>
+                                    <a href="{{ route('services.detail', 'freight-forwarding') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Forwarding') }}</a>
+                                    <a href="{{ route('services.detail', 'inland-transport') }}" class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Expedition') }}</a>
                                 </div>
                             </div>
                         </div>
-                        <a href="{{ route('destination') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('destination*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Destinasi</a>
-                        <a href="{{ route('gallery') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('gallery*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Galeri</a>
-                        <a href="{{ route('berita') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('berita*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Berita</a>
-                        <a href="{{ route('career') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('career*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">Karir</a>
+                        <a href="{{ route('destination') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('destination*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Destination') }}</a>
+                        <a href="{{ route('gallery') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('gallery*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Gallery') }}</a>
+                        <a href="{{ route('berita') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('berita*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('News') }}</a>
+                        <a href="{{ route('career') }}" class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('career*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Career') }}</a>
                     </nav>
 
-                    <a href="{{ route('contact') }}" class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-300 shadow-md whitespace-nowrap">Contact Us</a>
+                    <a href="{{ route('contact') }}" class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-300 shadow-md whitespace-nowrap">{{ __('Contact Us') }}</a>
                 </div>
 
             </div>
@@ -161,19 +161,19 @@
 
             {{-- Nav Links --}}
             <nav class="flex flex-col space-y-4 font-semibold uppercase tracking-wider text-sm">
-                <a href="{{ route('home') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">HOME</a>
-                <a href="{{ route('about') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">TENTANG KAMI</a>
-                <a href="{{ route('services') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">LAYANAN</a>
-                <a href="{{ route('destination') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">DESTINASI</a>
-                <a href="{{ route('gallery') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">GALERI</a>
-                <a href="{{ route('berita') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">BERITA</a>
-                <a href="{{ route('career') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">KARIR</a>
+                <a href="{{ route('home') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ strtoupper(__('Home')) }}</a>
+                <a href="{{ route('about') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ strtoupper(__('About Us')) }}</a>
+                <a href="{{ route('services') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ strtoupper(__('Services')) }}</a>
+                <a href="{{ route('destination') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ strtoupper(__('Destination')) }}</a>
+                <a href="{{ route('gallery') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ strtoupper(__('Gallery')) }}</a>
+                <a href="{{ route('berita') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ strtoupper(__('News')) }}</a>
+                <a href="{{ route('career') }}" class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ strtoupper(__('Career')) }}</a>
             </nav>
 
             {{-- Button Contact Us --}}
             <div class="mt-8">
                 <a href="{{ route('contact') }}" class="block w-full text-center bg-[#FF7A3D] hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition uppercase text-xs tracking-wider shadow">
-                    CONTACT US
+                    {{ strtoupper(__('Contact Us')) }}
                 </a>
             </div>
         </div>
@@ -213,14 +213,14 @@
     {{-- 3. MOBILE MENU --}}
     <div id="mobile-menu" class="hidden lg:hidden bg-[#052B35] border-t border-white/10">
       <div class="flex flex-col p-6 space-y-5">
-        <a href="{{ route('home') }}" class="text-white hover:text-[#FF7A3D]">Home</a>
-        <a href="{{ route('about') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Tentang Kami</a>
-        <a href="{{ route('services') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Layanan</a>
-        <a href="{{ route('destination') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Destinasi</a>
-        <a href="{{ route('gallery') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Galeri</a>
-        <a href="{{ route('berita') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Berita</a>
-        <a href="{{ route('career') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Karir</a>
-        <a href="{{ route('contact') }}" class="bg-[#FF7A3D] text-center py-3 rounded-xl text-white font-semibold">Contact Us</a>
+        <a href="{{ route('home') }}" class="text-white hover:text-[#FF7A3D]">{{ __('Home') }}</a>
+        <a href="{{ route('about') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('About Us') }}</a>
+        <a href="{{ route('services') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('Services') }}</a>
+        <a href="{{ route('destination') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('Destination') }}</a>
+        <a href="{{ route('gallery') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('Gallery') }}</a>
+        <a href="{{ route('berita') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('News') }}</a>
+        <a href="{{ route('career') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('Career') }}</a>
+        <a href="{{ route('contact') }}" class="bg-[#FF7A3D] text-center py-3 rounded-xl text-white font-semibold">{{ __('Contact Us') }}</a>
       </div>
     </div>
 
@@ -289,23 +289,23 @@
 
         {{-- Support Links --}}
         <div>
-          <h4 class="text-white font-semibold mb-4">Support</h4>
+          <h4 class="text-white font-semibold mb-4">{{ __('Support') }}</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="{{ route('about') }}" class="text-white/60 hover:text-[#FF7A3D] transition">About Us</a></li>
-            <li><a href="{{ route('contact') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Contact</a></li>
-            <li><a href="{{ route('gallery') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Gallery</a></li>
-            <li><a href="{{ route('berita') }}" class="text-white/60 hover:text-[#FF7A3D] transition">News</a></li>
+            <li><a href="{{ route('about') }}" class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('About Us') }}</a></li>
+            <li><a href="{{ route('contact') }}" class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Contact') }}</a></li>
+            <li><a href="{{ route('gallery') }}" class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Gallery') }}</a></li>
+            <li><a href="{{ route('berita') }}" class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('News') }}</a></li>
           </ul>
         </div>
 
         {{-- Services Links --}}
         <div>
-          <h4 class="text-white font-semibold mb-4">Services</h4>
+          <h4 class="text-white font-semibold mb-4">{{ __('Services') }}</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="{{ route('services.detail', 'custom-clearance') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Custom Clearance</a></li>
-            <li><a href="{{ route('services.detail', 'freight-forwarding') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Forwarding</a></li>
-            <li><a href="{{ route('services.detail', 'inland-transport') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Ekspedisi</a></li>
-            <li><a href="{{ route('services.detail', 'reefer-logistic') }}" class="text-white/60 hover:text-[#FF7A3D] transition">Ekspor Impor</a></li>
+            <li><a href="{{ route('services.detail', 'custom-clearance') }}" class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Custom Clearance') }}</a></li>
+            <li><a href="{{ route('services.detail', 'freight-forwarding') }}" class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Forwarding') }}</a></li>
+            <li><a href="{{ route('services.detail', 'inland-transport') }}" class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Expedition') }}</a></li>
+            <li><a href="{{ route('services.detail', 'reefer-logistic') }}" class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Export Import') }}</a></li>
           </ul>
         </div>
 
