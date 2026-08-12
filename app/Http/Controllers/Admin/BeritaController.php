@@ -210,4 +210,24 @@ class BeritaController extends Controller
 
         return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus!');
     }
+
+    /**
+     * Display frontend berita page.
+     */
+    public function frontendIndex()
+    {
+        $beritas = Berita::where('status', 'published')->latest()->get();
+        return view('user.pages.berita', compact('beritas'));
+    }
+
+    /**
+     * Display frontend berita detail page.
+     */
+    public function frontendDetail($slug)
+    {
+        $berita = Berita::where('slug', $slug)->where('status', 'published')->firstOrFail();
+        $latest_beritas = Berita::where('id', '!=', $berita->id)->where('status', 'published')->latest()->take(3)->get();
+        
+        return view('user.pages.detail-berita', compact('berita', 'latest_beritas'));
+    }
 }
