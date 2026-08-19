@@ -35,8 +35,8 @@
     "Support": "Dukungan",
     "Expedition": "Ekspedisi",
     "Export Import": "Ekspor Impor",
-    "Forwarding": "Forwarding",
-    "Custom Clearance": "Custom Clearance",
+    "Forwarding": "Ekspedisi/ Forwading",
+    "Custom Clearance": "Pengurusan Bea Cukai",
     "Building the Future of Logistics": "Membangun Masa Depan Logistik",
     "Safe & Reliable Cargo Solutions": "Solusi Kargo yang Aman & Terpercaya",
     "index_subtitle": "Perusahaan Ekspedisi dan logistik yang selalu mengutamakan Kepuasan dan Loyalitas Kepada Pelanggan",
@@ -62,10 +62,10 @@
     "Services We Offer": "Layanan yang Kami Tawarkan",
     "index_services_desc": "PT. Fastlog Era Mandiri mengerti setiap kebutuhan anda dengan menyediakan berbagai macam pelayanan yang akan memudahkan anda mengirim barang ke berbagai belahan dunia dengan mudah.",
     "index_custom_desc": "Kami memiliki ahli yang memahami betul seluruh peraturan dan prosedur kepabeanan baik untuk ekspor dan impor.",
-    "Reefer Logistic": "Reefer Logistic",
+    "Reefer Logistic": "Logistik Pendingin",
     "index_reefer_desc": "Mencakup seluruh pengiriman logistik berpendingin termasuk restuffing dalam keadaan beku.",
     "index_forwarding_desc": "Menyediakan layanan sea freight, air freight, FCL, LCL, ex-work, pengiriman ulang antar pulau.",
-    "Inland Transport": "Inland Transport",
+    "Inland Transport": "Transportasi Darat",
     "index_inland_desc": "Pengiriman dalam dan luar pulau melalui berbagai jalur pengiriman menggunakan kapal, truk dan kereta api.",
     "Latest Gallery": "Gallery Terbaru",
     "OUR TESTIMONIAL": "TESTIMONI KAMI",
@@ -121,5 +121,5 @@
     "Province": "Provinsi",
     "Description": "Deskripsi",
     "Click to enlarge": "Klik untuk memperbesar"
-    
+
 }
