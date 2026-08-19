@@ -98,6 +98,13 @@
                                         Up</a>
                                 </p>
                             </div>
+                            <div class="mt-2">
+                                <p class="text-center text-sm font-normal text-gray-700 sm:text-start dark:text-gray-400">
+                                    Back to
+                                    <a href="{{ route('home') }}"
+                                        class="text-brand-500 hover:text-brand-600 dark:text-brand-400 font-semibold">Home</a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
