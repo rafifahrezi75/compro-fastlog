@@ -222,7 +222,7 @@
         <div x-show="isAddModalOpen" x-cloak
             class="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
             @keydown.escape.window="closeAddModal()">
-            <div @click.outside="closeAddModal()" x-show="isAddModalOpen"
+            <div x-show="isAddModalOpen"
                 x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
                 x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
                 x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
@@ -317,7 +317,7 @@
         <div x-show="isEditModalOpen" x-cloak
             class="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
             @keydown.escape.window="closeEditModal()">
-            <div @click.outside="closeEditModal()" x-show="isEditModalOpen"
+            <div x-show="isEditModalOpen"
                 x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
                 x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
                 x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
@@ -413,7 +413,7 @@
         <div x-show="isDeleteModalOpen" x-cloak
             class="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm"
             @keydown.escape.window="closeDeleteModal()">
-            <div @click.outside="closeDeleteModal()" x-show="isDeleteModalOpen"
+            <div x-show="isDeleteModalOpen"
                 x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
                 x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
                 x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
