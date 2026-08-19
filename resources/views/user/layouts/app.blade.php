@@ -14,7 +14,9 @@
     @php
         $logoSrc = asset('images/front-end/logo2.png');
         if (isset($infos) && $infos->logo) {
-            $logoSrc = str_starts_with($infos->logo, 'images/') ? asset($infos->logo) : asset('storage/' . $infos->logo);
+            $logoSrc = str_starts_with($infos->logo, 'images/')
+                ? asset($infos->logo)
+                : asset('storage/' . $infos->logo);
         }
     @endphp
     <link rel="icon" type="image/png" href="{{ $logoSrc }}?v=1">
@@ -94,25 +96,26 @@
                         <span>{{ $infos?->kota ?? 'Surabaya' }}, Indonesia</span>
                     </div>
 
-                    @if($infos?->email)
-                    <a href="mailto:{{ $infos->email }}"
-                        class="flex items-center space-x-1.5 hover:text-[#FF7A3D] transition">
-                        <svg class="w-4 h-4 text-white shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                        </svg>
-                        <span>{{ $infos->email }}</span>
-                    </a>
+                    @if ($infos?->email)
+                        <a href="mailto:{{ $infos->email }}"
+                            class="flex items-center space-x-1.5 hover:text-[#FF7A3D] transition">
+                            <svg class="w-4 h-4 text-white shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                            </svg>
+                            <span>{{ $infos->email }}</span>
+                        </a>
                     @endif
 
-                    @if($infos?->notelp)
-                    <a href="tel:{{ $infos->notelp }}" class="flex items-center space-x-1.5 hover:text-[#FF7A3D] transition">
-                        <svg class="w-4 h-4 text-white shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                        </svg>
-                        <span>{{ $infos->notelp }}</span>
-                    </a>
+                    @if ($infos?->notelp)
+                        <a href="tel:{{ $infos->notelp }}"
+                            class="flex items-center space-x-1.5 hover:text-[#FF7A3D] transition">
+                            <svg class="w-4 h-4 text-white shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                            </svg>
+                            <span>{{ $infos->notelp }}</span>
+                        </a>
                     @endif
                 </div>
 
@@ -120,143 +123,144 @@
         </div>
 
         {{-- 2. MAIN NAVBAR (Hanya Tampil di Desktop 'hidden lg:block') --}}
-<div id="nav-body" class="bg-transparent text-white transition-all duration-300 hidden lg:block">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <div class="flex items-center justify-between h-20 sm:h-24">
+        <div id="nav-body" class="bg-transparent text-white transition-all duration-300 hidden lg:block">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="flex items-center justify-between h-20 sm:h-24">
 
-            {{-- LOGO DESKTOP --}}
-            <a href="{{ route('home') }}" class="flex items-center shrink-0">
-                <img src="{{ $logoSrc }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}"
-                    class="h-10 sm:h-14 w-auto object-contain">
-            </a>
+                    {{-- LOGO DESKTOP --}}
+                    <a href="{{ route('home') }}" class="flex items-center shrink-0">
+                        <img src="{{ $logoSrc }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}"
+                            class="h-10 sm:h-14 w-auto object-contain">
+                    </a>
 
-            {{-- DESKTOP MENU + BUTTON --}}
-            <div class="flex items-center gap-8">
-                <nav class="flex items-center gap-7">
-                    <a href="{{ route('home') }}"
-                        class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('home') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Home') }}</a>
-                    <a href="{{ route('about') }}"
-                        class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('about*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('About Us') }}</a>
-                    <div class="relative group">
-                        <a href="{{ route('services') }}"
-                            class="text-[15px] font-medium transition duration-200 flex items-center gap-1 {{ request()->routeIs('services*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
-                            {{ __('Services') }}
-                            <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </a>
-                        <div
-                            class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-50">
-                            <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
-                                <a href="{{ route('services.detail', 'custom-clearance') }}"
-                                    class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Custom Clearance') }}</a>
-                                <a href="{{ route('services.detail', 'reefer-logistic') }}"
-                                    class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Reefer Logistic') }}</a>
-                                <a href="{{ route('services.detail', 'freight-forwarding') }}"
-                                    class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Forwarding') }}</a>
-                                <a href="{{ route('services.detail', 'inland-transport') }}"
-                                    class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Inland Transport') }}</a>
+                    {{-- DESKTOP MENU + BUTTON --}}
+                    <div class="flex items-center gap-8">
+                        <nav class="flex items-center gap-7">
+                            <a href="{{ route('home') }}"
+                                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('home') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Home') }}</a>
+                            <a href="{{ route('about') }}"
+                                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('about*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('About Us') }}</a>
+                            <div class="relative group">
+                                <a href="{{ route('services') }}"
+                                    class="text-[15px] font-medium transition duration-200 flex items-center gap-1 {{ request()->routeIs('services*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">
+                                    {{ __('Services') }}
+                                    <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </a>
+                                <div
+                                    class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-50">
+                                    <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
+                                        <a href="{{ route('services.detail', 'custom-clearance') }}"
+                                            class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Custom Clearance') }}</a>
+                                        <a href="{{ route('services.detail', 'reefer-logistic') }}"
+                                            class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Reefer Logistic') }}</a>
+                                        <a href="{{ route('services.detail', 'freight-forwarding') }}"
+                                            class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Freight Forwarding') }}</a>
+                                        <a href="{{ route('services.detail', 'inland-transport') }}"
+                                            class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Inland Transport') }}</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <a href="{{ route('destination') }}"
+                                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('destination*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Destination') }}</a>
+                            <a href="{{ route('gallery') }}"
+                                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('gallery*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Gallery') }}</a>
+                            <a href="{{ route('berita') }}"
+                                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('berita*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('News') }}</a>
+                            <a href="{{ route('career') }}"
+                                class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('career*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Career') }}</a>
+                        </nav>
+
+                        <a href="{{ route('contact') }}"
+                            class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-300 shadow-md whitespace-nowrap">{{ __('Contact Us') }}</a>
                     </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        {{-- 3. MOBILE OFF-CANVAS DRAWER (GAMBAR 1 DESIGN) --}}
+        <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
+            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-x-0"
+            x-transition:leave-end="-translate-x-full"
+            class="fixed inset-y-0 left-0 w-[80%] max-w-xs bg-[#052B35] z-50 overflow-y-auto flex flex-col justify-between shadow-2xl lg:hidden"
+            x-cloak>
+
+            <div class="p-6">
+                {{-- Header Menu Drawer --}}
+                <div class="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
+                    <img src="{{ $logoSrc }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}"
+                        class="h-10 w-auto">
+                    <button @click="mobileMenuOpen = false" class="text-white hover:text-[#FF7A3D]">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                {{-- Nav Links --}}
+                <nav class="flex flex-col space-y-4 font-semibold uppercase tracking-wider text-sm">
+                    <a href="{{ route('home') }}"
+                        class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('Home') }}</a>
+                    <a href="{{ route('about') }}"
+                        class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('About Us') }}</a>
+                    <a href="{{ route('services') }}"
+                        class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('Services') }}</a>
                     <a href="{{ route('destination') }}"
-                        class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('destination*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Destination') }}</a>
+                        class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('Destination') }}</a>
                     <a href="{{ route('gallery') }}"
-                        class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('gallery*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Gallery') }}</a>
+                        class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('Gallery') }}</a>
                     <a href="{{ route('berita') }}"
-                        class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('berita*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('News') }}</a>
+                        class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('News') }}</a>
                     <a href="{{ route('career') }}"
-                        class="text-[15px] font-medium transition duration-200 {{ request()->routeIs('career*') ? 'text-[#FF7A3D]' : 'text-white hover:text-[#FF7A3D]' }}">{{ __('Career') }}</a>
+                        class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('Career') }}</a>
                 </nav>
 
-                <a href="{{ route('contact') }}"
-                    class="bg-[#FF7A3D] hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition duration-300 shadow-md whitespace-nowrap">{{ __('Contact Us') }}</a>
+                {{-- Button Contact Us --}}
+                <div class="mt-8">
+                    <a href="{{ route('contact') }}"
+                        class="block w-full text-center bg-[#FF7A3D] hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition uppercase text-xs tracking-wider shadow">
+                        {{ __('Contact Us') }}
+                    </a>
+                </div>
+            </div>
+
+            {{-- Footer Kontak di bagian bawah Drawer --}}
+            <div class="p-6 bg-black/20 text-xs text-white/80 space-y-3">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-4 h-4 text-[#FF7A3D]" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5-2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    <span>{{ $infos?->kota ?? 'Surabaya' }}, Indonesia</span>
+                </div>
+                @if ($infos?->email)
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-[#FF7A3D]" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                        </svg>
+                        <span>{{ $infos->email }}</span>
+                    </div>
+                @endif
+                @if ($infos?->notelp)
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-[#FF7A3D]" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                        </svg>
+                        <span>{{ $infos->notelp }}</span>
+                    </div>
+                @endif
             </div>
 
         </div>
-    </div>
-</div>
-
-
-
-{{-- 3. MOBILE OFF-CANVAS DRAWER (GAMBAR 1 DESIGN) --}}
-<div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
-    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-x-0"
-    x-transition:leave-end="-translate-x-full"
-    class="fixed inset-y-0 left-0 w-[80%] max-w-xs bg-[#052B35] z-50 overflow-y-auto flex flex-col justify-between shadow-2xl lg:hidden"
-    x-cloak>
-
-    <div class="p-6">
-        {{-- Header Menu Drawer --}}
-        <div class="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
-            <img src="{{ $logoSrc }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}" class="h-10 w-auto">
-            <button @click="mobileMenuOpen = false" class="text-white hover:text-[#FF7A3D]">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                    stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-
-        {{-- Nav Links --}}
-        <nav class="flex flex-col space-y-4 font-semibold uppercase tracking-wider text-sm">
-            <a href="{{ route('home') }}"
-                class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('Home') }}</a>
-            <a href="{{ route('about') }}"
-                class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('About Us') }}</a>
-            <a href="{{ route('services') }}"
-                class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('Services') }}</a>
-            <a href="{{ route('destination') }}"
-                class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('Destination') }}</a>
-            <a href="{{ route('gallery') }}"
-                class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('Gallery') }}</a>
-            <a href="{{ route('berita') }}"
-                class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('News') }}</a>
-            <a href="{{ route('career') }}"
-                class="py-2 border-b border-white/5 text-white hover:text-[#FF7A3D]">{{ __('Career') }}</a>
-        </nav>
-
-        {{-- Button Contact Us --}}
-        <div class="mt-8">
-            <a href="{{ route('contact') }}"
-                class="block w-full text-center bg-[#FF7A3D] hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition uppercase text-xs tracking-wider shadow">
-                {{ __('Contact Us') }}
-            </a>
-        </div>
-    </div>
-
-    {{-- Footer Kontak di bagian bawah Drawer --}}
-    <div class="p-6 bg-black/20 text-xs text-white/80 space-y-3">
-        <div class="flex items-center space-x-2">
-            <svg class="w-4 h-4 text-[#FF7A3D]" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5-2.5-1.12 2.5-2.5 2.5z" />
-            </svg>
-            <span>{{ $infos?->kota ?? 'Surabaya' }}, Indonesia</span>
-        </div>
-        @if($infos?->email)
-        <div class="flex items-center space-x-2">
-            <svg class="w-4 h-4 text-[#FF7A3D]" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-            </svg>
-            <span>{{ $infos->email }}</span>
-        </div>
-        @endif
-        @if($infos?->notelp)
-        <div class="flex items-center space-x-2">
-            <svg class="w-4 h-4 text-[#FF7A3D]" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-            </svg>
-            <span>{{ $infos->notelp }}</span>
-        </div>
-        @endif
-    </div>
-
-</div>
 
         {{-- Backdrop Hitam saat Drawer Buka --}}
         <div x-show="mobileMenuOpen" @click="mobileMenuOpen = false"
@@ -306,8 +310,7 @@
 
                     <div class="flex gap-3">
                         {{-- Facebook --}}
-                        <a href="{{ $infos?->linkFacebook ?? '#' }}" target="_blank"
-                            rel="noopener noreferrer"
+                        <a href="{{ $infos?->linkFacebook ?? '#' }}" target="_blank" rel="noopener noreferrer"
                             class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A3D] transition"
                             aria-label="Facebook">
                             <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -317,8 +320,7 @@
                         </a>
 
                         {{-- Instagram --}}
-                        <a href="{{ $infos?->linkInstagram ?? '#' }}" target="_blank"
-                            rel="noopener noreferrer"
+                        <a href="{{ $infos?->linkInstagram ?? '#' }}" target="_blank" rel="noopener noreferrer"
                             class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A3D] transition"
                             aria-label="Instagram">
                             <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -371,7 +373,7 @@
                         <li><a href="{{ route('services.detail', 'custom-clearance') }}"
                                 class="text-white/60 hover:text-[#FF7A3D] transition">Custom Clearance</a></li>
                         <li><a href="{{ route('services.detail', 'freight-forwarding') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">Forwarding</a></li>
+                                class="text-white/60 hover:text-[#FF7A3D] transition">Freight Forwarding</a></li>
                         <li><a href="{{ route('services.detail', 'inland-transport') }}"
                                 class="text-white/60 hover:text-[#FF7A3D] transition">Ekspedisi</a></li>
                         <li><a href="{{ route('services.detail', 'reefer-logistic') }}"
@@ -385,12 +387,13 @@
                     <p class="text-white/60 text-sm mb-3 leading-relaxed">
                         {{ $infos?->alamatLengkap ?? 'Victoria Mainstreet Grand Pakuwon RA 08, Banjar Sugihan, Kec. Tandes, Kota SBY, Jawa Timur 60184' }}
                     </p>
-                    @if($infos?->email)
-                    <a href="mailto:{{ $infos->email }}"
-                        class="block text-white/60 hover:text-[#FF7A3D] text-sm mb-1 transition">{{ $infos->email }}</a>
+                    @if ($infos?->email)
+                        <a href="mailto:{{ $infos->email }}"
+                            class="block text-white/60 hover:text-[#FF7A3D] text-sm mb-1 transition">{{ $infos->email }}</a>
                     @endif
-                    @if($infos?->notelp)
-                    <a href="tel:{{ $infos->notelp }}" class="block text-white/60 hover:text-[#FF7A3D] text-sm transition">{{ $infos->notelp }}</a>
+                    @if ($infos?->notelp)
+                        <a href="tel:{{ $infos->notelp }}"
+                            class="block text-white/60 hover:text-[#FF7A3D] text-sm transition">{{ $infos->notelp }}</a>
                     @endif
                 </div>
 
@@ -398,7 +401,8 @@
 
             <div class="border-t border-white/10 pt-6 text-center">
                 <p class="text-white/40 text-sm">
-                    Copyright © {{ date('Y') }} - {{ $infos?->nama ?? 'PT Fastlog Era Mandiri' }}. All Rights Reserved.
+                    Copyright © {{ date('Y') }} - {{ $infos?->nama ?? 'PT Fastlog Era Mandiri' }}. All Rights
+                    Reserved.
                 </p>
             </div>
 
