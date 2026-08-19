@@ -11,7 +11,13 @@
         }
     </style>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="icon" type="image/png" href="{{ asset($infos?->logo ?? 'images/front-end/logo2.png') }}?v=1">
+    @php
+        $logoSrc = asset('images/front-end/logo2.png');
+        if (isset($infos) && $infos->logo) {
+            $logoSrc = str_starts_with($infos->logo, 'images/') ? asset($infos->logo) : asset('storage/' . $infos->logo);
+        }
+    @endphp
+    <link rel="icon" type="image/png" href="{{ $logoSrc }}?v=1">
 </head>
 
 <body class="font-sans antialiased">
@@ -24,7 +30,7 @@
 
                 {{-- LOGO MOBILE (Hanya Muncul di Mobile/Tablet) --}}
                 <a href="{{ route('home') }}" class="flex lg:hidden items-center shrink-0">
-                    <img src="{{ asset($infos?->logo ?? 'images/front-end/logo2.png') }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}"
+                    <img src="{{ $logoSrc }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}"
                         class="h-8 sm:h-10 w-auto object-contain">
                 </a>
 
@@ -120,7 +126,7 @@
 
                     {{-- LOGO DESKTOP --}}
                     <a href="{{ route('home') }}" class="flex items-center shrink-0">
-                        <img src="{{ asset($infos?->logo ?? 'images/front-end/logo2.png') }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}"
+                        <img src="{{ $logoSrc }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}"
                             class="h-10 sm:h-14 w-auto object-contain">
                     </a>
 
@@ -191,7 +197,7 @@
             <div class="p-6">
                 {{-- Header Menu Drawer --}}
                 <div class="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
-                    <img src="{{ asset($infos?->logo ?? 'images/front-end/logo2.png') }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}" class="h-10 w-auto">
+                    <img src="{{ $logoSrc }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}" class="h-10 w-auto">
                     <button @click="mobileMenuOpen = false" class="text-white hover:text-[#FF7A3D]">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                             stroke-width="2">
@@ -301,7 +307,7 @@
 
                 {{-- Logo & Desc --}}
                 <div class="md:col-span-1">
-                    <img src="{{ asset($infos?->logo ?? 'images/front-end/logo2.png') }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}"
+                    <img src="{{ $logoSrc }}" alt="{{ $infos?->nama ?? 'Fastlog Era Mandiri' }}"
                         class="h-34 mb-5">
 
                     <div class="flex gap-3">
