@@ -10,11 +10,11 @@
     <div class="absolute inset-0 bg-[#052B35]/70"></div>
 
     <div class="relative z-10 text-center text-white px-4 mt-8">
-      <h1 class="text-3xl md:text-5xl font-bold mb-3">Gallery</h1>
+      <h1 class="text-3xl md:text-5xl font-bold mb-3">{{ __('Gallery') }}</h1>
       <div class="flex items-center justify-center gap-2 text-sm md:text-base text-gray-200">
-        <a href="{{ route('home') }}" class="hover:text-[#FF7A3D] transition">Home</a>
+        <a href="{{ route('home') }}" class="hover:text-[#FF7A3D] transition">{{ __('Home') }}</a>
         <span>/</span>
-        <span class="text-white font-medium">Gallery</span>
+        <span class="text-white font-medium">{{ __('Gallery') }}</span>
       </div>
     </div>
   </section>
@@ -45,7 +45,7 @@
             <div class="absolute bottom-0 left-0 p-6 w-full flex items-end justify-between">
               <div>
                 <p class="text-white font-bold text-lg leading-snug">{{ $item->judul }}</p>
-                <p class="text-gray-200 text-xs mt-1">Klik untuk memperbesar</p>
+                <p class="text-gray-200 text-xs mt-1">{{ __('Click to enlarge') }}</p>
               </div>
               <div
                 class="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-[#FF7A3D] transition">
@@ -87,7 +87,7 @@
           <img :src="activeImage" :alt="activeTitle" class="w-full h-full object-contain">
         </div>
 
-        {{-- Keterangan / Deskripsi Gambar --}}
+        {{-- Keterangan / {{ __('Description') }} Gambar --}}
         <div class="p-6 bg-white">
           <h3 class="text-2xl font-bold text-[#052B35]" x-text="activeTitle"></h3>
           <div class="mt-3 text-gray-600 text-sm leading-relaxed prose prose-sm max-w-none" x-html="activeDesc"></div>

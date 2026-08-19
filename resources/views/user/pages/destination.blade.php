@@ -1,6 +1,6 @@
 @extends('user.layouts.app')
 
-@section('title', __('Destinasi') . ' - Fastlog Era Mandiri')
+@section('title', __('Destination') . ' - Fastlog Era Mandiri')
 
 @section('content')
 
@@ -12,11 +12,11 @@
     <div class="absolute inset-0 bg-[#052B35]/70"></div>
 
     <div class="relative z-10 text-center text-white px-4 mt-8">
-        <h1 class="text-3xl md:text-5xl font-bold mb-3">{{ __('Destinasi') }}</h1>
+        <h1 class="text-3xl md:text-5xl font-bold mb-3">{{ __('Destination') }}</h1>
         <div class="flex items-center justify-center gap-2 text-sm md:text-base text-gray-200">
             <a href="{{ route('home') }}" class="hover:text-[#FF7A3D] transition">{{ __('Home') }}</a>
             <span>/</span>
-            <span class="text-white font-medium">{{ __('Destinasi') }}</span>
+            <span class="text-white font-medium">{{ __('Destination') }}</span>
         </div>
     </div>
 </section>
@@ -28,12 +28,12 @@
             
             {{-- SIDEBAR NAVIGASI KIRI --}}
             <div class="lg:col-span-1 border-r border-gray-100 pr-0 lg:pr-6">
-                <h3 class="text-xl font-bold text-[#052B35] pb-3 border-b border-gray-200 mb-4">{{ __('Destinasi') }}</h3>
+                <h3 class="text-xl font-bold text-[#052B35] pb-3 border-b border-gray-200 mb-4">{{ __('Destination') }}</h3>
                 <div class="flex flex-col space-y-3">
                     <button type="button" @click="activeTab = 'lokal'" 
                             :class="activeTab === 'lokal' ? 'text-[#FF7A3D] font-bold border-l-4 border-[#FF7A3D] pl-3' : 'text-gray-600 hover:text-[#052B35] pl-3'"
                             class="text-left py-1 text-base md:text-lg transition-all duration-200">
-                        {{ __('Lokal') }}
+                        {{ __('Local') }}
                     </button>
                     <button type="button" @click="activeTab = 'international'" 
                             :class="activeTab === 'international' ? 'text-[#FF7A3D] font-bold border-l-4 border-[#FF7A3D] pl-3' : 'text-gray-600 hover:text-[#052B35] pl-3'"
