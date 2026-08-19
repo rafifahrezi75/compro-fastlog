@@ -161,7 +161,7 @@
 
         <!-- MODAL ADD -->
         <div x-show="isAddModalOpen" x-cloak class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto" @keydown.escape.window="closeAddModal()">
-            <div @click.outside="closeAddModal()" class="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-8">
+            <div class="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-8">
                 <div class="px-6 py-4.5 border-b border-gray-100 flex items-center justify-between">
                     <h3 class="text-base font-bold text-gray-900 dark:text-white">Tambah Akun Baru</h3>
                     <button @click="closeAddModal()" class="text-gray-400 hover:text-gray-600 cursor-pointer">
@@ -193,7 +193,7 @@
 
         <!-- MODAL EDIT -->
         <div x-show="isEditModalOpen" x-cloak class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto" @keydown.escape.window="closeEditModal()">
-            <div @click.outside="closeEditModal()" class="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-8">
+            <div class="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-8">
                 <div class="px-6 py-4.5 border-b border-gray-100 flex items-center justify-between">
                     <h3 class="text-base font-bold text-gray-900 dark:text-white">Ubah Akun</h3>
                     <button @click="closeEditModal()" class="text-gray-400 hover:text-gray-600 cursor-pointer">
@@ -226,7 +226,7 @@
 
         <!-- MODAL DELETE -->
         <div x-show="isDeleteModalOpen" x-cloak class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm" @keydown.escape.window="closeDeleteModal()">
-            <div @click.outside="closeDeleteModal()" class="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 shadow-2xl overflow-hidden p-6 text-center">
+            <div class="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 shadow-2xl overflow-hidden p-6 text-center">
                 <div class="w-16 h-16 rounded-full bg-rose-100 text-rose-500 flex items-center justify-center mx-auto mb-4">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                 </div>
