@@ -24,10 +24,10 @@
         {{-- Text --}}
         <div class="relative h-full flex flex-col justify-center max-w-7xl mx-auto px-6 lg:px-8">
             <h1 class="text-white text-3xl md:text-4xl font-bold mb-3 max-w-xl leading-tight">
-                Safe & Reliable Cargo Solutions
+                {{ __('Safe & Reliable Cargo Solutions') }}
             </h1>
             <p class="text-white/90 text-base max-w-lg">
-                Perusahaan Ekspedisi dan logistik yang selalu mengutamakan Kepuasan dan Loyalitas Kepada Pelanggan
+                {{ __('index_subtitle') }}
             </p>
         </div>
 
@@ -56,15 +56,13 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-[#052B35] mb-1.5">Layanan Logistik</h3>
+                        <h3 class="text-base font-bold text-[#052B35] mb-1.5">{{ __('Logistics Services') }}</h3>
                         <p class="text-gray-500 text-sm mb-3 leading-relaxed">
-                            Sea freight, air freight, FCL, LCL, ex-work, pengiriman ulang antar pulau. Mencakup seluruh
-                            pengiriman
-                            logistik
+                            {{ __('index_logistics_desc') }}
                         </p>
                         <a href="{{ route('services') }}"
                             class="inline-flex items-center gap-2 text-[#FF7A3D] font-semibold text-xs hover:gap-3 transition-all">
-                            Explore More
+                            {{ __('Explore More') }}
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                             </svg>
@@ -82,13 +80,13 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-white mb-1.5">Destinasi Pengiriman</h3>
+                        <h3 class="text-base font-bold text-white mb-1.5">{{ __('Delivery Destinations') }}</h3>
                         <p class="text-white/70 text-sm mb-3 leading-relaxed">
-                            Kirim Barang Ke Berbagai Belahan Dunia
+                            {{ __('index_destination_desc') }}
                         </p>
                         <a href="{{ route('destination') }}"
                             class="inline-flex items-center gap-2 text-[#FF7A3D] font-semibold text-xs hover:gap-3 transition-all">
-                            Explore More
+                            {{ __('Explore More') }}
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                             </svg>
@@ -130,20 +128,18 @@
 
                 {{-- Text (kanan) --}}
                 <div class="mt-10 lg:mt-0">
-                    <span class="text-[#FF7A3D] font-semibold tracking-widest text-sm">TENTANG KAMI</span>
+                    <span class="text-[#FF7A3D] font-semibold tracking-widest text-sm">{{ __('ABOUT US') }}</span>
                     <h2 class="text-3xl md:text-4xl font-bold text-[#052B35] mt-3 mb-6 leading-tight">
-                        Solusi Logistik & Transportasi Andalan Anda
+                        {{ __('Your Reliable Logistics & Transportation Solution') }}
                     </h2>
 
                     <p class="text-gray-500 mb-8 leading-relaxed">
-                        Kami menyediakan layanan sea freight, air freight, FCL, LCL, ex-work, re-stuffing antar pulau, CIF,
-                        CNF, FOB
-                        dan sebagainya. Customs clearance dan penanganan dokumen ke pelabuhan di seluruh dunia.
+                        {{ __('index_about_desc') }}
                     </p>
 
                     <a href="{{ route('about') }}"
                         class="inline-block bg-[#FF7A3D] hover:bg-orange-600 text-white font-semibold text-sm px-8 py-4 rounded-xl transition">
-                        Explore More
+                        {{ __('Explore More') }}
                     </a>
                 </div>
 
@@ -157,14 +153,12 @@
 
         <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
             <div class="text-center mb-14">
-                <span class="text-[#FF7A3D] font-semibold tracking-widest text-sm">WHY CHOOSE US</span>
+                <span class="text-[#FF7A3D] font-semibold tracking-widest text-sm">{{ __('WHY CHOOSE US') }}</span>
                 <h2 class="text-3xl md:text-4xl font-bold text-white mt-3">
-                    Menyediakan Layanan dengan Kualitas Tinggi
+                    {{ __('Providing High Quality Services') }}
                 </h2>
                 <p class="text-white/70 max-w-2xl mx-auto mt-4">
-                    Kami menawarkan pelayanan prima dalam memenuhi seluruh kebutuhan pelanggan dan kami selalu mencoba
-                    memberikan
-                    yang terbaik.
+                    {{ __('index_why_desc') }}
                 </p>
             </div>
 
@@ -172,22 +166,20 @@
                 @php
                     $whyChooseUs = [
                         [
-                            'title' => 'Pelayanan Terbaik',
-                            'desc' =>
-                                'Kami memiliki tim dan tenaga ahli yang siap siaga memenuhi setiap kebutuhan customer',
+                            'title' => __('Best Service'),
+                            'desc' => __('index_best_service_desc'),
                         ],
                         [
-                            'title' => 'Respon Cepat',
-                            'desc' => 'Respon cepat adalah keharusan dalam memberikan pelayanan yang terbaik',
+                            'title' => __('Fast Response'),
+                            'desc' => __('index_fast_response_desc'),
                         ],
                         [
-                            'title' => 'Amanah',
-                            'desc' =>
-                                'Setiap layanan yang kami berikan kepada customer selalu kami kerjakan dengan sungguh-sungguh dan amanah',
+                            'title' => __('Trustworthy'),
+                            'desc' => __('index_trustworthy_desc'),
                         ],
                         [
-                            'title' => 'Harga Bersaing',
-                            'desc' => 'Kami memberikan pelayanan terbaik dengan harga bersaing',
+                            'title' => __('Competitive Price'),
+                            'desc' => __('index_competitive_price_desc'),
                         ],
                     ];
                 @endphp
@@ -213,14 +205,12 @@
     <section id="services" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="text-center mb-14">
-                <span class="text-[#FF7A3D] font-semibold">Layanan</span>
+                <span class="text-[#FF7A3D] font-semibold">{{ __('Services') }}</span>
                 <h2 class="text-3xl md:text-4xl font-bold text-[#052B35] mt-2">
-                    Layanan yang Kami Tawarkan
+                    {{ __('Services We Offer') }}
                 </h2>
                 <p class="text-gray-500 max-w-2xl mx-auto mt-4">
-                    PT. Fastlog Era Mandiri mengerti setiap kebutuhan anda dengan menyediakan berbagai macam pelayanan yang
-                    akan
-                    memudahkan anda mengirim barang ke berbagai belahan dunia dengan mudah.
+                    {{ __('index_services_desc') }}
                 </p>
             </div>
 
@@ -230,8 +220,7 @@
                         [
                             'title' => __('Custom Clearance'),
                             'slug' => 'custom-clearance',
-                            'desc' =>
-                                'Kami memiliki ahli yang memahami betul seluruh peraturan dan prosedur kepabeanan baik untuk ekspor dan impor.',
+                            'desc' => __('index_custom_desc'),
                             'bg' => 'fastlog1.png',
                             'icon' =>
                                 '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l1.5 1.5 3-3" />',
@@ -239,8 +228,7 @@
                         [
                             'title' => __('Reefer Logistic'),
                             'slug' => 'reefer-logistic',
-                            'desc' =>
-                                'Mencakup seluruh pengiriman logistik berpendingin termasuk restuffing dalam keadaan beku.',
+                            'desc' => __('index_reefer_desc'),
                             'bg' => 'fastlog2.jpg',
                             'icon' =>
                                 '<path stroke-linecap="round" stroke-linejoin="round" d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM19 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5h1.5m0 0V7a1 1 0 011-1h9.5a1 1 0 011 1v2m-11.5 7.5h8m0 0V9m0 7.5h3m2.5 0H17m2.5 0V11a1 1 0 00-1-1h-3" />',
@@ -248,8 +236,7 @@
                         [
                             'title' => __('Freight Forwarding'),
                             'slug' => 'freight-forwarding',
-                            'desc' =>
-                                'Menyediakan layanan sea freight, air freight, FCL, LCL, ex-work, pengiriman ulang antar pulau.',
+                            'desc' => __('index_forwarding_desc'),
                             'bg' => 'fastlog3.png',
                             'icon' =>
                                 '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l1.5-4.5h16.5l1.5 4.5m-19.5 0v3a1.5 1.5 0 001.5 1.5h16.5a1.5 1.5 0 001.5-1.5v-3m-19.5 0h19.5M6 11.25V6a1.5 1.5 0 011.5-1.5h9A1.5 1.5 0 0118 6v5.25" />',
@@ -257,8 +244,7 @@
                         [
                             'title' => __('Inland Transport'),
                             'slug' => 'inland-transport',
-                            'desc' =>
-                                'Pengiriman dalam dan luar pulau melalui berbagai jalur pengiriman menggunakan kapal, truk dan kereta api.',
+                            'desc' => __('index_inland_desc'),
                             'bg' => 'fastlog1.png',
                             'icon' =>
                                 '<path stroke-linecap="round" stroke-linejoin="round" d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25zM12 9.75V13.5m0 0V17.25a2.25 2.25 0 002.25 2.25h.75m-3-2.25v-5.25m0 0h1.5m3.75 5.25a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0" />',
@@ -294,7 +280,7 @@
 
                             <a href="{{ route('services.detail', $item['slug']) }}"
                                 class="mt-auto inline-flex items-center gap-2 text-[#FF7A3D] group-hover:text-white font-semibold text-sm transition-colors duration-300">
-                                Read More
+                                {{ __('Read More') }}
                                 <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -311,9 +297,9 @@
 
     <section id="gallery" class="py-20 bg-white overflow-hidden">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center mb-14">
-            <span class="text-[#FF7A3D] font-semibold">Gallery</span>
+            <span class="text-[#FF7A3D] font-semibold">{{ __('Gallery') }}</span>
             <h2 class="text-3xl md:text-4xl font-bold text-[#052B35] mt-2">
-                Gallery Terbaru
+                {{ __('Latest Gallery') }}
             </h2>
         </div>
 
@@ -451,17 +437,17 @@
 
             {{-- Heading: tampil di atas untuk MOBILE, tersembunyi di desktop --}}
             <div class="lg:hidden text-center mb-8">
-                <span class="text-[#FF7A3D] font-semibold tracking-widest text-sm">OUR TESTIMONIAL</span>
-                <h2 class="text-2xl font-bold text-[#052B35] mt-2">What They're Talking About Us</h2>
+                <span class="text-[#FF7A3D] font-semibold tracking-widest text-sm">{{ __('OUR TESTIMONIAL') }}</span>
+                <h2 class="text-2xl font-bold text-[#052B35] mt-2">{{ __('What They\'re Talking About Us') }}</h2>
             </div>
 
             <div class="flex flex-col lg:flex-row items-center gap-4 lg:gap-8 lg:items-stretch">
 
                 {{-- Heading versi desktop, di kiri --}}
                 <div class="hidden lg:flex shrink-0 w-64 flex-col justify-center">
-                    <span class="text-[#FF7A3D] font-semibold tracking-widest text-sm">OUR TESTIMONIAL</span>
+                    <span class="text-[#FF7A3D] font-semibold tracking-widest text-sm">{{ __('OUR TESTIMONIAL') }}</span>
                     <h2 class="text-3xl md:text-4xl font-bold text-[#052B35] mt-3 leading-tight">
-                        What They're Talking About Us
+                        {{ __('What They\'re Talking About Us') }}
                     </h2>
                 </div>
 
@@ -530,7 +516,7 @@
                                 <div class="w-full shrink-0 px-3 text-center py-8">
                                     <div
                                         class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[220px] text-gray-400">
-                                        Belum ada testimoni.
+                                        {{ __('No testimonials yet.') }}
                                     </div>
                                 </div>
                             @endforelse
@@ -553,15 +539,15 @@
                 class="h-20 md:h-24 mx-auto mb-6 object-contain">
 
             <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">
-                World Leading Contract Logistics Provider
+                {{ __('World Leading Contract Logistics Provider') }}
             </h2>
             <p class="text-white/80 text-sm md:text-base mb-8">
-                Looking for a business opportunity? Request for a call today!
+                {{ __('Looking for a business opportunity? Request for a call today!') }}
             </p>
 
             <a href="{{ route('contact') }}"
                 class="inline-block bg-[#FF7A3D] hover:bg-orange-600 text-white font-bold text-sm px-8 py-3.5 rounded-full transition shadow-lg hover:shadow-orange-500/30">
-                CONTACT US
+                {{ __('CONTACT US') }}
             </a>
         </div>
     </section>
@@ -572,13 +558,12 @@
 
             {{-- Section Header --}}
             <div class="text-center max-w-2xl mx-auto mb-10 md:mb-14">
-                <span class="text-[#FF7A3D] font-bold tracking-widest text-xs uppercase">HUBUNGI KAMI</span>
+                <span class="text-[#FF7A3D] font-bold tracking-widest text-xs uppercase">{{ __('CONTACT US') }}</span>
                 <h2 class="text-3xl md:text-4xl font-black text-[#052B35] mt-2 mb-3 tracking-tight">
-                    Lokasi & Tim Marketing
+                    {{ __('Location & Marketing Team') }}
                 </h2>
                 <p class="text-gray-500 text-xs md:text-sm leading-relaxed">
-                    Silakan kunjungi kantor kami atau hubungi tim marketing untuk konsultasi pengiriman dan informasi
-                    destinasi.
+                    {{ __('index_contact_desc') }}
                 </p>
             </div>
 
@@ -634,7 +619,7 @@
                         </div>
                     @empty
                         <div class="text-center py-6 text-gray-500 bg-white rounded-2xl border border-gray-100">
-                            Belum ada tim marketing yang tersedia.
+                            {{ __('No marketing team available yet.') }}
                         </div>
                     @endforelse
                 </div>
@@ -659,9 +644,9 @@
 
             {{-- Section Header --}}
             <div class="text-center mb-10">
-                <span class="text-[#FF7A3D] font-semibold text-sm">Berita</span>
+                <span class="text-[#FF7A3D] font-semibold text-sm">{{ __('News') }}</span>
                 <h2 class="text-2xl md:text-3xl font-bold text-[#052B35] mt-1">
-                    Berita & Event
+                    {{ __('News & Events') }}
                 </h2>
             </div>
 
@@ -695,7 +680,7 @@
                     </a>
                 @empty
                     <div class="text-center py-6 text-gray-500 w-full col-span-2">
-                        Belum ada berita.
+                        {{ __('No news yet.') }}
                     </div>
                 @endforelse
 
@@ -705,7 +690,7 @@
             <div class="text-center mt-8">
                 <a href="{{ route('berita') }}"
                     class="inline-block bg-[#FF7A3D] hover:bg-orange-600 text-white font-semibold text-sm px-7 py-2.5 rounded-xl transition">
-                    Lihat Semua Berita
+                    {{ __('See All News') }}
                 </a>
             </div>
         </div>
