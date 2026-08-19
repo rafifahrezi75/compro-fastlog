@@ -73,6 +73,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/pelamar', \App\Http\Controllers\Admin\PelamarController::class)->names('admin.pelamar');
     Route::resource('admin/testimoni', \App\Http\Controllers\Admin\TestimoniController::class)->names('admin.testimoni');
     Route::resource('admin/marketing', \App\Http\Controllers\Admin\MarketingController::class)->names('admin.marketing');
+    Route::resource('admin/infos', \App\Http\Controllers\Admin\InfoController::class)->names('admin.infos');
+    Route::resource('admin/akun', \App\Http\Controllers\Admin\UserController::class)->names('admin.akun');
 
     // API Wilayah Indonesia (Provinsi, Kota/Kabupaten, Kecamatan, Pencarian)
     Route::prefix('api/wilayah')->group(function () {
