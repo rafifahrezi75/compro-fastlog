@@ -137,7 +137,7 @@
                                 class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#FF7A3D] transition"></textarea>
                         </div>
 
-                        <button type="submit" class="w-full bg-[#FF7A3D] hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-md text-sm mt-2">
+                        <button type="button" id="btn-show-captcha" class="w-full bg-[#FF7A3D] hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-md text-sm mt-2">
                             Kirim Lamaran Sekarang
                         </button>
                     </form>
@@ -147,5 +147,80 @@
         </div>
     </div>
 </section>
+
+{{-- MODAL CAPTCHA --}}
+<div id="captcha-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm" style="display:none;">
+    <div class="bg-white p-6 rounded-2xl shadow-xl relative mx-4" style="width:360px;max-width:100%;">
+        <button id="btn-close-captcha" type="button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <h4 class="text-lg font-bold text-[#052B35] mb-1 text-center">Verifikasi Keamanan</h4>
+        <p class="text-xs text-gray-400 mb-5 text-center">Geser puzzle ke posisi yang tepat untuk melanjutkan.</p>
+        <div id="captcha-container"></div>
+    </div>
+</div>
+
+{{-- Local Slider Captcha Library --}}
+<link href="{{ asset('libs/slidercaptcha/slidercaptcha.css') }}?v={{ time() }}" rel="stylesheet">
+<script src="{{ asset('libs/slidercaptcha/slidercaptcha.js') }}?v={{ time() }}"></script>
+<script>
+    (function () {
+        var modal = document.getElementById('captcha-modal');
+        var btnShow = document.getElementById('btn-show-captcha');
+        var btnClose = document.getElementById('btn-close-captcha');
+        var form = document.querySelector('form[action="{{ route('career.apply') }}"]');
+        var captchaInstance = null;
+
+        function openModal() {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            if (!captchaInstance) {
+                captchaInstance = new SliderCaptcha({
+                    el: 'captcha-container',
+                    images: [
+                        'https://picsum.photos/300/150?random=10',
+                        'https://picsum.photos/300/150?random=20',
+                        'https://picsum.photos/300/150?random=30',
+                        'https://picsum.photos/300/150?random=40',
+                    ],
+                    onSuccess: function () {
+                        setTimeout(function () {
+                            closeModal();
+                            form.submit();
+                        }, 600);
+                    },
+                    onFail: function () {
+                        // auto retry handled inside captcha
+                    }
+                });
+            } else {
+                captchaInstance.refresh();
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        btnShow.addEventListener('click', function () {
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            openModal();
+        });
+
+        btnClose.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    })();
+</script>
 
 @endsection
