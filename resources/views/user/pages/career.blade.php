@@ -1,6 +1,6 @@
 @extends('user.layouts.app')
 
-@section('title', 'Karir - Fastlog Era Mandiri')
+@section('title', __('Career') . ' - Fastlog Era Mandiri')
 
 @section('content')
 

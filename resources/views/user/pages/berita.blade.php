@@ -32,7 +32,7 @@
                         @if($news->gambar)
                             <img src="{{ str_starts_with($news->gambar, 'uploads/') ? asset($news->gambar) : asset('storage/' . $news->gambar) }}" alt="{{ $news->judul }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         @else
-                            <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">No Image</div>
+                            <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">{{ __('No Image') }}</div>
                         @endif
                     </div>
 

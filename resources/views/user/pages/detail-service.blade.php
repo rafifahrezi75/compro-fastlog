@@ -1,6 +1,6 @@
 @extends('user.layouts.app')
 
-@section('title', $service['title'] . ' - Fastlog Era Mandiri')
+@section('title', __($service['title']) . ' - Fastlog Era Mandiri')
 
 @section('content')
 
@@ -23,7 +23,7 @@
 
             <h1 class="text-3xl md:text-5xl font-bold mb-4">{{ __($service['title']) }}</h1>
             <p class="text-white/80 max-w-2xl text-base md:text-lg">
-                {{ __('Solusi penanganan logistik terbaik dengan standar operasional internasional untuk menjaga keandalan bisnis Anda.') }}
+                {{ __('service_detail_subtitle') }}
             </p>
         </div>
     </section>
@@ -47,12 +47,10 @@
                     <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                         <h2 class="text-2xl font-bold text-[#052B35] mb-4">{{ __('Service Description') }}</h2>
                         <p class="text-gray-600 leading-relaxed text-base mb-6">
-                            {{ $service['desc'] }}
+                            {{ __($service['desc']) }}
                         </p>
                         <p class="text-gray-600 leading-relaxed text-base">
-                            {{ __('PT Fastlog Era Mandiri memastikan setiap tahapan operasional') }}
-                            {{ strtolower($service['title']) }}
-                            {{ __('berjalan secara transparan, akurat, dan efisien. Didukung oleh tim ahli berpengalaman serta jaringan armada yang kuat, kami siap meminimalkan risiko pengiriman Anda.') }}
+                            {{ __('service_detail_assurance', ['service' => strtolower(__($service['title']))]) }}
                         </p>
                     </div>
 
@@ -69,7 +67,7 @@
                                                 d="M5 13l4 4L19 7" />
                                         </svg>
                                     </div>
-                                    <span class="text-gray-700 font-medium text-sm md:text-base">{{ $feature }}</span>
+                                    <span class="text-gray-700 font-medium text-sm md:text-base">{{ __($feature) }}</span>
                                 </div>
                             @endforeach
                         </div>
@@ -133,7 +131,7 @@
 
                         <h3 class="text-xl font-bold mb-3">{{ __('Need Consultation for This Service?') }}</h3>
                         <p class="text-white/80 text-sm mb-6 leading-relaxed">
-                            {{ __('Hubungi tim marketing kami untuk mendapatkan konsultasi gratis dan penawaran harga terbaik.') }}
+                            {{ __('service_consultation_desc') }}
                         </p>
 
                         <a href="https://wa.me/6281234567890" target="_blank"

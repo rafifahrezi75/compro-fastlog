@@ -113,15 +113,15 @@
                         class="absolute -bottom-8 left-0 md:left-8 bg-[#052B35] rounded-2xl px-8 py-7 shadow-xl grid grid-cols-3 gap-6 w-[calc(100%-2rem)] md:w-auto">
                         <div>
                             <p class="text-3xl md:text-4xl font-bold text-white mb-1">22</p>
-                            <p class="text-white/70 text-xs md:text-sm leading-snug">Years<br>Experience</p>
+                            <p class="text-white/70 text-xs md:text-sm leading-snug">{!! __('Years<br>Experience') !!}</p>
                         </div>
                         <div>
                             <p class="text-3xl md:text-4xl font-bold text-white mb-1">45</p>
-                            <p class="text-white/70 text-xs md:text-sm leading-snug">Trusted<br>Clients</p>
+                            <p class="text-white/70 text-xs md:text-sm leading-snug">{!! __('Trusted<br>Clients') !!}</p>
                         </div>
                         <div>
                             <p class="text-3xl md:text-4xl font-bold text-white mb-1">1970</p>
-                            <p class="text-white/70 text-xs md:text-sm leading-snug">Delivery<br>Completed</p>
+                            <p class="text-white/70 text-xs md:text-sm leading-snug">{!! __('Delivery<br>Completed') !!}</p>
                         </div>
                     </div>
                 </div>
@@ -363,8 +363,7 @@
                                     onerror="this.onerror=null; this.src='{{ asset('images/front-end/fastlog1.png') }}';"
                                     class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                             @else
-                                <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">No
-                                    Image</div>
+                                <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">{{ __('No Image') }}</div>
                             @endif
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
                             <div class="absolute inset-0 flex items-end justify-center pb-8">
@@ -385,8 +384,7 @@
                                     onerror="this.onerror=null; this.src='{{ asset('images/front-end/fastlog1.png') }}';"
                                     class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                             @else
-                                <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">No
-                                    Image</div>
+                                <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">{{ __('No Image') }}</div>
                             @endif
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
                             <div class="absolute inset-0 flex items-end justify-center pb-8">
@@ -596,13 +594,13 @@
                                         <span
                                             class="inline-flex items-center gap-1.5 text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full">
                                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                            Online
+                                            {{ __('Online') }}
                                         </span>
                                     @else
                                         <span
                                             class="inline-flex items-center gap-1.5 text-[11px] text-gray-500 font-semibold bg-gray-100 px-2.5 py-0.5 rounded-full">
                                             <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-                                            Offline
+                                            {{ __('Offline') }}
                                         </span>
                                     @endif
                                 </div>
@@ -662,8 +660,7 @@
                                     alt="{{ $news->judul }}"
                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             @else
-                                <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">No
-                                    Image</div>
+                                <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">{{ __('No Image') }}</div>
                             @endif
                         </div>
                         <div class="p-5 flex-1 flex flex-col">

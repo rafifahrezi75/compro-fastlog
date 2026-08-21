@@ -31,9 +31,7 @@
                     $services = [
                         [
                             'title' => __('Custom Clearance'),
-                            'desc' => __(
-                                'Layanan pengurusan dokumen ekspor dan impor cepat serta tepat waktu, memastikan seluruh aturan kepabeanan terpenuhi tanpa kendala.',
-                            ),
+                            'desc' => __('services_custom_desc'),
                             'slug' => 'custom-clearance',
                             'image' => 'fastlog1.png',
                             'icon' =>
@@ -41,9 +39,7 @@
                         ],
                         [
                             'title' => __('Reefer Logistic'),
-                            'desc' => __(
-                                'Spesialis penanganan kargo berpendingin seperti komoditas frozen food, ikan, dan buah dengan kontrol suhu yang ketat.',
-                            ),
+                            'desc' => __('services_reefer_desc'),
                             'slug' => 'reefer-logistic',
                             'image' => 'fastlog2.jpg',
                             'icon' =>
@@ -51,9 +47,7 @@
                         ],
                         [
                             'title' => __('Freight Forwarding'),
-                            'desc' => __(
-                                'Pengiriman barang internasional via Laut (Sea Freight) dan Udara (Air Freight) dengan opsi FCL maupun LCL secara efisien.',
-                            ),
+                            'desc' => __('services_forwarding_desc'),
                             'slug' => 'freight-forwarding',
                             'image' => 'fastlog3.png',
                             'icon' =>
@@ -61,9 +55,7 @@
                         ],
                         [
                             'title' => __('Inland Transport'),
-                            'desc' => __(
-                                'Pengangkutan darat door-to-door menggunakan berbagai jenis armada truk pendukung pengiriman kargo Anda ke seluruh pelosok tanah air.',
-                            ),
+                            'desc' => __('services_inland_desc'),
                             'slug' => 'inland-transport',
                             'image' => 'fastlog1.png',
                             'icon' =>

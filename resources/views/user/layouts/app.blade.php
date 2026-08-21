@@ -274,16 +274,16 @@
     {{-- 3. MOBILE MENU --}}
     <div id="mobile-menu" class="hidden lg:hidden bg-[#052B35] border-t border-white/10">
         <div class="flex flex-col p-6 space-y-5">
-            <a href="{{ route('home') }}" class="text-white hover:text-[#FF7A3D]">Home</a>
-            <a href="{{ route('about') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Tentang Kami</a>
-            <a href="{{ route('services') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Layanan</a>
+            <a href="{{ route('home') }}" class="text-white hover:text-[#FF7A3D]">{{ __('Home') }}</a>
+            <a href="{{ route('about') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('About Us') }}</a>
+            <a href="{{ route('services') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('Services') }}</a>
             <a href="{{ route('destination') }}"
-                class="nav-item-mobile text-white hover:text-[#FF7A3D]">Destinasi</a>
-            <a href="{{ route('gallery') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Galeri</a>
-            <a href="{{ route('berita') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Berita</a>
-            <a href="{{ route('career') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">Karir</a>
+                class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('Destination') }}</a>
+            <a href="{{ route('gallery') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('Gallery') }}</a>
+            <a href="{{ route('berita') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('News') }}</a>
+            <a href="{{ route('career') }}" class="nav-item-mobile text-white hover:text-[#FF7A3D]">{{ __('Career') }}</a>
             <a href="{{ route('contact') }}"
-                class="bg-[#FF7A3D] text-center py-3 rounded-xl text-white font-semibold">Contact Us</a>
+                class="bg-[#FF7A3D] text-center py-3 rounded-xl text-white font-semibold">{{ __('Contact Us') }}</a>
         </div>
     </div>
 
@@ -353,37 +353,37 @@
 
                 {{-- Support Links --}}
                 <div>
-                    <h4 class="text-white font-semibold mb-4">Support</h4>
+                    <h4 class="text-white font-semibold mb-4">{{ __('Support') }}</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="{{ route('about') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">About Us</a></li>
+                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('About Us') }}</a></li>
                         <li><a href="{{ route('contact') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">Contact</a></li>
+                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Contact') }}</a></li>
                         <li><a href="{{ route('gallery') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">Gallery</a></li>
+                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Gallery') }}</a></li>
                         <li><a href="{{ route('berita') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">News</a></li>
+                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('News') }}</a></li>
                     </ul>
                 </div>
 
                 {{-- Services Links --}}
                 <div>
-                    <h4 class="text-white font-semibold mb-4">Services</h4>
+                    <h4 class="text-white font-semibold mb-4">{{ __('Services') }}</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="{{ route('services.detail', 'custom-clearance') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">Custom Clearance</a></li>
+                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Custom Clearance') }}</a></li>
                         <li><a href="{{ route('services.detail', 'freight-forwarding') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">Freight Forwarding</a></li>
+                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Freight Forwarding') }}</a></li>
                         <li><a href="{{ route('services.detail', 'inland-transport') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">Ekspedisi</a></li>
+                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Expedition') }}</a></li>
                         <li><a href="{{ route('services.detail', 'reefer-logistic') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">Ekspor Impor</a></li>
+                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Export Import') }}</a></li>
                     </ul>
                 </div>
 
                 {{-- Contact --}}
                 <div>
-                    <h4 class="text-white font-semibold mb-4">Contact</h4>
+                    <h4 class="text-white font-semibold mb-4">{{ __('Contact') }}</h4>
                     <p class="text-white/60 text-sm mb-3 leading-relaxed">
                         {{ $infos?->alamatLengkap ?? 'Victoria Mainstreet Grand Pakuwon RA 08, Banjar Sugihan, Kec. Tandes, Kota SBY, Jawa Timur 60184' }}
                     </p>

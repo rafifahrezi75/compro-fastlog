@@ -10,11 +10,11 @@
     <div class="absolute inset-0 bg-[#052B35]/70"></div>
 
     <div class="relative z-10 text-center text-white px-4 mt-8">
-        <h1 class="text-3xl md:text-5xl font-bold mb-3">Berita</h1>
+        <h1 class="text-3xl md:text-5xl font-bold mb-3">{{ __('News') }}</h1>
         <div class="flex items-center justify-center gap-2 text-sm md:text-base text-gray-200">
-            <a href="{{ route('home') }}" class="hover:text-[#FF7A3D] transition">Home</a>
+            <a href="{{ route('home') }}" class="hover:text-[#FF7A3D] transition">{{ __('Home') }}</a>
             <span>/</span>
-            <a href="{{ route('berita') }}" class="hover:text-[#FF7A3D] transition">Berita</a>
+            <a href="{{ route('berita') }}" class="hover:text-[#FF7A3D] transition">{{ __('News') }}</a>
             <span>/</span>
             <span class="text-white font-medium truncate max-w-xs">{{ $berita->judul }}</span>
         </div>
@@ -66,7 +66,7 @@
             <div class="lg:col-span-1 space-y-8">
                 <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
                     <h3 class="text-lg font-bold text-[#052B35] pb-3 border-b-2 border-[#052B35] mb-5">
-                        Latest Berita
+                        {{ __('Latest News') }}
                     </h3>
 
                     <div class="space-y-6">
@@ -76,7 +76,7 @@
                                     @if($item->gambar)
                                         <img src="{{ str_starts_with($item->gambar, 'uploads/') ? asset($item->gambar) : asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                                     @else
-                                        <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">No Image</div>
+                                        <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">{{ __('No Image') }}</div>
                                     @endif
                                 </div>
                                 <h4 class="text-xs font-bold text-[#052B35] group-hover:text-[#FF7A3D] transition line-clamp-3 leading-snug mb-2 uppercase">
@@ -88,7 +88,7 @@
                                 </div>
                             </a>
                         @empty
-                            <p class="text-xs text-gray-500">Belum ada berita lainnya.</p>
+                            <p class="text-xs text-gray-500">{{ __('No other news yet.') }}</p>
                         @endforelse
                     </div>
                 </div>
