@@ -72,18 +72,6 @@ class KarirController extends Controller
         $masterProvinsi = $masterProvinsiList->pluck('nama');
         $masterKota = $allCities->pluck('nama');
 
-        if ($request->wantsJson() || $request->ajax()) {
-            return response()->json([
-                'status' => 'success',
-                'data' => $karirs,
-                'stats' => $stats,
-                'departments' => $departments,
-                'provinces' => $provinces,
-                'master_provinsi_list' => $masterProvinsiList,
-                'master_kota_map' => $masterKotaMap,
-            ]);
-        }
-
         return view('admin.pages.karir.index', compact(
             'karirs',
             'stats',

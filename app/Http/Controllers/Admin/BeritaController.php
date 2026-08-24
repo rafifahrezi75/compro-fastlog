@@ -47,15 +47,6 @@ class BeritaController extends Controller
         // List unique sources for dropdown filter
         $sources = Berita::whereNotNull('sumber')->where('sumber', '!=', '')->distinct()->pluck('sumber');
 
-        if ($request->wantsJson() || $request->ajax()) {
-            return response()->json([
-                'status' => 'success',
-                'data' => $beritas,
-                'stats' => $stats,
-                'sources' => $sources,
-            ]);
-        }
-
         return view('admin.pages.berita.index', compact('beritas', 'stats', 'sources'));
     }
 

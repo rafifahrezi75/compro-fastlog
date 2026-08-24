@@ -319,7 +319,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('marketingManager', () => ({
-                marketings: [],
+                marketings: @json($marketings),
                 searchQuery: '',
                 isSubmitting: false,
                 isDeleteModalOpen: false,
@@ -328,27 +328,9 @@
                 perPage: 10,
 
                 init() {
-                    this.fetchData();
                     this.$watch('searchQuery', () => {
                         this.currentPage = 1;
                     });
-                },
-
-                async fetchData() {
-                    try {
-                        const res = await fetch('{{ route('admin.marketing.index') }}', {
-                            headers: {
-                                'Accept': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        });
-                        const data = await res.json();
-                        if (data.status === 'success') {
-                            this.marketings = data.data;
-                        }
-                    } catch (error) {
-                        console.error("Error fetching data:", error);
-                    }
                 },
 
                 get filteredMarketings() {

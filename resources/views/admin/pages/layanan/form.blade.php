@@ -223,7 +223,7 @@
 
                     tinymce.remove('#' + elementId);
 
-                    const isDark = document.documentElement.classList.contains('dark');
+                    const isDark = document.documentElement && document.documentElement.classList.contains('dark');
 
                     tinymce.init({
                         selector: '#' + elementId,

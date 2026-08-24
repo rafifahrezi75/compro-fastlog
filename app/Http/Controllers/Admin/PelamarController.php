@@ -50,15 +50,6 @@ class PelamarController extends Controller
         // List distinct positions for filter dropdown
         $positions = Pelamar::whereNotNull('posisi')->where('posisi', '!=', '')->distinct()->pluck('posisi');
 
-        if ($request->wantsJson() || $request->ajax()) {
-            return response()->json([
-                'status' => 'success',
-                'data' => $pelamars,
-                'stats' => $stats,
-                'positions' => $positions,
-            ]);
-        }
-
         return view('admin.pages.pelamar.index', compact('pelamars', 'stats', 'positions'));
     }
 

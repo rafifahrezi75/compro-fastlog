@@ -25,13 +25,6 @@ class LayananController extends Controller
 
         $layanans = $query->get();
 
-        if ($request->wantsJson() || $request->ajax()) {
-            return response()->json([
-                'status' => 'success',
-                'data'   => $layanans,
-            ]);
-        }
-
         return view('admin.pages.layanan.index', compact('layanans'));
     }
 

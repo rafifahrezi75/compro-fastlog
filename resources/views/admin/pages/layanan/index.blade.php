@@ -334,7 +334,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('layananManager', () => ({
-                layanans: [],
+                layanans: @json($layanans),
                 searchQuery: '',
                 selectedStatus: 'Semua',
                 isSubmitting: false,
@@ -344,7 +344,6 @@
                 perPage: 10,
 
                 init() {
-                    this.fetchData();
                     this.$watch('searchQuery', () => { this.currentPage = 1; });
                     this.$watch('selectedStatus', () => { this.currentPage = 1; });
                 },
@@ -357,23 +356,6 @@
                 },
                 get featureCount() {
                     return this.layanans.reduce((sum, i) => sum + ((i.fitur || []).length), 0);
-                },
-
-                async fetchData() {
-                    try {
-                        const res = await fetch('{{ route('admin.layanan.index') }}', {
-                            headers: {
-                                'Accept': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        });
-                        const data = await res.json();
-                        if (data.status === 'success') {
-                            this.layanans = data.data;
-                        }
-                    } catch (error) {
-                        console.error("Error fetching data:", error);
-                    }
                 },
 
                 get filteredLayanans() {

@@ -24,13 +24,6 @@ class MarketingController extends Controller
 
         $marketings = $query->get();
 
-        if ($request->wantsJson() || $request->ajax()) {
-            return response()->json([
-                'status' => 'success',
-                'data' => $marketings,
-            ]);
-        }
-
         return view('admin.pages.marketing.index', compact('marketings'));
     }
 

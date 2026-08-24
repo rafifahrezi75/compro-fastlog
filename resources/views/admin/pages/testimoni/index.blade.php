@@ -325,7 +325,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('testimoniManager', () => ({
-                testimonis: [],
+                testimonis: @json($testimonis),
                 searchQuery: '',
                 isSubmitting: false,
                 isDeleteModalOpen: false,
@@ -334,27 +334,9 @@
                 perPage: 10,
 
                 init() {
-                    this.fetchData();
                     this.$watch('searchQuery', () => {
                         this.currentPage = 1;
                     });
-                },
-
-                async fetchData() {
-                    try {
-                        const res = await fetch('{{ route('admin.testimoni.index') }}', {
-                            headers: {
-                                'Accept': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        });
-                        const data = await res.json();
-                        if (data.status === 'success') {
-                            this.testimonis = data.data;
-                        }
-                    } catch (error) {
-                        console.error("Error fetching data:", error);
-                    }
                 },
 
                 get filteredTestimonis() {
