@@ -149,10 +149,12 @@
                     <p class="text-xs text-gray-500 mb-6 leading-relaxed">{{ __('If you are interested in our services, please feel free to fill inquiry below') }}</p>
                     
                     <div class="space-y-3">
-                        <a href="#" class="block w-full bg-[#00A884] hover:bg-[#008f70] text-white text-sm font-medium py-3 rounded-xl transition shadow-sm hover:shadow-md">
+                        <a href="https://wa.me/6285554443332?text={{ urlencode('Halo Admin Fastlog, saya tertarik untuk mendapatkan penawaran harga logistik & kargo untuk bisnis saya. Mohon informasinya, terima kasih.') }}"
+                            target="_blank" rel="noopener noreferrer"
+                            class="block w-full bg-[#00A884] hover:bg-[#008f70] text-white text-sm font-medium py-3 rounded-xl transition shadow-sm hover:shadow-md text-center">
                             {{ __('Get Inquiry') }}
                         </a>
-                        <a href="#" class="block w-full bg-[#FF7A3D] hover:bg-orange-600 text-white text-sm font-medium py-3 rounded-xl transition shadow-sm hover:shadow-md">
+                        <a href="{{ route('contact') }}" class="block w-full bg-[#FF7A3D] hover:bg-orange-600 text-white text-sm font-medium py-3 rounded-xl transition shadow-sm hover:shadow-md">
                             {{ __('Contact Us') }}
                         </a>
                     </div>
