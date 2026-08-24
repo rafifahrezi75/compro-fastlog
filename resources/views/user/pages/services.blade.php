@@ -32,48 +32,11 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-                @php
-                    $services = [
-                        [
-                            'title' => __('Custom Clearance'),
-                            'desc' => __('services_custom_desc'),
-                            'slug' => 'custom-clearance',
-                            'image' => 'fastlog1.png',
-                            'icon' =>
-                                '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />',
-                        ],
-                        [
-                            'title' => __('Reefer Logistic'),
-                            'desc' => __('services_reefer_desc'),
-                            'slug' => 'reefer-logistic',
-                            'image' => 'fastlog2.jpg',
-                            'icon' =>
-                                '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM19 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 16.5h1.5m0 0V7a1 1 0 011-1h9.5a1 1 0 011 1v2m-11.5 7.5h8m0 0V9m0 7.5h3m2.5 0H17m2.5 0V11a1 1 0 00-1-1h-3" />',
-                        ],
-                        [
-                            'title' => __('Freight Forwarding'),
-                            'desc' => __('services_forwarding_desc'),
-                            'slug' => 'freight-forwarding',
-                            'image' => 'fastlog3.png',
-                            'icon' =>
-                                '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.25 15.75l1.5-4.5h16.5l1.5 4.5m-19.5 0v3a1.5 1.5 0 001.5 1.5h16.5a1.5 1.5 0 001.5-1.5v-3m-19.5 0h19.5M6 11.25V6a1.5 1.5 0 011.5-1.5h9A1.5 1.5 0 0118 6v5.25" />',
-                        ],
-                        [
-                            'title' => __('Inland Transport'),
-                            'desc' => __('services_inland_desc'),
-                            'slug' => 'inland-transport',
-                            'image' => 'fastlog1.png',
-                            'icon' =>
-                                '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />',
-                        ],
-                    ];
-                @endphp
-
                 @foreach ($services as $service)
-                    <a href="{{ route('services.detail', $service['slug']) }}"
+                    <a href="{{ route('services.detail', $service->slug) }}"
                         class="group relative rounded-2xl overflow-hidden h-96 block shadow-lg hover:shadow-2xl transition-all duration-500">
 
-                        <img src="{{ asset('images/front-end/' . $service['image']) }}" alt="{{ $service['title'] }}"
+                        <img src="{{ $service->gambar_url }}" alt="{{ $service->nama }}"
                             class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
 
                         <div
@@ -83,15 +46,15 @@
                         <div
                             class="absolute top-7 left-7 w-14 h-14 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center text-white border border-white/20 group-hover:bg-white group-hover:text-[#FF7A3D] transition-all duration-300">
                             <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                {!! $service['icon'] !!}
+                                {!! $service->ikon !!}
                             </svg>
                         </div>
 
                         <div class="absolute bottom-0 left-0 right-0 p-7">
-                            <h3 class="text-2xl font-bold text-white mb-3">{{ $service['title'] }}</h3>
+                            <h3 class="text-2xl font-bold text-white mb-3">{{ __($service->nama) }}</h3>
                             <p
-                                class="text-white/80 text-sm leading-relaxed mb-4 line-clamp-2 group-hover:line-clamp-none transition-all">
-                                {{ $service['desc'] }}
+                                class="text-white/80 text-sm leading-relaxed mb-4 line-clamp-2 group-hover:line-clamp-none transition-all [&_p]:m-0">
+                                {!! $service->deskripsi_singkat !!}
                             </p>
                             <span
                                 class="inline-flex items-center text-white font-semibold gap-2 text-sm group-hover:gap-3 transition-all duration-300">

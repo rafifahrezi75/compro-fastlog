@@ -246,49 +246,12 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                @php
-                    $layanan = [
-                        [
-                            'title' => __('Custom Clearance'),
-                            'slug' => 'custom-clearance',
-                            'desc' => __('index_custom_desc'),
-                            'bg' => 'fastlog1.png',
-                            'icon' =>
-                                '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l1.5 1.5 3-3" />',
-                        ],
-                        [
-                            'title' => __('Reefer Logistic'),
-                            'slug' => 'reefer-logistic',
-                            'desc' => __('index_reefer_desc'),
-                            'bg' => 'fastlog2.jpg',
-                            'icon' =>
-                                '<path stroke-linecap="round" stroke-linejoin="round" d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM19 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5h1.5m0 0V7a1 1 0 011-1h9.5a1 1 0 011 1v2m-11.5 7.5h8m0 0V9m0 7.5h3m2.5 0H17m2.5 0V11a1 1 0 00-1-1h-3" />',
-                        ],
-                        [
-                            'title' => __('Freight Forwarding'),
-                            'slug' => 'freight-forwarding',
-                            'desc' => __('index_forwarding_desc'),
-                            'bg' => 'fastlog3.png',
-                            'icon' =>
-                                '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l1.5-4.5h16.5l1.5 4.5m-19.5 0v3a1.5 1.5 0 001.5 1.5h16.5a1.5 1.5 0 001.5-1.5v-3m-19.5 0h19.5M6 11.25V6a1.5 1.5 0 011.5-1.5h9A1.5 1.5 0 0118 6v5.25" />',
-                        ],
-                        [
-                            'title' => __('Inland Transport'),
-                            'slug' => 'inland-transport',
-                            'desc' => __('index_inland_desc'),
-                            'bg' => 'fastlog1.png',
-                            'icon' =>
-                                '<path stroke-linecap="round" stroke-linejoin="round" d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25zM12 9.75V13.5m0 0V17.25a2.25 2.25 0 002.25 2.25h.75m-3-2.25v-5.25m0 0h1.5m3.75 5.25a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0" />',
-                        ],
-                    ];
-                @endphp
-
-                @foreach ($layanan as $item)
+                @foreach ($layanans as $item)
                     <div class="group relative rounded-2xl border border-gray-100 overflow-hidden cursor-pointer h-72">
 
                         {{-- Background Image (muncul pas hover) --}}
                         <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <img src="{{ asset('images/front-end/' . $item['bg']) }}" alt="{{ $item['title'] }}"
+                            <img src="{{ $item->gambar_url }}" alt="{{ $item->nama }}"
                                 class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-[#052B35]/75"></div>
                         </div>
@@ -297,19 +260,19 @@
                         <div class="relative p-8 h-full flex flex-col">
                             <svg class="w-10 h-10 text-[#FF7A3D] group-hover:text-white transition-colors duration-300 mb-6"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                {!! $item['icon'] !!}
+                                {!! $item->ikon !!}
                             </svg>
 
                             <h3
                                 class="font-bold text-lg text-[#052B35] group-hover:text-white transition-colors duration-300 mb-3">
-                                {{ $item['title'] }}
+                                {{ __($item->nama) }}
                             </h3>
 
-                            <p class="text-sm text-gray-500 group-hover:text-white/90 transition-colors duration-300 mb-4">
-                                {{ $item['desc'] }}
+                            <p class="text-sm text-gray-500 group-hover:text-white/90 transition-colors duration-300 mb-4 [&_p]:m-0">
+                                {!! $item->deskripsi_singkat !!}
                             </p>
 
-                            <a href="{{ route('services.detail', $item['slug']) }}"
+                            <a href="{{ route('services.detail', $item->slug) }}"
                                 class="mt-auto inline-flex items-center gap-2 text-[#FF7A3D] group-hover:text-white font-semibold text-sm transition-colors duration-300">
                                 {{ __('Read More') }}
                                 <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"

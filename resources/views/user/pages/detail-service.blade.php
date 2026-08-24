@@ -1,12 +1,12 @@
 @extends('user.layouts.app')
 
-@section('title', __($service['title']) . ' - Fastlog Era Mandiri')
+@section('title', __($service->nama) . ' - Fastlog Era Mandiri')
 
 @section('content')
 
     {{-- 1. HERO BANNER --}}
     <section class="relative bg-[#052B35] pt-36 pb-16 text-white bg-cover bg-center"
-        style="background-image: url('{{ asset('images/front-end/fastlog1.png') }}');">
+        style="background-image: url('{{ $service->gambar_url }}');">
 
         {{-- Overlay Gelap --}}
         <div class="absolute inset-0 bg-[#052B35]/80"></div>
@@ -18,10 +18,10 @@
                 <span>/</span>
                 <a href="{{ route('services') }}" class="hover:text-[#FF7A3D] transition">{{ __('Services') }}</a>
                 <span>/</span>
-                <span class="text-[#FF7A3D] font-medium">{{ __($service['title']) }}</span>
+                <span class="text-[#FF7A3D] font-medium">{{ __($service->nama) }}</span>
             </nav>
 
-            <h1 class="text-3xl md:text-5xl font-bold mb-4">{{ __($service['title']) }}</h1>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4">{{ __($service->nama) }}</h1>
             <p class="text-white/80 max-w-2xl text-base md:text-lg">
                 {{ __('service_detail_subtitle') }}
             </p>
@@ -38,7 +38,7 @@
 
                     {{-- Gambar Service --}}
                     <div class="rounded-2xl overflow-hidden shadow-md bg-gray-200">
-                        <img src="{{ asset('images/services/' . $service['image']) }}" alt="{{ $service['title'] }}"
+                        <img src="{{ $service->gambar_url }}" alt="{{ $service->nama }}"
                             class="w-full h-[350px] md:h-[450px] object-cover"
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80';">
                     </div>
@@ -46,11 +46,11 @@
                     {{-- {{ __('Description') }} Layanan --}}
                     <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                         <h2 class="text-2xl font-bold text-[#052B35] mb-4">{{ __('Service Description') }}</h2>
-                        <p class="text-gray-600 leading-relaxed text-base mb-6">
-                            {{ __($service['desc']) }}
-                        </p>
+                        <div class="text-gray-600 leading-relaxed text-base mb-6 space-y-4">
+                            {!! $service->deskripsi_lengkap !!}
+                        </div>
                         <p class="text-gray-600 leading-relaxed text-base">
-                            {{ __('service_detail_assurance', ['service' => strtolower(__($service['title']))]) }}
+                            {{ __('service_detail_assurance', ['service' => strtolower(__($service->nama))]) }}
                         </p>
                     </div>
 
@@ -58,7 +58,7 @@
                     <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                         <h2 class="text-2xl font-bold text-[#052B35] mb-6">{{ __('Scope & Key Advantages') }}</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            @foreach ($service['features'] as $feature)
+                            @foreach ($service->fitur ?? [] as $feature)
                                 <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
                                     <div
                                         class="w-6 h-6 rounded-full bg-[#FF7A3D]/20 text-[#FF7A3D] flex items-center justify-center shrink-0 mt-0.5">
@@ -82,46 +82,18 @@
                     <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                         <h3 class="text-lg font-bold text-[#052B35] mb-4 border-b pb-3">{{ __('Other Services') }}</h3>
                         <ul class="space-y-2">
-                            <li>
-                                <a href="{{ route('services.detail', 'custom-clearance') }}"
-                                    class="flex items-center justify-between p-3 rounded-xl transition {{ $slug === 'custom-clearance' ? 'bg-[#FF7A3D] text-white font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-[#FF7A3D]' }}">
-                                    <span>{{ __('Custom Clearance') }}</span>
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('services.detail', 'reefer-logistic') }}"
-                                    class="flex items-center justify-between p-3 rounded-xl transition {{ $slug === 'reefer-logistic' ? 'bg-[#FF7A3D] text-white font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-[#FF7A3D]' }}">
-                                    <span>{{ __('Reefer Logistic') }}</span>
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('services.detail', 'freight-forwarding') }}"
-                                    class="flex items-center justify-between p-3 rounded-xl transition {{ $slug === 'freight-forwarding' ? 'bg-[#FF7A3D] text-white font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-[#FF7A3D]' }}">
-                                    <span>{{ __('Freight Forwarding') }}</span>
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('services.detail', 'inland-transport') }}"
-                                    class="flex items-center justify-between p-3 rounded-xl transition {{ $slug === 'inland-transport' ? 'bg-[#FF7A3D] text-white font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-[#FF7A3D]' }}">
-                                    <span>{{ __('Inland Transport') }}</span>
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </a>
-                            </li>
+                            @foreach ($otherServices as $other)
+                                <li>
+                                    <a href="{{ route('services.detail', $other->slug) }}"
+                                        class="flex items-center justify-between p-3 rounded-xl transition text-gray-600 hover:bg-gray-50 hover:text-[#FF7A3D]">
+                                        <span>{{ __($other->nama) }}</span>
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
 

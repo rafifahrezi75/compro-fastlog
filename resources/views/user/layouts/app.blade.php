@@ -223,14 +223,10 @@
                                 <div
                                     class="absolute left-0 top-full pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-50">
                                     <div class="bg-[#052B35] rounded-xl shadow-xl border-t-2 border-[#FF7A3D] py-3">
-                                        <a href="{{ route('services.detail', 'custom-clearance') }}"
-                                            class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Custom Clearance') }}</a>
-                                        <a href="{{ route('services.detail', 'reefer-logistic') }}"
-                                            class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Reefer Logistic') }}</a>
-                                        <a href="{{ route('services.detail', 'freight-forwarding') }}"
-                                            class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Freight Forwarding') }}</a>
-                                        <a href="{{ route('services.detail', 'inland-transport') }}"
-                                            class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __('Inland Transport') }}</a>
+                                        @foreach ($navLayanans as $layanan)
+                                            <a href="{{ route('services.detail', $layanan->slug) }}"
+                                                class="block px-5 py-2.5 text-white/90 hover:text-[#FF7A3D] hover:bg-white/5 transition">{{ __($layanan->nama) }}</a>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -441,14 +437,10 @@
                 <div>
                     <h4 class="text-white font-semibold mb-4">{{ __('Services') }}</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="{{ route('services.detail', 'custom-clearance') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Custom Clearance') }}</a></li>
-                        <li><a href="{{ route('services.detail', 'freight-forwarding') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Freight Forwarding') }}</a></li>
-                        <li><a href="{{ route('services.detail', 'inland-transport') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Expedition') }}</a></li>
-                        <li><a href="{{ route('services.detail', 'reefer-logistic') }}"
-                                class="text-white/60 hover:text-[#FF7A3D] transition">{{ __('Export Import') }}</a></li>
+                        @foreach ($navLayanans as $layanan)
+                            <li><a href="{{ route('services.detail', $layanan->slug) }}"
+                                    class="text-white/60 hover:text-[#FF7A3D] transition">{{ __($layanan->nama) }}</a></li>
+                        @endforeach
                     </ul>
                 </div>
 
