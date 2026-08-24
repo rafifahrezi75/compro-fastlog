@@ -94,7 +94,7 @@
 
                 {{-- Share Social Media Buttons --}}
                 <div class="flex items-center gap-2 pt-6 border-t border-gray-100">
-                    <span class="text-xs font-semibold text-gray-500 uppercase mr-2">Share:</span>
+                    <span class="text-xs font-semibold text-gray-500 uppercase mr-2">{{ __('Share') }}:</span>
                     <a href="#" class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded hover:opacity-90 transition">Facebook</a>
                     <a href="#" class="bg-green-500 text-white text-xs px-3 py-1.5 rounded hover:opacity-90 transition">LINE</a>
                     <a href="#" class="bg-black text-white text-xs px-3 py-1.5 rounded hover:opacity-90 transition">X / Twitter</a>

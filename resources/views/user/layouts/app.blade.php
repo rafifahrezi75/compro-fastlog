@@ -464,8 +464,7 @@
 
             <div class="border-t border-white/10 pt-6 text-center">
                 <p class="text-white/40 text-sm">
-                    Copyright © {{ date('Y') }} - {{ $infos?->nama ?? 'PT Fastlog Era Mandiri' }}. All Rights
-                    Reserved.
+                    {{ __('Copyright') }} © {{ date('Y') }} - {{ $infos?->nama ?? 'PT Fastlog Era Mandiri' }}. {{ __('All Rights Reserved.') }}
                 </p>
             </div>
 
