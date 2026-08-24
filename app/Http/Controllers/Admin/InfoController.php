@@ -9,18 +9,19 @@ use Illuminate\Support\Facades\Storage;
 
 class InfoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $infos = Info::latest()->get();
         return view('admin.pages.info.index', compact('infos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function create()
+    {
+        $mode = 'create';
+
+        return view('admin.pages.info.form', compact('mode'));
+    }
+
     public function store(Request $request)
     {
         if (Info::count() > 0) {
@@ -48,6 +49,14 @@ class InfoController extends Controller
         Info::create($validated);
 
         return redirect()->route('admin.infos.index')->with('success', 'Informasi perusahaan berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $info = Info::findOrFail($id);
+        $mode = 'edit';
+
+        return view('admin.pages.info.form', compact('mode', 'info'));
     }
 
     /**

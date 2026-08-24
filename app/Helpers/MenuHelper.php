@@ -77,7 +77,14 @@ class MenuHelper
 
     public static function isActive($path)
     {
-        return request()->is(ltrim($path, '/'));
+        $path = trim($path, '/');
+
+        if ($path === '') {
+            return false;
+        }
+
+        // Aktif jika path sama persis ATAU halaman saat ini merupakan sub-halaman (create/edit/detail)
+        return request()->is($path) || request()->is($path . '/*');
     }
 
     public static function getIconSvg($iconName)

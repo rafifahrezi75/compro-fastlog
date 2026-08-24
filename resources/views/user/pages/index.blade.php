@@ -268,9 +268,9 @@
                                 {{ __($item->nama) }}
                             </h3>
 
-                            <p class="text-sm text-gray-500 group-hover:text-white/90 transition-colors duration-300 mb-4 [&_p]:m-0">
+                            <div class="text-sm text-gray-500 group-hover:text-white/90 transition-colors duration-300 mb-4 [&_p]:m-0">
                                 {!! $item->deskripsi_singkat !!}
-                            </p>
+                            </div>
 
                             <a href="{{ route('services.detail', $item->slug) }}"
                                 class="mt-auto inline-flex items-center gap-2 text-[#FF7A3D] group-hover:text-white font-semibold text-sm transition-colors duration-300">

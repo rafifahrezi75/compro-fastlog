@@ -19,9 +19,13 @@ class UserController extends Controller
         return view('admin.pages.akun.index', compact('users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function create()
+    {
+        $mode = 'create';
+
+        return view('admin.pages.akun.form', compact('mode'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -35,6 +39,21 @@ class UserController extends Controller
         User::create($validated);
 
         return redirect()->route('admin.akun.index')->with('success', 'Akun berhasil ditambahkan.');
+    }
+
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+
+        return view('admin.pages.akun.show', compact('user'));
+    }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        $mode = 'edit';
+
+        return view('admin.pages.akun.form', compact('mode', 'user'));
     }
 
     /**

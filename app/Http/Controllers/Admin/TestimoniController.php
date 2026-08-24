@@ -35,6 +35,13 @@ class TestimoniController extends Controller
         return view('admin.pages.testimoni.index', compact('testimonis'));
     }
 
+    public function create()
+    {
+        $mode = 'create';
+
+        return view('admin.pages.testimoni.form', compact('mode'));
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -62,14 +69,16 @@ class TestimoniController extends Controller
         return redirect()->route('admin.testimoni.index')->with('success', 'Testimoni berhasil ditambahkan!');
     }
 
-    public function show($id)
+    public function show(Testimoni $testimoni)
     {
-        $testimoni = Testimoni::findOrFail($id);
+        return view('admin.pages.testimoni.show', compact('testimoni'));
+    }
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $testimoni,
-        ]);
+    public function edit(Testimoni $testimoni)
+    {
+        $mode = 'edit';
+
+        return view('admin.pages.testimoni.form', compact('mode', 'testimoni'));
     }
 
     public function update(Request $request, $id)

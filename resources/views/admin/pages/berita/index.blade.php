@@ -27,14 +27,44 @@
 
             <!-- Action CTA -->
             <div class="flex items-center gap-2.5 flex-wrap">
-                <button @click="openAddModal()" type="button"
+                <a href="{{ route('admin.berita.create') }}" type="button"
                     class="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-medium text-white bg-brand-500 rounded-xl hover:bg-brand-600 focus:ring-4 focus:ring-brand-500/20 transition-all shadow-sm shadow-brand-500/20">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                     Tambah Berita Baru
-                </button>
+                </a>
             </div>
+        </div>
+
+        <!-- Banner Sukses -->
+        <div x-data="{
+                show: false,
+                msg: '',
+                init() {
+                    @if (session('success'))
+                        this.msg = {{ Js::from(session('success')) }};
+                        this.show = true;
+                    @endif
+                    const p = new URLSearchParams(window.location.search);
+                    if (p.get('saved') === '1') { this.msg = 'Berita baru berhasil disimpan.'; this.show = true; }
+                    else if (p.get('updated') === '1') { this.msg = 'Perubahan berita berhasil disimpan.'; this.show = true; }
+                    if (!this.show) return;
+                    setTimeout(() => {
+                        this.show = false;
+                        window.history.replaceState({}, '', '{{ route('admin.berita.index') }}');
+                    }, 5000);
+                }
+            }"
+            x-show="show" x-cloak
+            class="flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-700 dark:border-green-800/40 dark:bg-green-500/10 dark:text-green-400">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span x-text="msg"></span>
+            <button @click="show = false" class="ml-auto text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
         </div>
 
         <!-- Stat Summary Cards -->
@@ -276,7 +306,7 @@
                                 <td class="py-3.5 px-3.5 sm:px-5 text-right">
                                     <div class="flex items-center justify-end gap-1">
                                         <!-- Detail -->
-                                        <button @click="openDetailModal(item)" type="button" title="Lihat Detail Berita"
+                                        <a :href="'{{ url('admin/berita') }}/' + item.id" title="Lihat Detail Berita"
                                             class="p-1.5 rounded-lg text-gray-400 hover:text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-500/10 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -286,10 +316,10 @@
                                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                                                 </path>
                                             </svg>
-                                        </button>
+                                        </a>
 
                                         <!-- Edit -->
-                                        <button @click="openEditModal(item)" type="button" title="Ubah Berita"
+                                        <a :href="'{{ url('admin/berita') }}/' + item.id + '/edit'" title="Ubah Berita"
                                             class="p-1.5 rounded-lg text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -297,7 +327,7 @@
                                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                                 </path>
                                             </svg>
-                                        </button>
+                                        </a>
 
                                         <!-- Delete -->
                                         <button @click="openDeleteModal(item)" type="button" title="Hapus Berita"
@@ -382,377 +412,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
-                    </div>
-                </template>
-            </div>
-        </div>
-
-        <!-- ========================================================================= -->
-        <!-- MODAL: TAMBAH BERITA (TINYMCE & LIVE AUTO SLUG)                          -->
-        <!-- ========================================================================= -->
-        <div x-show="isAddModalOpen" x-cloak
-            class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
-            @keydown.escape.window="closeAddModal()">
-            <div x-show="isAddModalOpen"
-                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                class="w-full max-w-3xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-6">
-                <!-- Modal Header -->
-                <div
-                    class="px-6 py-4.5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-gray-50/50 dark:bg-white/[0.02]">
-                    <div class="flex items-center gap-2.5">
-                        <span class="p-2 rounded-xl bg-brand-500/10 text-brand-500">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
-                                </path>
-                            </svg>
-                        </span>
-                        <div>
-                            <h3 class="text-base font-bold text-gray-900 dark:text-white">Tambah Berita & Artikel Baru</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Lengkapi formulir di bawah ini untuk
-                                menerbitkan berita
-                                logistik.</p>
-                        </div>
-                    </div>
-                    <button @click="closeAddModal()" class="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Modal Form -->
-                <form @submit.prevent="submitAddBerita()" class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
-                    <!-- Hidden Slug Input -->
-                    <input type="hidden" x-model="formAdd.slug" />
-
-                    <!-- Baris 1: Judul Berita (1 Baris Penuh) -->
-                    <div>
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                            Judul Berita <span class="text-rose-500">*</span>
-                        </label>
-                        <input type="text" x-model="formAdd.judul" @input="formAdd.slug = generateSlug(formAdd.judul)"
-                            placeholder="Contoh: Pembukaan Rute Baru Kargo Maritim Jawa-Papua 2026" required
-                            class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                    </div>
-
-                    <!-- Baris 2: Sumber & Status (1 Baris - 2 Kolom) -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- Sumber -->
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Sumber / Penulis
-                            </label>
-                            <input type="text" x-model="formAdd.sumber"
-                                placeholder="Contoh: Humas Fastlog / Warta Logistik"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                        </div>
-
-                        <!-- Status -->
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Status Publikasi
-                            </label>
-                            <select x-model="formAdd.status"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
-                                <option value="published">Published (Terbit)</option>
-                                <option value="draft">Draft (Simpan Sementara)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Baris 3: Gambar Banner (1 Baris) -->
-                    <div class="space-y-2">
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                            Gambar Banner / Thumbnail
-                        </label>
-                        <input type="file" accept="image/*" @change="handleAddImageChange($event)"
-                            class="w-full text-xs text-gray-500 dark:text-gray-400 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-500 hover:file:bg-brand-100 cursor-pointer border border-gray-200 dark:border-gray-700 rounded-xl p-1.5 bg-white dark:bg-gray-800" />
-
-                        <!-- Live Preview of Uploaded Image -->
-                        <template x-if="formAdd.imagePreview">
-                            <div
-                                class="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 flex items-center gap-3">
-                                <img :src="formAdd.imagePreview"
-                                    class="w-16 h-12 object-cover rounded-lg border border-gray-200 dark:border-gray-600" />
-                                <div class="min-w-0 flex-1">
-                                    <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate"
-                                        x-text="formAdd.imageFileName"></p>
-                                    <span class="text-[10px] text-emerald-500 font-medium">Gambar siap diunggah</span>
-                                </div>
-                                <button type="button" @click="formAdd.imagePreview = null; formAdd.imageFile = null"
-                                    class="text-xs text-rose-500 hover:underline">Hapus</button>
-                            </div>
-                        </template>
-                    </div>
-
-                    <!-- Baris 4: Isi Berita (TinyMCE Rich Text Editor) -->
-                    <div>
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                            Isi Berita Lengkap <span class="text-rose-500">*</span>
-                        </label>
-                        <div class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-                            <textarea id="tinymce_add_editor" class="w-full min-h-[220px]"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Actions Footer -->
-                    <div class="pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-end gap-2.5">
-                        <button type="button" @click="closeAddModal()"
-                            class="px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors">
-                            Batal
-                        </button>
-                        <button type="submit" :disabled="isSubmitting"
-                            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-medium text-white bg-brand-500 hover:bg-brand-600 rounded-xl transition-all shadow-sm shadow-brand-500/20 disabled:opacity-50">
-                            <template x-if="isSubmitting">
-                                <svg class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10"
-                                        stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                            </template>
-                            <span x-text="isSubmitting ? 'Menyimpan...' : 'Terbitkan Berita'"></span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- ========================================================================= -->
-        <!-- MODAL: UBAH BERITA (TINYMCE & AUTO SLUG)                                  -->
-        <!-- ========================================================================= -->
-        <div x-show="isEditModalOpen" x-cloak
-            class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
-            @keydown.escape.window="closeEditModal()">
-            <div x-show="isEditModalOpen"
-                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                class="w-full max-w-3xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-6">
-                <!-- Modal Header -->
-                <div
-                    class="px-6 py-4.5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-gray-50/50 dark:bg-white/[0.02]">
-                    <div class="flex items-center gap-2.5">
-                        <span class="p-2 rounded-xl bg-amber-500/10 text-amber-500">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                </path>
-                            </svg>
-                        </span>
-                        <div>
-                            <h3 class="text-base font-bold text-gray-900 dark:text-white">Ubah Data Berita</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Perbarui informasi, judul, sumber, dan
-                                artikel berita.
-                            </p>
-                        </div>
-                    </div>
-                    <button @click="closeEditModal()" class="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Modal Form -->
-                <form @submit.prevent="submitEditBerita()" class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
-                    <!-- Hidden Slug Input -->
-                    <input type="hidden" x-model="formEdit.slug" />
-
-                    <!-- Baris 1: Judul Berita (1 Baris Penuh) -->
-                    <div>
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                            Judul Berita <span class="text-rose-500">*</span>
-                        </label>
-                        <input type="text" x-model="formEdit.judul"
-                            @input="formEdit.slug = generateSlug(formEdit.judul)" required
-                            class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                    </div>
-
-                    <!-- Baris 2: Sumber & Status (1 Baris - 2 Kolom) -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- Sumber -->
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Sumber / Penulis
-                            </label>
-                            <input type="text" x-model="formEdit.sumber"
-                                placeholder="Contoh: Humas Fastlog / Warta Logistik"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                        </div>
-
-                        <!-- Status -->
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Status Publikasi
-                            </label>
-                            <select x-model="formEdit.status"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
-                                <option value="published">Published (Terbit)</option>
-                                <option value="draft">Draft (Simpan Sementara)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Baris 3: Ganti Gambar (1 Baris) -->
-                    <div class="space-y-2">
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                            Ganti Gambar Banner (Opsional)
-                        </label>
-                        <input type="file" accept="image/*" @change="handleEditImageChange($event)"
-                            class="w-full text-xs text-gray-500 dark:text-gray-400 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-500 hover:file:bg-brand-100 cursor-pointer border border-gray-200 dark:border-gray-700 rounded-xl p-1.5 bg-white dark:bg-gray-800" />
-
-                        <!-- Image preview for Edit -->
-                        <div
-                            class="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 flex items-center gap-3">
-                            <img :src="formEdit.imagePreview || formEdit.existingImageUrl || '/images/cards/card-01.jpg'"
-                                class="w-16 h-12 object-cover rounded-lg border border-gray-200 dark:border-gray-600"
-                                x-on:error="$event.target.onerror = null; $event.target.src = '/images/cards/card-01.jpg'" />
-                            <div class="min-w-0 flex-1">
-                                <p class="text-xs font-medium text-gray-800 dark:text-gray-200 truncate"
-                                    x-text="formEdit.imageFileName || 'Gambar Banner Saat Ini'"></p>
-                                <span class="text-[10px] text-gray-500 dark:text-gray-400">Pilih file baru jika ingin
-                                    mengganti gambar
-                                    banner</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Baris 4: TinyMCE Editor Edit -->
-                    <div>
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                            Isi Berita Lengkap <span class="text-rose-500">*</span>
-                        </label>
-                        <div class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-                            <textarea id="tinymce_edit_editor" class="w-full min-h-[220px]"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Actions Footer -->
-                    <div class="pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-end gap-2.5">
-                        <button type="button" @click="closeEditModal()"
-                            class="px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors">
-                            Batal
-                        </button>
-                        <button type="submit" :disabled="isSubmitting"
-                            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-medium text-white bg-amber-500 hover:bg-amber-600 rounded-xl transition-all shadow-sm shadow-amber-500/20 disabled:opacity-50">
-                            <template x-if="isSubmitting">
-                                <svg class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10"
-                                        stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                            </template>
-                            <span x-text="isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan'"></span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- ========================================================================= -->
-        <!-- MODAL: DETAIL BERITA & ARTIKEL                                            -->
-        <!-- ========================================================================= -->
-        <div x-show="isDetailModalOpen" x-cloak
-            class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
-            @keydown.escape.window="isDetailModalOpen = false">
-            <div x-show="isDetailModalOpen"
-                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                class="w-full max-w-2xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-6">
-                <template x-if="selectedItem">
-                    <div>
-                        <!-- Header Banner -->
-                        <div class="relative h-52 sm:h-64 w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
-                            <img :src="selectedItem.gambar_url || (selectedItem.gambar ? '/' + selectedItem.gambar :
-                                '/images/cards/card-01.jpg')"
-                                :alt="selectedItem.judul" class="w-full h-full object-cover"
-                                x-on:error="$event.target.onerror = null; $event.target.src = '/images/cards/card-01.jpg'" />
-                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/30 to-transparent">
-                            </div>
-
-                            <!-- Close button on top -->
-                            <button @click="isDetailModalOpen = false"
-                                class="absolute top-4 right-4 p-2 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12">
-                                    </path>
-                                </svg>
-                            </button>
-
-                            <!-- Bottom meta over banner -->
-                            <div class="absolute bottom-4 left-5 right-5 text-white">
-                                <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-                                    <span
-                                        class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-brand-500 text-white"
-                                        x-text="selectedItem.status === 'published' ? 'Published' : 'Draft'"></span>
-                                    <span
-                                        class="px-2 py-0.5 rounded-md text-[10px] font-mono bg-white/20 backdrop-blur-sm text-gray-100"
-                                        x-text="'/' + selectedItem.slug"></span>
-                                </div>
-                                <h2 class="text-base sm:text-xl font-bold leading-tight line-clamp-2"
-                                    x-text="selectedItem.judul"></h2>
-                            </div>
-                        </div>
-
-                        <!-- Detail Body -->
-                        <div class="p-6 space-y-4 max-h-[50vh] overflow-y-auto">
-                            <!-- Source & Date Grid -->
-                            <div class="grid grid-cols-2 gap-3 p-3.5 bg-gray-50 dark:bg-gray-800/50 rounded-xl text-xs">
-                                <div>
-                                    <span class="text-gray-400 block mb-0.5">Sumber / Penulis:</span>
-                                    <span class="font-semibold text-gray-800 dark:text-gray-200"
-                                        x-text="selectedItem.sumber || 'Humas Fastlog'"></span>
-                                </div>
-                                <div>
-                                    <span class="text-gray-400 block mb-0.5">Waktu Rilis:</span>
-                                    <span class="font-semibold text-gray-800 dark:text-gray-200"
-                                        x-text="selectedItem.formatted_date || selectedItem.created_at || '-'"></span>
-                                </div>
-                            </div>
-
-                            <!-- Formatted Content -->
-                            <div>
-                                <span
-                                    class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2">Konten
-                                    Berita:</span>
-                                <div class="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed space-y-3 bg-white dark:bg-gray-900 rounded-xl p-3 border border-gray-100 dark:border-gray-800"
-                                    x-html="selectedItem.isi"></div>
-                            </div>
-                        </div>
-
-                        <!-- Footer -->
-                        <div
-                            class="px-6 py-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between bg-gray-50/50 dark:bg-white/[0.02]">
-                            <button @click="isDetailModalOpen = false; openEditModal(selectedItem)"
-                                class="inline-flex items-center gap-1.5 text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                    </path>
-                                </svg>
-                                Ubah Berita Ini
-                            </button>
-                            <button @click="isDetailModalOpen = false"
-                                class="px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors">
-                                Tutup
-                            </button>
-                        </div>
                     </div>
                 </template>
             </div>
@@ -1226,8 +885,7 @@
 
                 // Detail Modal
                 openDetailModal(item) {
-                    this.selectedItem = item;
-                    this.isDetailModalOpen = true;
+                    window.location.href = '{{ url('admin/berita') }}/' + item.id;
                 },
 
                 // Delete Modal
@@ -1279,3 +937,4 @@
         }
     </script>
 @endsection
+

@@ -77,9 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Master Layanan (sumber data halaman front end /layanan)
-    Route::resource('admin/layanan', LayananController::class)
-        ->except(['create', 'edit'])
-        ->names('admin.layanan');
+    Route::resource('admin/layanan', LayananController::class)->names('admin.layanan');
 
     // Master Berita, Karir, Pelamar, Testimoni & Marketing Admin Routes
     Route::resource('admin/berita', BeritaController::class)->names('admin.berita');
