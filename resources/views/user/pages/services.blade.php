@@ -32,7 +32,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-                @foreach ($services as $service)
+                @forelse ($services as $service)
                     <a href="{{ route('services.detail', $service->slug) }}"
                         class="group relative rounded-2xl overflow-hidden h-96 block shadow-lg hover:shadow-2xl transition-all duration-500">
 
@@ -67,7 +67,9 @@
                         </div>
 
                     </a>
-                @endforeach
+                @empty
+                    <div class="col-span-full text-center py-10 text-gray-500 w-full">{{ __('No services yet.') }}</div>
+                @endforelse
 
             </div>
 

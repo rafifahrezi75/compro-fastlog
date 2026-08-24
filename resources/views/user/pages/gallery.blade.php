@@ -27,7 +27,7 @@
 
       {{-- Grid Foto Gallery --}}
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        @foreach ($galleries as $item)
+        @forelse ($galleries as $item)
           <div
             data-desc="{{ $item->deskripsi }}"
             @click="openModal = true; activeImage = '{{ str_starts_with($item->gambar, 'uploads/') ? asset($item->gambar) : asset('storage/' . $item->gambar) }}'; activeTitle = '{{ $item->judul }}'; activeDesc = $el.dataset.desc"
@@ -56,7 +56,9 @@
               </div>
             </div>
           </div>
-        @endforeach
+        @empty
+          <div class="col-span-full text-center py-10 text-gray-500 w-full">{{ __('No galleries yet.') }}</div>
+        @endforelse
       </div>
 
     </div>

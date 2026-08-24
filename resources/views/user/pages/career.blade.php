@@ -99,7 +99,7 @@
 
             {{-- LIST VACANCIES --}}
             <div class="space-y-4">
-                @foreach ($careers as $job)
+                @forelse ($careers as $job)
                     <div
                         class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:border-[#FF7A3D]/30 transition duration-200 flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div class="space-y-2">
@@ -145,7 +145,9 @@
                             {{ __('View Detail & Apply') }}
                         </a>
                     </div>
-                @endforeach
+                @empty
+                    <div class="text-center py-10 text-gray-500 w-full">{{ __('No job vacancies available yet.') }}</div>
+                @endforelse
             </div>
 
         </div>

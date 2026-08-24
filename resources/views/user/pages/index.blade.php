@@ -246,7 +246,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach ($layanans as $item)
+                @forelse ($layanans as $item)
                     <div class="group relative rounded-2xl border border-gray-100 overflow-hidden cursor-pointer h-72">
 
                         {{-- Background Image (muncul pas hover) --}}
@@ -284,7 +284,9 @@
                         </div>
 
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-span-full text-center py-10 text-gray-500 w-full">{{ __('No services yet.') }}</div>
+                @endforelse
             </div>
         </div>
     </section>
