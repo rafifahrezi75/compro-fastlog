@@ -49,6 +49,13 @@ class GalleryController extends Controller
         return view('admin.pages.gallery.index', compact('gallerys', 'stats'));
     }
 
+    public function create()
+    {
+        $mode = 'create';
+
+        return view('admin.pages.gallery.form', compact('mode'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -104,14 +111,19 @@ class GalleryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Gallery $gallery)
     {
-        $gallery = Gallery::findOrFail($id);
+        return view('admin.pages.gallery.show', compact('gallery'));
+    }
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $gallery,
-        ]);
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Gallery $gallery)
+    {
+        $mode = 'edit';
+
+        return view('admin.pages.gallery.form', compact('mode', 'gallery'));
     }
 
     /**

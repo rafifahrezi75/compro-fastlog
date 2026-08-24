@@ -34,6 +34,13 @@ class MarketingController extends Controller
         return view('admin.pages.marketing.index', compact('marketings'));
     }
 
+    public function create()
+    {
+        $mode = 'create';
+
+        return view('admin.pages.marketing.form', compact('mode'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -61,14 +68,16 @@ class MarketingController extends Controller
         return redirect()->route('admin.marketing.index')->with('success', 'Marketing berhasil ditambahkan!');
     }
 
-    public function show($id)
+    public function show(Marketing $marketing)
     {
-        $marketing = \App\Models\Marketing::findOrFail($id);
+        return view('admin.pages.marketing.show', compact('marketing'));
+    }
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $marketing,
-        ]);
+    public function edit(Marketing $marketing)
+    {
+        $mode = 'edit';
+
+        return view('admin.pages.marketing.form', compact('mode', 'marketing'));
     }
 
     public function update(Request $request, $id)

@@ -25,13 +25,13 @@
             <!-- Action CTA -->
             <div class="flex items-center gap-2.5 flex-wrap">
                 <template x-if="infos.length === 0">
-                    <button @click="openAddModal()" type="button"
+                    <a href="{{ route('admin.infos.create') }}" type="button"
                         class="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-medium text-white bg-brand-500 rounded-xl hover:bg-brand-600 focus:ring-4 focus:ring-brand-500/20 transition-all shadow-sm shadow-brand-500/20 cursor-pointer">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>
                         Tambah Info Baru
-                    </button>
+                    </a>
                 </template>
             </div>
         </div>
@@ -165,7 +165,7 @@
                                 </td>
                                 <td class="py-3.5 px-3.5 sm:px-5 text-right">
                                     <div class="flex items-center justify-end gap-1">
-                                        <button @click="openEditModal(item)" type="button" title="Ubah Info"
+                                        <a :href="'{{ url('admin/infos') }}/' + item.id + '/edit'" title="Ubah Info"
                                             class="p-1.5 rounded-lg text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors cursor-pointer">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -173,7 +173,7 @@
                                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                                 </path>
                                             </svg>
-                                        </button>
+                                        </a>
                                         <button @click="openDeleteModal(item)" type="button" title="Hapus Info"
                                             class="p-1.5 rounded-lg text-gray-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors cursor-pointer">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
@@ -233,183 +233,6 @@
             </div>
         </div>
 
-        <!-- MODAL ADD -->
-        <div x-show="isAddModalOpen" x-cloak
-            class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
-            @keydown.escape.window="closeAddModal()">
-            <div
-                class="w-full max-w-2xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-8">
-                <div class="px-6 py-4.5 border-b border-gray-100 flex items-center justify-between">
-                    <h3 class="text-base font-bold text-gray-900 dark:text-white">Tambah Info Perusahaan</h3>
-                    <button @click="closeAddModal()" class="text-gray-400 hover:text-gray-600 cursor-pointer">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-                <form action="{{ route('admin.infos.store') }}" method="POST" enctype="multipart/form-data"
-                    class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
-                    @csrf
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Nama Perusahaan *</label>
-                        <input type="text" name="nama" required
-                            class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Email *</label>
-                            <input type="email" name="email" required
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">No Telp *</label>
-                            <input type="text" name="notelp" required
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Kota *</label>
-                            <input type="text" name="kota" required
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Logo</label>
-                            <input type="file" name="logo" accept="image/*"
-                                class="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Alamat Lengkap *</label>
-                        <textarea name="alamatLengkap" required rows="2"
-                            class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500"></textarea>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Link Facebook</label>
-                            <input type="url" name="linkFacebook"
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Link
-                                Instagram</label>
-                            <input type="url" name="linkInstagram"
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Link X
-                                (Twitter)</label>
-                            <input type="url" name="linkX"
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Link LinkedIn</label>
-                            <input type="url" name="linkLinkedin"
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                    </div>
-                    <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
-                        <button type="button" @click="closeAddModal()"
-                            class="px-5 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 cursor-pointer">Batal</button>
-                        <button type="submit"
-                            class="px-5 py-2.5 text-sm font-medium text-white bg-brand-500 rounded-xl hover:bg-brand-600 cursor-pointer">Simpan
-                            Info</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- MODAL EDIT -->
-        <div x-show="isEditModalOpen" x-cloak
-            class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto mb-0"
-            @keydown.escape.window="closeEditModal()">
-            <div
-                class="w-full max-w-2xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-8">
-                <div class="px-6 py-4.5 border-b border-gray-100 flex items-center justify-between">
-                    <h3 class="text-base font-bold text-gray-900 dark:text-white">Ubah Info Perusahaan</h3>
-                    <button @click="closeEditModal()" class="text-gray-400 hover:text-gray-600 cursor-pointer">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-                <form :action="'/admin/infos/' + formEdit.id" method="POST" enctype="multipart/form-data"
-                    class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
-                    @csrf
-                    @method('PUT')
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Nama Perusahaan *</label>
-                        <input type="text" name="nama" x-model="formEdit.nama" required
-                            class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Email *</label>
-                            <input type="email" name="email" x-model="formEdit.email" required
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">No Telp *</label>
-                            <input type="text" name="notelp" x-model="formEdit.notelp" required
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Kota *</label>
-                            <input type="text" name="kota" x-model="formEdit.kota" required
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Logo Baru
-                                (opsional)</label>
-                            <input type="file" name="logo" accept="image/*"
-                                class="w-full px-3.5 py-2 text-sm border border-gray-200 rounded-xl" />
-                            <p class="text-[10px] text-gray-400 mt-1">Kosongkan jika tidak ingin mengubah logo.</p>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Alamat Lengkap *</label>
-                        <textarea name="alamatLengkap" x-model="formEdit.alamatLengkap" required rows="2"
-                            class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500"></textarea>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Link Facebook</label>
-                            <input type="url" name="linkFacebook" x-model="formEdit.linkFacebook"
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Link
-                                Instagram</label>
-                            <input type="url" name="linkInstagram" x-model="formEdit.linkInstagram"
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Link X
-                                (Twitter)</label>
-                            <input type="url" name="linkX" x-model="formEdit.linkX"
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Link LinkedIn</label>
-                            <input type="url" name="linkLinkedin" x-model="formEdit.linkLinkedin"
-                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        </div>
-                    </div>
-                    <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
-                        <button type="button" @click="closeEditModal()"
-                            class="px-5 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 cursor-pointer">Batal</button>
-                        <button type="submit"
-                            class="px-5 py-2.5 text-sm font-medium text-white bg-amber-500 rounded-xl hover:bg-amber-600 cursor-pointer">Simpan
-                            Perubahan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
         <!-- MODAL DELETE -->
         <div x-show="isDeleteModalOpen" x-cloak
             class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm"
@@ -451,10 +274,7 @@
                 searchQuery: '',
                 currentPage: 1,
                 perPage: 10,
-                isAddModalOpen: false,
-                isEditModalOpen: false,
                 isDeleteModalOpen: false,
-                formEdit: {},
                 formDelete: {},
 
                 init() {
@@ -491,27 +311,6 @@
                 },
                 goToPage(page) {
                     this.currentPage = page;
-                },
-
-                openAddModal() {
-                    this.isAddModalOpen = true;
-                    document.body.style.overflow = 'hidden';
-                },
-                closeAddModal() {
-                    this.isAddModalOpen = false;
-                    document.body.style.overflow = 'auto';
-                },
-
-                openEditModal(item) {
-                    this.formEdit = {
-                        ...item
-                    };
-                    this.isEditModalOpen = true;
-                    document.body.style.overflow = 'hidden';
-                },
-                closeEditModal() {
-                    this.isEditModalOpen = false;
-                    document.body.style.overflow = 'auto';
                 },
 
                 openDeleteModal(item) {

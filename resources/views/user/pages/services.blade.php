@@ -52,10 +52,10 @@
 
                         <div class="absolute bottom-0 left-0 right-0 p-7">
                             <h3 class="text-2xl font-bold text-white mb-3">{{ __($service->nama) }}</h3>
-                            <p
-                                class="text-white/80 text-sm leading-relaxed mb-4 line-clamp-2 group-hover:line-clamp-none transition-all [&_p]:m-0">
+                            <div
+                                class="text-white/80 text-sm leading-relaxed mb-4 line-clamp-2 group-hover:line-clamp-none transition-all [&_p]:m-0 [&_p]:contents">
                                 {!! $service->deskripsi_singkat !!}
-                            </p>
+                            </div>
                             <span
                                 class="inline-flex items-center text-white font-semibold gap-2 text-sm group-hover:gap-3 transition-all duration-300">
                                 {{ __('Read More') }}

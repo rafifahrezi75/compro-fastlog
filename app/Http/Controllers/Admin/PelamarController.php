@@ -69,10 +69,7 @@ class PelamarController extends Controller
     {
         $pelamar = Pelamar::with('karir')->findOrFail($id);
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $pelamar,
-        ]);
+        return view('admin.pages.pelamar.show', compact('pelamar'));
     }
 
     /**

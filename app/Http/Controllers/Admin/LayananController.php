@@ -35,6 +35,13 @@ class LayananController extends Controller
         return view('admin.pages.layanan.index', compact('layanans'));
     }
 
+    public function create()
+    {
+        $mode = 'create';
+
+        return view('admin.pages.layanan.form', compact('mode'));
+    }
+
     public function store(Request $request)
     {
         $data = $this->validateData($request);
@@ -61,10 +68,14 @@ class LayananController extends Controller
 
     public function show(Layanan $layanan)
     {
-        return response()->json([
-            'status' => 'success',
-            'data'   => $layanan,
-        ]);
+        return view('admin.pages.layanan.show', compact('layanan'));
+    }
+
+    public function edit(Layanan $layanan)
+    {
+        $mode = 'edit';
+
+        return view('admin.pages.layanan.form', compact('mode', 'layanan'));
     }
 
     public function update(Request $request, Layanan $layanan)

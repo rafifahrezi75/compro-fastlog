@@ -24,13 +24,13 @@
 
             <!-- Action CTA -->
             <div class="flex items-center gap-2.5 flex-wrap">
-                <button @click="openAddModal()" type="button"
+                <a href="{{ route('admin.akun.create') }}" type="button"
                     class="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-medium text-white bg-brand-500 rounded-xl hover:bg-brand-600 focus:ring-4 focus:ring-brand-500/20 transition-all shadow-sm shadow-brand-500/20 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                     Tambah Akun Baru
-                </button>
+                </a>
             </div>
         </div>
 
@@ -115,10 +115,14 @@
                                 </td>
                                 <td class="py-3.5 px-3.5 sm:px-5 text-right">
                                     <div class="flex items-center justify-end gap-1">
-                                        <button @click="openEditModal(item)" type="button" title="Ubah Akun"
+                                        <a :href="'{{ url('admin/akun') }}/' + item.id" title="Detail Akun"
+                                            class="p-1.5 rounded-lg text-gray-400 hover:text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-500/10 transition-colors cursor-pointer">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                        </a>
+                                        <a :href="'{{ url('admin/akun') }}/' + item.id + '/edit'" title="Ubah Akun"
                                             class="p-1.5 rounded-lg text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors cursor-pointer">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                        </button>
+                                        </a>
                                         <button @click="openDeleteModal(item)" type="button" title="Hapus Akun"
                                             class="p-1.5 rounded-lg text-gray-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors cursor-pointer">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -159,71 +163,6 @@
             </div>
         </div>
 
-        <!-- MODAL ADD -->
-        <div x-show="isAddModalOpen" x-cloak class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto" @keydown.escape.window="closeAddModal()">
-            <div class="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-8">
-                <div class="px-6 py-4.5 border-b border-gray-100 flex items-center justify-between">
-                    <h3 class="text-base font-bold text-gray-900 dark:text-white">Tambah Akun Baru</h3>
-                    <button @click="closeAddModal()" class="text-gray-400 hover:text-gray-600 cursor-pointer">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                </div>
-                <form action="{{ route('admin.akun.store') }}" method="POST" class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
-                    @csrf
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Nama Lengkap *</label>
-                        <input type="text" name="name" required class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Email *</label>
-                        <input type="email" name="email" required class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Password *</label>
-                        <input type="password" name="password" minlength="8" required class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        <p class="text-[10px] text-gray-400 mt-1">Password minimal 8 karakter.</p>
-                    </div>
-                    <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
-                        <button type="button" @click="closeAddModal()" class="px-5 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 cursor-pointer">Batal</button>
-                        <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-brand-500 rounded-xl hover:bg-brand-600 cursor-pointer">Simpan Akun</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- MODAL EDIT -->
-        <div x-show="isEditModalOpen" x-cloak class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto" @keydown.escape.window="closeEditModal()">
-            <div class="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-8">
-                <div class="px-6 py-4.5 border-b border-gray-100 flex items-center justify-between">
-                    <h3 class="text-base font-bold text-gray-900 dark:text-white">Ubah Akun</h3>
-                    <button @click="closeEditModal()" class="text-gray-400 hover:text-gray-600 cursor-pointer">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                </div>
-                <form :action="'/admin/akun/' + formEdit.id" method="POST" class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
-                    @csrf
-                    @method('PUT')
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Nama Lengkap *</label>
-                        <input type="text" name="name" x-model="formEdit.name" required class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Email *</label>
-                        <input type="email" name="email" x-model="formEdit.email" required class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1.5">Password Baru (opsional)</label>
-                        <input type="password" name="password" minlength="8" class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-brand-500" />
-                        <p class="text-[10px] text-gray-400 mt-1">Kosongkan jika tidak ingin mengubah password.</p>
-                    </div>
-                    <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
-                        <button type="button" @click="closeEditModal()" class="px-5 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 cursor-pointer">Batal</button>
-                        <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-amber-500 rounded-xl hover:bg-amber-600 cursor-pointer">Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
         <!-- MODAL DELETE -->
         <div x-show="isDeleteModalOpen" x-cloak class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm" @keydown.escape.window="closeDeleteModal()">
             <div class="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 shadow-2xl overflow-hidden p-6 text-center">
@@ -251,10 +190,7 @@
             searchQuery: '',
             currentPage: 1,
             perPage: 10,
-            isAddModalOpen: false,
-            isEditModalOpen: false,
             isDeleteModalOpen: false,
-            formEdit: {},
             formDelete: {},
 
             init() {
@@ -286,25 +222,6 @@
             prevPage() { if (this.currentPage > 1) this.currentPage--; },
             nextPage() { if (this.currentPage < this.totalPages) this.currentPage++; },
             goToPage(page) { this.currentPage = page; },
-
-            openAddModal() {
-                this.isAddModalOpen = true;
-                document.body.style.overflow = 'hidden';
-            },
-            closeAddModal() {
-                this.isAddModalOpen = false;
-                document.body.style.overflow = 'auto';
-            },
-
-            openEditModal(item) {
-                this.formEdit = { ...item };
-                this.isEditModalOpen = true;
-                document.body.style.overflow = 'hidden';
-            },
-            closeEditModal() {
-                this.isEditModalOpen = false;
-                document.body.style.overflow = 'auto';
-            },
 
             openDeleteModal(item) {
                 this.formDelete = { ...item };

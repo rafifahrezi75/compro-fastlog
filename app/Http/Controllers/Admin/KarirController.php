@@ -96,6 +96,14 @@ class KarirController extends Controller
         ));
     }
 
+    public function create()
+    {
+        $mode = 'create';
+        [$masterProvinsiList, $masterKotaMap] = $this->wilayahMaster();
+
+        return view('admin.pages.karir.form', compact('mode', 'masterProvinsiList', 'masterKotaMap'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -159,12 +167,39 @@ class KarirController extends Controller
      */
     public function show($id)
     {
-        $karir = Karir::findOrFail($id);
+        $karir = Karir::withCount('pelamars')->findOrFail($id);
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $karir,
-        ]);
+        $pelamars = $karir->pelamars()->latest()->take(10)->get();
+
+        return view('admin.pages.karir.show', compact('karir', 'pelamars'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        $karir = Karir::findOrFail($id);
+        $mode = 'edit';
+        [$masterProvinsiList, $masterKotaMap] = $this->wilayahMaster();
+
+        return view('admin.pages.karir.form', compact('mode', 'karir', 'masterProvinsiList', 'masterKotaMap'));
+    }
+
+    /**
+     * Master data wilayah Indonesia (provinsi + map kota per provinsi).
+     */
+    private function wilayahMaster(): array
+    {
+        $masterProvinsiList = \App\Models\Wilayah::provinsi()->orderBy('nama')->get(['kode', 'nama']);
+
+        $allCities = \App\Models\Wilayah::kabupatenKota()->orderBy('nama')->get(['kode', 'nama']);
+        $masterKotaMap = [];
+        foreach ($allCities as $city) {
+            $masterKotaMap[substr($city->kode, 0, 2)][] = $city->nama;
+        }
+
+        return [$masterProvinsiList, $masterKotaMap];
     }
 
     /**

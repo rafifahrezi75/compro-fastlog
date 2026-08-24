@@ -27,14 +27,44 @@
 
             <!-- Action CTA -->
             <div class="flex items-center gap-2.5 flex-wrap">
-                <button @click="openAddModal()" type="button"
+                <a href="{{ route('admin.karir.create') }}" type="button"
                     class="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-medium text-white bg-brand-500 rounded-xl hover:bg-brand-600 focus:ring-4 focus:ring-brand-500/20 transition-all shadow-sm shadow-brand-500/20 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                     Tambah Karir Baru
-                </button>
+                </a>
             </div>
+        </div>
+
+        <!-- Banner Sukses -->
+        <div x-data="{
+                show: false,
+                msg: '',
+                init() {
+                    @if (session('success'))
+                        this.msg = {{ Js::from(session('success')) }};
+                        this.show = true;
+                    @endif
+                    const p = new URLSearchParams(window.location.search);
+                    if (p.get('saved') === '1') { this.msg = 'Lowongan baru berhasil disimpan.'; this.show = true; }
+                    else if (p.get('updated') === '1') { this.msg = 'Perubahan lowongan berhasil disimpan.'; this.show = true; }
+                    if (!this.show) return;
+                    setTimeout(() => {
+                        this.show = false;
+                        window.history.replaceState({}, '', '{{ route('admin.karir.index') }}');
+                    }, 5000);
+                }
+            }"
+            x-show="show" x-cloak
+            class="flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-700 dark:border-green-800/40 dark:bg-green-500/10 dark:text-green-400">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span x-text="msg"></span>
+            <button @click="show = false" class="ml-auto text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
         </div>
 
         <!-- Stat Summary Cards -->
@@ -308,7 +338,7 @@
                                 <td class="py-3.5 px-3.5 sm:px-5 text-right">
                                     <div class="flex items-center justify-end gap-1">
                                         <!-- Detail -->
-                                        <button @click="openDetailModal(item)" type="button" title="Lihat Detail Karir"
+                                        <a :href="'{{ url('admin/karir') }}/' + item.id" title="Lihat Detail Karir"
                                             class="p-1.5 rounded-lg text-gray-400 hover:text-brand-500 hover:bg-brand-50 dark:hover:bg-brand-500/10 transition-colors cursor-pointer">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -318,10 +348,10 @@
                                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                                                 </path>
                                             </svg>
-                                        </button>
+                                        </a>
 
                                         <!-- Edit -->
-                                        <button @click="openEditModal(item)" type="button" title="Ubah Data Karir"
+                                        <a :href="'{{ url('admin/karir') }}/' + item.id + '/edit'" title="Ubah Data Karir"
                                             class="p-1.5 rounded-lg text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors cursor-pointer">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -329,7 +359,7 @@
                                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                                 </path>
                                             </svg>
-                                        </button>
+                                        </a>
 
                                         <!-- Delete -->
                                         <button @click="openDeleteModal(item)" type="button" title="Hapus Karir"
@@ -414,626 +444,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
-                    </div>
-                </template>
-            </div>
-        </div>
-
-        <!-- ========================================================================= -->
-        <!-- MODAL: TAMBAH KARIR BARU                                                 -->
-        <!-- ========================================================================= -->
-        <div x-show="isAddModalOpen" x-cloak
-            class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
-            @keydown.escape.window="closeAddModal()">
-            <div x-show="isAddModalOpen"
-                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                class="w-full max-w-2xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-8">
-                <!-- Modal Header -->
-                <div class="px-6 py-4.5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-xl bg-brand-50 dark:bg-brand-500/10 text-brand-500">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
-                                </path>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-base font-bold text-gray-900 dark:text-white">Tambah Lowongan Karir</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Lengkapi detail posisi, wilayah penempatan,
-                                dan poin kualifikasi.</p>
-                        </div>
-                    </div>
-                    <button @click="closeAddModal()"
-                        class="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg cursor-pointer">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Modal Body Form -->
-                <form @submit.prevent="submitAddKarir()" class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
-                    <!-- Baris 1: Judul / Posisi Karir (1 Baris Penuh) -->
-                    <div>
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                            Nama Posisi Karir <span class="text-rose-500">*</span>
-                        </label>
-                        <input type="text" x-model="formAdd.nama_karir"
-                            @input="formAdd.slug = generateSlug(formAdd.nama_karir)"
-                            placeholder="Contoh: Sea Freight Operations Officer / Customs Specialist" required
-                            class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                        <input type="hidden" x-model="formAdd.slug" />
-                    </div>
-
-                    <!-- Baris 2: Departemen & Tipe Pekerjaan (1 Baris - 2 Kolom) -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Departemen
-                            </label>
-                            <input type="text" x-model="formAdd.departemen"
-                                placeholder="Contoh: Operations / Logistics / Finance"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                        </div>
-
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Tipe Pekerjaan
-                            </label>
-                            <select x-model="formAdd.tipe_pekerjaan"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
-                                <option value="Full-Time">Full-Time (Penuh Waktu)</option>
-                                <option value="Part-Time">Part-Time (Paruh Waktu)</option>
-                                <option value="Contract">Contract (Kontrak)</option>
-                                <option value="Internship">Internship (Magang)</option>
-                                <option value="Remote / Hybrid">Remote / Hybrid</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Baris 3: Alamat Karir - PROVINSI DULU BARU KOTA (Cascading Select) -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Provinsi <span class="text-rose-500">*</span>
-                            </label>
-                            <select x-model="formAdd.provinsi_kode" @change="onProvinsiAddChange()" required
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
-                                <option value="" disabled selected>-- Pilih Provinsi --</option>
-                                <template x-for="p in masterProvinsiList" :key="p.kode">
-                                    <option :value="p.kode" x-text="p.nama"></option>
-                                </template>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Kota / Kabupaten <span class="text-rose-500">*</span>
-                            </label>
-                            <select x-model="formAdd.kota" :disabled="!formAdd.provinsi_kode" required
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-900 disabled:cursor-not-allowed">
-                                <option value="" disabled selected
-                                    x-text="formAdd.provinsi_kode ? '-- Pilih Kota / Kabupaten --' : '-- Pilih Provinsi Terlebih Dahulu --'">
-                                </option>
-                                <template x-for="k in formAdd.kotaList" :key="k">
-                                    <option :value="k" x-text="k"></option>
-                                </template>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Baris 4: Negara & Status (1 Baris - 2 Kolom) -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Negara
-                            </label>
-                            <input type="text" x-model="formAdd.negara" placeholder="Indonesia"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                        </div>
-
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Status Lowongan
-                            </label>
-                            <select x-model="formAdd.status"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
-                                <option value="Aktif">Aktif (Buka Pendaftaran)</option>
-                                <option value="Tutup">Tutup (Closed)</option>
-                                <option value="Draft">Draft (Simpan Sementara)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Baris 5: Alamat Detail (1 Baris Penuh) -->
-                    <div>
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                            Alamat Detail Penempatan <span class="text-rose-500">*</span>
-                        </label>
-                        <textarea x-model="formAdd.alamat_detail" rows="2" required
-                            placeholder="Contoh: Gedung Fastlog Hub Perak, Jl. Tanjung Perak Timur No. 88, Pabean Cantian, Surabaya 60165"
-                            class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"></textarea>
-                    </div>
-
-                    <!-- Baris 6: Deskripsi Pekerjaan -->
-                    <div>
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                            Deskripsi Pekerjaan
-                        </label>
-                        <textarea x-model="formAdd.deskripsi" rows="3"
-                            placeholder="Jelaskan ringkasan tugas dan tanggung jawab posisi ini..."
-                            class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"></textarea>
-                    </div>
-
-                    <!-- Baris 7: Kualifikasi & Persyaratan DYNAMIC POINTS (+ / -) -->
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                                Kualifikasi & Persyaratan <span class="text-rose-500">*</span>
-                            </label>
-                            <button type="button" @click="addKualifikasiPoint('add')"
-                                class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-lg bg-brand-500/10 text-brand-600 hover:bg-brand-500/20 dark:text-brand-400 transition cursor-pointer">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 4v16m8-8H4"></path>
-                                </svg>
-                                Tambah Poin
-                            </button>
-                        </div>
-
-                        <div class="space-y-2.5">
-                            <template x-for="(point, idx) in formAdd.kualifikasi_list" :key="idx">
-                                <div class="flex items-center gap-2">
-                                    <span
-                                        class="w-6 h-6 rounded-lg bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400 text-xs font-bold flex items-center justify-center shrink-0"
-                                        x-text="idx + 1"></span>
-                                    <input type="text" x-model="formAdd.kualifikasi_list[idx]"
-                                        placeholder="Contoh: Pendidikan minimal D3 / S1 semua jurusan"
-                                        class="flex-1 px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                                    <button type="button" @click="removeKualifikasiPoint('add', idx)"
-                                        :disabled="formAdd.kualifikasi_list.length === 1"
-                                        class="p-2 text-gray-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-                                        title="Hapus Poin">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                            </path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </template>
-                        </div>
-                        <p class="text-[11px] text-gray-400 mt-1.5">Klik <strong>+ Tambah Poin</strong> untuk menambah
-                            butir persyaratan kualifikasi kerja.</p>
-                    </div>
-
-                    <!-- Actions Footer -->
-                    <div class="pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-end gap-2.5">
-                        <button type="button" @click="closeAddModal()"
-                            class="px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors cursor-pointer">
-                            Batal
-                        </button>
-                        <button type="submit" :disabled="isSubmitting"
-                            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-medium text-white bg-brand-500 hover:bg-brand-600 rounded-xl transition-all shadow-sm shadow-brand-500/20 disabled:opacity-50 cursor-pointer">
-                            <template x-if="isSubmitting">
-                                <svg class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10"
-                                        stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                            </template>
-                            <span x-text="isSubmitting ? 'Menyimpan...' : 'Simpan Data Karir'"></span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- ========================================================================= -->
-        <!-- MODAL: UBAH DATA KARIR                                                    -->
-        <!-- ========================================================================= -->
-        <div x-show="isEditModalOpen" x-cloak
-            class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
-            @keydown.escape.window="closeEditModal()">
-            <div x-show="isEditModalOpen"
-                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                class="w-full max-w-2xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-8">
-                <!-- Modal Header -->
-                <div class="px-6 py-4.5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="p-2 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-500">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                </path>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-base font-bold text-gray-900 dark:text-white">Ubah Data Karir</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Perbarui informasi posisi, lokasi, atau
-                                butir kualifikasi.</p>
-                        </div>
-                    </div>
-                    <button @click="closeEditModal()"
-                        class="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg cursor-pointer">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Modal Body Form -->
-                <form @submit.prevent="submitEditKarir()" class="p-6 space-y-4 max-h-[78vh] overflow-y-auto">
-                    <!-- Baris 1: Judul / Posisi Karir -->
-                    <div>
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                            Nama Posisi Karir <span class="text-rose-500">*</span>
-                        </label>
-                        <input type="text" x-model="formEdit.nama_karir"
-                            @input="formEdit.slug = generateSlug(formEdit.nama_karir)" required
-                            class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                        <input type="hidden" x-model="formEdit.slug" />
-                    </div>
-
-                    <!-- Baris 2: Departemen & Tipe Pekerjaan -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Departemen
-                            </label>
-                            <input type="text" x-model="formEdit.departemen"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                        </div>
-
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Tipe Pekerjaan
-                            </label>
-                            <select x-model="formEdit.tipe_pekerjaan"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
-                                <option value="Full-Time">Full-Time (Penuh Waktu)</option>
-                                <option value="Part-Time">Part-Time (Paruh Waktu)</option>
-                                <option value="Contract">Contract (Kontrak)</option>
-                                <option value="Internship">Internship (Magang)</option>
-                                <option value="Remote / Hybrid">Remote / Hybrid</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Baris 3: Alamat Karir - PROVINSI DULU BARU KOTA (Cascading Select) -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Provinsi <span class="text-rose-500">*</span>
-                            </label>
-                            <select x-model="formEdit.provinsi_kode" @change="onProvinsiEditChange()" required
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
-                                <option value="" disabled selected>-- Pilih Provinsi --</option>
-                                <template x-for="p in masterProvinsiList" :key="p.kode">
-                                    <option :value="p.kode" x-text="p.nama"></option>
-                                </template>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Kota / Kabupaten <span class="text-rose-500">*</span>
-                            </label>
-                            <select x-model="formEdit.kota" :disabled="!formEdit.provinsi_kode" required
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-900 disabled:cursor-not-allowed">
-                                <option value="" disabled selected
-                                    x-text="formEdit.provinsi_kode ? '-- Pilih Kota / Kabupaten --' : '-- Pilih Provinsi Terlebih Dahulu --'">
-                                </option>
-                                <template x-for="k in formEdit.kotaList" :key="k">
-                                    <option :value="k" x-text="k"></option>
-                                </template>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Baris 4: Negara & Status -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Negara
-                            </label>
-                            <input type="text" x-model="formEdit.negara"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                        </div>
-
-                        <div>
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                                Status Lowongan
-                            </label>
-                            <select x-model="formEdit.status"
-                                class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
-                                <option value="Aktif">Aktif (Buka Pendaftaran)</option>
-                                <option value="Tutup">Tutup (Closed)</option>
-                                <option value="Draft">Draft (Simpan Sementara)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Baris 5: Alamat Detail -->
-                    <div>
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                            Alamat Detail Penempatan <span class="text-rose-500">*</span>
-                        </label>
-                        <textarea x-model="formEdit.alamat_detail" rows="2" required
-                            class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"></textarea>
-                    </div>
-
-                    <!-- Baris 6: Deskripsi Pekerjaan -->
-                    <div>
-                        <label
-                            class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-                            Deskripsi Pekerjaan
-                        </label>
-                        <textarea x-model="formEdit.deskripsi" rows="3"
-                            class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"></textarea>
-                    </div>
-
-                    <!-- Baris 7: Kualifikasi & Persyaratan DYNAMIC POINTS (+ / -) -->
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <label
-                                class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                                Kualifikasi & Persyaratan <span class="text-rose-500">*</span>
-                            </label>
-                            <button type="button" @click="addKualifikasiPoint('edit')"
-                                class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-lg bg-brand-500/10 text-brand-600 hover:bg-brand-500/20 dark:text-brand-400 transition cursor-pointer">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 4v16m8-8H4"></path>
-                                </svg>
-                                Tambah Poin
-                            </button>
-                        </div>
-
-                        <div class="space-y-2.5">
-                            <template x-for="(point, idx) in formEdit.kualifikasi_list" :key="idx">
-                                <div class="flex items-center gap-2">
-                                    <span
-                                        class="w-6 h-6 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold flex items-center justify-center shrink-0"
-                                        x-text="idx + 1"></span>
-                                    <input type="text" x-model="formEdit.kualifikasi_list[idx]"
-                                        placeholder="Contoh: Pengalaman minimal 1-2 tahun di bidang terkait"
-                                        class="flex-1 px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none" />
-                                    <button type="button" @click="removeKualifikasiPoint('edit', idx)"
-                                        :disabled="formEdit.kualifikasi_list.length === 1"
-                                        class="p-2 text-gray-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-                                        title="Hapus Poin">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                            </path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </template>
-                        </div>
-                        <p class="text-[11px] text-gray-400 mt-1.5">Klik <strong>+ Tambah Poin</strong> untuk menambah
-                            butir persyaratan kualifikasi kerja.</p>
-                    </div>
-
-                    <!-- Actions Footer -->
-                    <div class="pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-end gap-2.5">
-                        <button type="button" @click="closeEditModal()"
-                            class="px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors cursor-pointer">
-                            Batal
-                        </button>
-                        <button type="submit" :disabled="isSubmitting"
-                            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-medium text-white bg-brand-500 hover:bg-brand-600 rounded-xl transition-all shadow-sm shadow-brand-500/20 disabled:opacity-50 cursor-pointer">
-                            <template x-if="isSubmitting">
-                                <svg class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10"
-                                        stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                            </template>
-                            <span x-text="isSubmitting ? 'Memperbarui...' : 'Simpan Perubahan'"></span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- ========================================================================= -->
-        <!-- MODAL: DETAIL KARIR & PERSYARATAN                                         -->
-        <!-- ========================================================================= -->
-        <div x-show="isDetailModalOpen" x-cloak
-            class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm overflow-y-auto"
-            @keydown.escape.window="closeDetailModal()">
-            <div x-show="isDetailModalOpen"
-                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                class="w-full max-w-2xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden my-8">
-                <template x-if="selectedItem">
-                    <div>
-                        <!-- Header Detail -->
-                        <div
-                            class="px-6 py-4.5 border-b border-gray-100 dark:border-gray-800 flex items-start justify-between">
-                            <div>
-                                <div class="flex items-center gap-2 flex-wrap mb-1.5">
-                                    <span
-                                        class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400"
-                                        x-text="selectedItem.departemen || 'Operations'"></span>
-                                    <span
-                                        class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
-                                        x-text="selectedItem.tipe_pekerjaan || 'Full-Time'"></span>
-                                    <span
-                                        :class="selectedItem.status === 'Aktif' ?
-                                            'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                                            'bg-rose-50 text-rose-700 border-rose-200'"
-                                        class="px-2.5 py-0.5 rounded-full text-xs font-semibold border"
-                                        x-text="selectedItem.status"></span>
-                                </div>
-                                <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white"
-                                    x-text="selectedItem.nama_karir"></h3>
-                            </div>
-                            <button @click="closeDetailModal()"
-                                class="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg cursor-pointer">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            </button>
-                        </div>
-
-                        <!-- Body Detail -->
-                        <div class="p-6 space-y-5 max-h-[75vh] overflow-y-auto">
-                            <!-- Info Pelamar Masuk -->
-                            <div
-                                class="p-4 rounded-xl bg-brand-50/60 dark:bg-brand-500/10 border border-brand-200 dark:border-brand-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="w-10 h-10 rounded-xl bg-brand-500 text-white flex items-center justify-center font-bold text-sm shadow-sm">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                                d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                                            <circle cx="9" cy="7" r="4" />
-                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total Kandidat
-                                            Pelamar:</span>
-                                        <h4 class="text-base font-bold text-gray-900 dark:text-white"
-                                            x-text="(selectedItem.pelamars_count || 0) + ' Orang Mendaftar'"></h4>
-                                    </div>
-                                </div>
-                                <a :href="'/admin/pelamar?posisi=' + encodeURIComponent(selectedItem.nama_karir)"
-                                    class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-brand-500 hover:bg-brand-600 rounded-xl transition shadow-xs">
-                                    <span>Lihat Daftar Pelamar</span>
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </a>
-                            </div>
-
-                            <!-- Info Lokasi Penempatan -->
-                            <div
-                                class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/60 space-y-2">
-                                <div
-                                    class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                        </path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    Lokasi & Alamat Penempatan
-                                </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-                                    <div>
-                                        <span class="text-gray-400">Kota / Kabupaten:</span>
-                                        <p class="font-semibold text-gray-900 dark:text-white mt-0.5"
-                                            x-text="selectedItem.kota"></p>
-                                    </div>
-                                    <div>
-                                        <span class="text-gray-400">Provinsi:</span>
-                                        <p class="font-semibold text-gray-900 dark:text-white mt-0.5"
-                                            x-text="selectedItem.provinsi"></p>
-                                    </div>
-                                    <div>
-                                        <span class="text-gray-400">Negara:</span>
-                                        <p class="font-semibold text-gray-900 dark:text-white mt-0.5"
-                                            x-text="selectedItem.negara || 'Indonesia'"></p>
-                                    </div>
-                                </div>
-                                <div class="pt-2 border-t border-gray-200 dark:border-gray-700 text-xs">
-                                    <span class="text-gray-400">Alamat Lengkap:</span>
-                                    <p class="font-medium text-gray-800 dark:text-gray-200 mt-1"
-                                        x-text="selectedItem.alamat_detail"></p>
-                                </div>
-                            </div>
-
-                            <!-- Deskripsi -->
-                            <div>
-                                <h4
-                                    class="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">
-                                    Deskripsi Pekerjaan
-                                </h4>
-                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 whitespace-pre-line leading-relaxed"
-                                    x-text="selectedItem.deskripsi || 'Tidak ada deskripsi pekerjaan.'"></p>
-                            </div>
-
-                            <!-- Kualifikasi Poin List -->
-                            <div>
-                                <h4
-                                    class="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                                    <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    Kualifikasi & Persyaratan
-                                </h4>
-                                <div
-                                    class="p-4 bg-gray-50 dark:bg-gray-800/40 rounded-xl border border-gray-100 dark:border-gray-800">
-                                    <template
-                                        x-if="selectedItem.kualifikasi_array && selectedItem.kualifikasi_array.length > 0">
-                                        <ul class="space-y-2">
-                                            <template x-for="(req, rIdx) in selectedItem.kualifikasi_array"
-                                                :key="rIdx">
-                                                <li
-                                                    class="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700 dark:text-gray-200">
-                                                    <span
-                                                        class="w-1.5 h-1.5 rounded-full bg-brand-500 mt-1.5 shrink-0"></span>
-                                                    <span x-text="req"></span>
-                                                </li>
-                                            </template>
-                                        </ul>
-                                    </template>
-                                    <template
-                                        x-if="!selectedItem.kualifikasi_array || selectedItem.kualifikasi_array.length === 0">
-                                        <p class="text-xs text-gray-400"
-                                            x-text="selectedItem.kualifikasi || 'Tidak ada persyaratan khusus.'"></p>
-                                    </template>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Footer Detail -->
-                        <div
-                            class="px-6 py-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-white/[0.02] flex items-center justify-end gap-2.5">
-                            <button @click="closeDetailModal(); openEditModal(selectedItem)" type="button"
-                                class="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-amber-500 hover:bg-amber-600 rounded-xl transition cursor-pointer">
-                                Ubah Lowongan
-                            </button>
-                            <button @click="closeDetailModal()" type="button"
-                                class="px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition cursor-pointer">
-                                Tutup
-                            </button>
-                        </div>
                     </div>
                 </template>
             </div>
@@ -1489,8 +899,7 @@
 
                 // Detail Modal
                 openDetailModal(item) {
-                    this.selectedItem = item;
-                    this.isDetailModalOpen = true;
+                    window.location.href = '{{ url('admin/karir') }}/' + item.id;
                 },
 
                 closeDetailModal() {
@@ -1550,3 +959,4 @@
         }
     </script>
 @endsection
+

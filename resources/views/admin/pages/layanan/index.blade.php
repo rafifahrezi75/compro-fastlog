@@ -20,6 +20,35 @@
             </div>
         </div>
 
+        <!-- Banner Sukses -->
+        <div x-data="{
+                show: false,
+                msg: '',
+                init() {
+                    const p = new URLSearchParams(window.location.search);
+                    if (p.get('saved') === '1') { this.msg = 'Layanan baru berhasil disimpan.'; }
+                    else if (p.get('updated') === '1') { this.msg = 'Perubahan layanan berhasil disimpan.'; }
+                    else return;
+                    this.show = true;
+                    setTimeout(() => {
+                        this.show = false;
+                        window.history.replaceState({}, '', '{{ route('admin.layanan.index') }}');
+                    }, 5000);
+                }
+            }"
+            x-show="show" x-cloak
+            x-transition:enter="ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+            class="flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-700 dark:border-green-800/40 dark:bg-green-500/10 dark:text-green-400">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span x-text="msg"></span>
+            <button @click="show = false" class="ml-auto text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+
         <!-- KPI Cards -->
         <div class="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
             <!-- Total Layanan -->
@@ -131,13 +160,13 @@
                     </select>
 
                     <!-- Tambah Data Button -->
-                    <button @click="openAddModal()"
+                    <a href="{{ route('admin.layanan.create') }}"
                         class="inline-flex h-9.5 items-center justify-center gap-1.5 rounded-xl bg-brand-500 px-3.5 text-xs sm:text-sm font-medium text-white shadow-theme-xs hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                         <span>Tambah Data</span>
-                    </button>
+                    </a>
                 </div>
             </div>
 
@@ -195,19 +224,24 @@
                                 <!-- Aksi -->
                                 <td class="py-3.5 pl-2 pr-4 sm:pl-3 sm:pr-6 align-middle text-right">
                                     <div class="flex items-center justify-end gap-1">
-                                        <button @click="openDetailModal(item)" title="Lihat Detail"
+                                        <!-- Detail Action (Halaman Detail) -->
+                                        <a :href="'{{ url('admin/layanan') }}/' + item.id" title="Lihat Detail"
                                             class="flex h-7.5 w-7.5 items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white transition">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
-                                        </button>
-                                        <button @click="openEditModal(item)" title="Ubah Data"
+                                        </a>
+
+                                        <!-- Edit Action (Halaman Form) -->
+                                        <a :href="'{{ url('admin/layanan') }}/' + item.id + '/edit'" title="Ubah Data"
                                             class="flex h-7.5 w-7.5 items-center justify-center rounded-lg text-blue-600 hover:bg-blue-50 hover:text-blue-700 dark:text-blue-400 dark:hover:bg-blue-500/10 transition">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                             </svg>
-                                        </button>
+                                        </a>
+
+                                        <!-- Delete Action -->
                                         <button @click="openDeleteModal(item)" title="Hapus Data"
                                             class="flex h-7.5 w-7.5 items-center justify-center rounded-lg text-red-600 hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-500/10 transition">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -263,307 +297,6 @@
             </div>
         </div>
 
-        <!-- ==================== MODAL TAMBAH DATA ==================== -->
-        <div x-show="isAddModalOpen" x-cloak class="fixed inset-0 z-99999 flex items-center justify-center overflow-y-auto p-4 sm:p-6" @keydown.escape.window="isAddModalOpen = false">
-            <div @click="isAddModalOpen = false" class="fixed inset-0 h-full w-full bg-gray-900/60 backdrop-blur-xs transition-opacity"
-                x-transition:enter="ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
-
-            <div class="relative w-full max-w-lg rounded-3xl bg-white p-6 sm:p-7 shadow-2xl dark:bg-gray-900 border border-gray-100 dark:border-gray-800 z-10 my-6"
-                x-transition:enter="ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
-
-                <div class="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-gray-800">
-                    <div class="flex items-center gap-3">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-500 dark:bg-brand-500/10">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                        </div>
-                        <div>
-                            <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Tambah Layanan Baru</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Konten akan langsung tampil di front end</p>
-                        </div>
-                    </div>
-                    <button @click="isAddModalOpen = false" class="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-white">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                    </button>
-                </div>
-
-                <form @submit.prevent="submitAdd()" class="mt-4 space-y-3.5 max-h-[65vh] overflow-y-auto pr-1">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Layanan <span class="text-red-500">*</span></label>
-                        <input type="text" x-model.trim="formAdd.nama" required placeholder="Contoh: Project Cargo Handling"
-                            class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs sm:text-sm text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Singkat <span class="text-red-500">*</span></label>
-                        <textarea id="tinymce_singkat_add"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Lengkap <span class="text-red-500">*</span></label>
-                        <textarea id="tinymce_lengkap_add"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Fitur Keunggulan</label>
-                        <textarea x-model="formAdd.fitur" rows="4" placeholder="Satu fitur per baris, contoh:&#10;Pengiriman Door-to-Door&#10;Tracking GPS 24/7"
-                            class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs sm:text-sm text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"></textarea>
-                        <p class="mt-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Tulis satu fitur per baris.</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">Pilih Ikon</label>
-                        <div class="grid grid-cols-6 gap-2">
-                            <template x-for="(opt, i) in iconOptions" :key="'add-icon-' + i">
-                                <button type="button" @click="formAdd.ikon = opt.value" :title="opt.label"
-                                    :class="formAdd.ikon === opt.value
-                                        ? 'border-brand-500 bg-brand-50 text-brand-600 ring-2 ring-brand-500/20 dark:bg-brand-500/10'
-                                        : 'border-gray-200 text-gray-400 hover:border-brand-300 hover:text-brand-500 dark:border-gray-700 dark:text-gray-500'"
-                                    class="flex h-11 items-center justify-center rounded-xl border transition">
-                                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5" x-html="opt.value"></svg>
-                                </button>
-                            </template>
-                        </div>
-                        <p class="mt-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Klik ikon untuk memilih tampilan layanan di website.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Path SVG Kustom (Opsional)</label>
-                            <input type="text" x-model="formAdd.ikon" placeholder='<path d="..." />'
-                                class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs font-mono text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Urutan Tampil</label>
-                            <input type="number" x-model.number="formAdd.urutan" min="0" placeholder="0"
-                                class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs sm:text-sm text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Gambar</label>
-                            <input type="file" x-ref="gambarAdd" accept="image/*"
-                                class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs sm:text-sm text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-                            <select x-model="formAdd.status"
-                                class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs sm:text-sm text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
-                                <option value="aktif">Aktif</option>
-                                <option value="nonaktif">Nonaktif</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="pt-4 border-t border-gray-100 dark:border-gray-800 flex justify-end gap-2.5">
-                        <button type="button" @click="isAddModalOpen = false"
-                            class="px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors">Batal</button>
-                        <button type="submit" :disabled="isSubmitting"
-                            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-medium text-white bg-brand-500 hover:bg-brand-600 rounded-xl transition-all disabled:opacity-50">
-                            <template x-if="isSubmitting">
-                                <svg class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                            </template>
-                            <span x-text="isSubmitting ? 'Menyimpan...' : 'Simpan Layanan'"></span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- ==================== MODAL UBAH DATA ==================== -->
-        <div x-show="isEditModalOpen" x-cloak class="fixed inset-0 z-99999 flex items-center justify-center overflow-y-auto p-4 sm:p-6" @keydown.escape.window="isEditModalOpen = false">
-            <div @click="isEditModalOpen = false" class="fixed inset-0 h-full w-full bg-gray-900/60 backdrop-blur-xs transition-opacity"
-                x-transition:enter="ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
-
-            <div class="relative w-full max-w-lg rounded-3xl bg-white p-6 sm:p-7 shadow-2xl dark:bg-gray-900 border border-gray-100 dark:border-gray-800 z-10 my-6"
-                x-transition:enter="ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
-
-                <div class="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-gray-800">
-                    <div class="flex items-center gap-3">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-500 dark:bg-amber-500/10">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                        </div>
-                        <div>
-                            <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Ubah Layanan</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400" x-text="formEdit.nama"></p>
-                        </div>
-                    </div>
-                    <button @click="isEditModalOpen = false" class="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-white">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                    </button>
-                </div>
-
-                <form @submit.prevent="submitEdit()" class="mt-4 space-y-3.5 max-h-[65vh] overflow-y-auto pr-1">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Layanan <span class="text-red-500">*</span></label>
-                        <input type="text" x-model.trim="formEdit.nama" required
-                            class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs sm:text-sm text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
-                        <p class="mt-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
-                            Slug saat ini: <span class="font-mono" x-text="'/layanan/' + formEdit.slug"></span> — slug otomatis mengikuti nama bila diubah.
-                        </p>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Singkat <span class="text-red-500">*</span></label>
-                        <textarea id="tinymce_singkat_edit"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Lengkap <span class="text-red-500">*</span></label>
-                        <textarea id="tinymce_lengkap_edit"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Fitur Keunggulan</label>
-                        <textarea x-model="formEdit.fitur_text" rows="4"
-                            class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs sm:text-sm text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"></textarea>
-                        <p class="mt-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Tulis satu fitur per baris.</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">Pilih Ikon</label>
-                        <div class="grid grid-cols-6 gap-2">
-                            <template x-for="(opt, i) in iconOptions" :key="'edit-icon-' + i">
-                                <button type="button" @click="formEdit.ikon = opt.value" :title="opt.label"
-                                    :class="formEdit.ikon === opt.value
-                                        ? 'border-brand-500 bg-brand-50 text-brand-600 ring-2 ring-brand-500/20 dark:bg-brand-500/10'
-                                        : 'border-gray-200 text-gray-400 hover:border-brand-300 hover:text-brand-500 dark:border-gray-700 dark:text-gray-500'"
-                                    class="flex h-11 items-center justify-center rounded-xl border transition">
-                                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5" x-html="opt.value"></svg>
-                                </button>
-                            </template>
-                        </div>
-                        <p class="mt-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Klik ikon untuk memilih tampilan layanan di website.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Path SVG Kustom (Opsional)</label>
-                            <input type="text" x-model="formEdit.ikon" placeholder='<path d="..." />'
-                                class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs font-mono text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Urutan Tampil</label>
-                            <input type="number" x-model.number="formEdit.urutan" min="0"
-                                class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs sm:text-sm text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Ganti Gambar</label>
-                            <input type="file" x-ref="gambarEdit" accept="image/*"
-                                class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs sm:text-sm text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
-                            <p class="mt-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Biarkan kosong jika tidak ingin mengubah gambar.</p>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-                            <select x-model="formEdit.status"
-                                class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs sm:text-sm text-gray-800 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
-                                <option value="aktif">Aktif</option>
-                                <option value="nonaktif">Nonaktif</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="pt-4 border-t border-gray-100 dark:border-gray-800 flex justify-end gap-2.5">
-                        <button type="button" @click="isEditModalOpen = false"
-                            class="px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors">Batal</button>
-                        <button type="submit" :disabled="isSubmitting"
-                            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-medium text-white bg-amber-500 hover:bg-amber-600 rounded-xl transition-all disabled:opacity-50">
-                            <template x-if="isSubmitting">
-                                <svg class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                            </template>
-                            <span x-text="isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan'"></span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- ==================== MODAL DETAIL ==================== -->
-        <div x-show="isDetailModalOpen" x-cloak class="fixed inset-0 z-99999 flex items-center justify-center overflow-y-auto p-4 sm:p-6" @keydown.escape.window="isDetailModalOpen = false">
-            <div @click="isDetailModalOpen = false" class="fixed inset-0 h-full w-full bg-gray-900/60 backdrop-blur-xs transition-opacity"
-                x-transition:enter="ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
-
-            <div class="relative w-full max-w-lg rounded-3xl bg-white shadow-2xl dark:bg-gray-900 border border-gray-100 dark:border-gray-800 z-10 my-6 overflow-hidden"
-                x-transition:enter="ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
-
-                <template x-if="selectedItem">
-                    <div>
-                        <!-- Header Image -->
-                        <div class="relative h-40 bg-gray-200 dark:bg-gray-800">
-                            <img :src="selectedItem.gambar_url" :alt="selectedItem.nama" class="w-full h-full object-cover" />
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                            <button @click="isDetailModalOpen = false" class="absolute top-4 right-4 rounded-lg bg-black/30 p-1.5 text-white hover:bg-black/50">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                            </button>
-                            <div class="absolute bottom-4 left-5 right-5 flex items-center gap-3">
-                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm text-white border border-white/25">
-                                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5" x-html="selectedItem.ikon || ''"></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <h3 class="text-lg font-bold text-white truncate" x-text="selectedItem.nama"></h3>
-                                    <p class="text-xs text-white/80 font-mono truncate" x-text="'/layanan/' + selectedItem.slug"></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-6 space-y-4 max-h-[55vh] overflow-y-auto">
-                            <div>
-                                <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Deskripsi Singkat</h4>
-                                <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed [&_p]:m-0" x-html="selectedItem.deskripsi_singkat"></div>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Deskripsi Lengkap</h4>
-                                <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed" x-html="selectedItem.deskripsi_lengkap"></div>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">Fitur Keunggulan</h4>
-                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                    <template x-for="(fitur, idx) in (selectedItem.fitur || [])" :key="idx">
-                                        <li class="flex items-start gap-2 p-2.5 bg-gray-50 dark:bg-white/[0.03] rounded-xl border border-gray-100 dark:border-gray-800">
-                                            <svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                                            </svg>
-                                            <span class="text-xs text-gray-700 dark:text-gray-300" x-text="fitur"></span>
-                                        </li>
-                                    </template>
-                                </ul>
-                                <p x-show="!selectedItem.fitur || selectedItem.fitur.length === 0" class="text-xs text-gray-400 italic">Belum ada fitur.</p>
-                            </div>
-                            <div class="flex flex-wrap gap-x-8 gap-y-2 pt-2 border-t border-gray-100 dark:border-gray-800">
-                                <div>
-                                    <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Status</h4>
-                                    <span class="text-sm font-medium capitalize" :class="selectedItem.status === 'aktif' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'" x-text="selectedItem.status"></span>
-                                </div>
-                                <div>
-                                    <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Urutan</h4>
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300" x-text="selectedItem.urutan"></span>
-                                </div>
-                                <div>
-                                    <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Terakhir Diubah</h4>
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300" x-text="new Date(selectedItem.updated_at).toLocaleString('id-ID')"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-            </div>
-        </div>
-
         <!-- ==================== MODAL HAPUS ==================== -->
         <div x-show="isDeleteModalOpen" x-cloak class="fixed inset-0 z-99999 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-xs" @keydown.escape.window="isDeleteModalOpen = false">
             <div class="w-full max-w-sm rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl p-6 text-center"
@@ -598,8 +331,6 @@
 @endsection
 
 @push('scripts')
-    <!-- TinyMCE CDN Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('layananManager', () => ({
@@ -607,127 +338,15 @@
                 searchQuery: '',
                 selectedStatus: 'Semua',
                 isSubmitting: false,
-                isAddModalOpen: false,
-                isEditModalOpen: false,
-                isDetailModalOpen: false,
                 isDeleteModalOpen: false,
-                selectedItem: null,
                 itemToDelete: null,
-                formAdd: {
-                    nama: '',
-                    deskripsi_singkat: '',
-                    deskripsi_lengkap: '',
-                    fitur: '',
-                    ikon: '',
-                    urutan: 0,
-                    status: 'aktif'
-                },
-                formEdit: {
-                    id: null,
-                    nama: '',
-                    slug: '',
-                    deskripsi_singkat: '',
-                    deskripsi_lengkap: '',
-                    fitur_text: '',
-                    ikon: '',
-                    urutan: 0,
-                    status: 'aktif'
-                },
                 currentPage: 1,
                 perPage: 10,
-
-                // Opsi ikon siap pilih (value = inner-SVG, format sama dengan data lama)
-                iconOptions: [
-                    { label: 'Dokumen Kepabeanan', value: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />' },
-                    { label: 'Truk Reefer', value: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM19 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 16.5h1.5m0 0V7a1 1 0 011-1h9.5a1 1 0 011 1v2m-11.5 7.5h8m0 0V9m0 7.5h3m2.5 0H17m2.5 0V11a1 1 0 00-1-1h-3" />' },
-                    { label: 'Kontainer', value: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.25 15.75l1.5-4.5h16.5l1.5 4.5m-19.5 0v3a1.5 1.5 0 001.5 1.5h16.5a1.5 1.5 0 001.5-1.5v-3m-19.5 0h19.5M6 11.25V6a1.5 1.5 0 011.5-1.5h9A1.5 1.5 0 0118 6v5.25" />' },
-                    { label: 'Angkutan Darat', value: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />' },
-                    { label: 'Kapal Laut', value: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 17l1.5-7h15L21 17M6 10V6a2 2 0 012-2h8a2 2 0 012 2v4M4 17c1.5 1 3.5 1 5 0s3.5-1 5 0 3.5 1 5 0 3.5-1 5 0" />' },
-                    { label: 'Kargo Udara', value: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />' },
-                    { label: 'Gudang', value: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />' },
-                    { label: 'Cold Chain', value: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v18m0-18l3 3m-3-3l-3 3m0 12l3 3m0 0l3-3m-9-6h18m-18 0l3-3m-3 3l3 3m12-6l-3-3m3 3l-3 3" />' },
-                    { label: 'Paket', value: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" />' },
-                    { label: 'Jaringan Global', value: '<circle cx="12" cy="12" r="10" stroke-width="1.8" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />' },
-                    { label: 'Tepat Waktu', value: '<circle cx="12" cy="12" r="10" stroke-width="1.8" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6v6l4 2" />' },
-                    { label: 'Jaminan Aman', value: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />' }
-                ],
 
                 init() {
                     this.fetchData();
                     this.$watch('searchQuery', () => { this.currentPage = 1; });
                     this.$watch('selectedStatus', () => { this.currentPage = 1; });
-
-                    // Init/teardown TinyMCE saat modal dibuka/ditutup
-                    this.$watch('isAddModalOpen', (value) => {
-                        if (value) {
-                            this.$nextTick(() => {
-                                this.initTinyMCE('tinymce_singkat_add', '', true);
-                                this.initTinyMCE('tinymce_lengkap_add', '');
-                            });
-                        } else {
-                            this.destroyTinyMCE('tinymce_singkat_add');
-                            this.destroyTinyMCE('tinymce_lengkap_add');
-                        }
-                    });
-
-                    this.$watch('isEditModalOpen', (value) => {
-                        if (value) {
-                            this.$nextTick(() => {
-                                this.initTinyMCE('tinymce_singkat_edit', this.formEdit.deskripsi_singkat || '', true);
-                                this.initTinyMCE('tinymce_lengkap_edit', this.formEdit.deskripsi_lengkap || '');
-                            });
-                        } else {
-                            this.destroyTinyMCE('tinymce_singkat_edit');
-                            this.destroyTinyMCE('tinymce_lengkap_edit');
-                        }
-                    });
-                },
-
-                // TinyMCE helpers
-                initTinyMCE(elementId, initialContent = '', compact = false) {
-                    if (typeof tinymce === 'undefined') return;
-
-                    tinymce.remove('#' + elementId);
-
-                    const isDark = document.documentElement.classList.contains('dark');
-
-                    tinymce.init({
-                        selector: '#' + elementId,
-                        height: compact ? 150 : 260,
-                        menubar: false,
-                        plugins: compact ? [] : [
-                            'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
-                            'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                            'insertdatetime', 'table', 'help', 'wordcount'
-                        ],
-                        toolbar: compact
-                            ? 'undo redo | bold italic underline | removeformat'
-                            : 'undo redo | formatselect | bold italic underline strikethrough | ' +
-                              'alignleft aligncenter alignright alignjustify | ' +
-                              'bullist numlist blockquote | link table | removeformat code',
-                        skin: isDark ? 'oxide-dark' : 'oxide',
-                        content_css: isDark ? 'dark' : 'default',
-                        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; }',
-                        setup: (editor) => {
-                            editor.on('init', () => {
-                                editor.setContent(initialContent || '');
-                            });
-                        }
-                    });
-                },
-
-                destroyTinyMCE(elementId) {
-                    if (typeof tinymce !== 'undefined') {
-                        tinymce.remove('#' + elementId);
-                    }
-                },
-
-                getTinyMCEContent(elementId) {
-                    if (typeof tinymce !== 'undefined' && tinymce.get(elementId)) {
-                        return tinymce.get(elementId).getContent();
-                    }
-                    const el = document.getElementById(elementId);
-                    return el ? el.value : '';
                 },
 
                 get activeCount() {
@@ -787,135 +406,6 @@
                 },
                 prevPage() {
                     if (this.currentPage > 1) this.currentPage--;
-                },
-
-                openAddModal() {
-                    this.formAdd = {
-                        nama: '',
-                        deskripsi_singkat: '',
-                        deskripsi_lengkap: '',
-                        fitur: '',
-                        ikon: '',
-                        urutan: this.layanans.length + 1,
-                        status: 'aktif'
-                    };
-                    if (this.$refs.gambarAdd) this.$refs.gambarAdd.value = '';
-                    this.isAddModalOpen = true;
-                },
-
-                async submitAdd() {
-                    const singkat = this.getTinyMCEContent('tinymce_singkat_add').trim();
-                    const lengkap = this.getTinyMCEContent('tinymce_lengkap_add').trim();
-
-                    if (!this.formAdd.nama.trim() || !singkat || !lengkap) {
-                        alert('Nama layanan dan kedua deskripsi wajib diisi.');
-                        return;
-                    }
-
-                    this.isSubmitting = true;
-                    try {
-                        const formData = new FormData();
-                        formData.append('nama', this.formAdd.nama);
-                        formData.append('deskripsi_singkat', singkat);
-                        formData.append('deskripsi_lengkap', lengkap);
-                        formData.append('fitur', this.formAdd.fitur);
-                        formData.append('ikon', this.formAdd.ikon);
-                        formData.append('urutan', this.formAdd.urutan ?? 0);
-                        formData.append('status', this.formAdd.status);
-                        if (this.$refs.gambarAdd && this.$refs.gambarAdd.files[0]) {
-                            formData.append('gambar', this.$refs.gambarAdd.files[0]);
-                        }
-
-                        const res = await fetch('{{ route('admin.layanan.store') }}', {
-                            method: 'POST',
-                            headers: {
-                                'Accept': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: formData
-                        });
-                        const result = await res.json();
-                        if (result.status === 'success') {
-                            await this.fetchData();
-                            this.isAddModalOpen = false;
-                        } else {
-                            console.error(result.errors || result.message);
-                        }
-                    } catch (error) {
-                        console.error(error);
-                    } finally {
-                        this.isSubmitting = false;
-                    }
-                },
-
-                openEditModal(item) {
-                    this.formEdit = {
-                        id: item.id,
-                        nama: item.nama,
-                        slug: item.slug,
-                        deskripsi_singkat: item.deskripsi_singkat,
-                        deskripsi_lengkap: item.deskripsi_lengkap,
-                        fitur_text: (item.fitur || []).join('\n'),
-                        ikon: item.ikon || '',
-                        urutan: item.urutan,
-                        status: item.status
-                    };
-                    if (this.$refs.gambarEdit) this.$refs.gambarEdit.value = '';
-                    this.isEditModalOpen = true;
-                },
-
-                async submitEdit() {
-                    const singkat = this.getTinyMCEContent('tinymce_singkat_edit').trim();
-                    const lengkap = this.getTinyMCEContent('tinymce_lengkap_edit').trim();
-
-                    if (!this.formEdit.nama.trim() || !singkat || !lengkap) {
-                        alert('Nama layanan dan kedua deskripsi wajib diisi.');
-                        return;
-                    }
-
-                    this.isSubmitting = true;
-                    try {
-                        const formData = new FormData();
-                        formData.append('_method', 'PUT');
-                        formData.append('nama', this.formEdit.nama);
-                        formData.append('deskripsi_singkat', singkat);
-                        formData.append('deskripsi_lengkap', lengkap);
-                        formData.append('fitur', this.formEdit.fitur_text);
-                        formData.append('ikon', this.formEdit.ikon);
-                        formData.append('urutan', this.formEdit.urutan ?? 0);
-                        formData.append('status', this.formEdit.status);
-
-                        if (this.$refs.gambarEdit && this.$refs.gambarEdit.files[0]) {
-                            formData.append('gambar', this.$refs.gambarEdit.files[0]);
-                        }
-
-                        const res = await fetch(`{{ url('admin/layanan') }}/${this.formEdit.id}`, {
-                            method: 'POST',
-                            headers: {
-                                'Accept': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: formData
-                        });
-                        const result = await res.json();
-                        if (result.status === 'success') {
-                            await this.fetchData();
-                            this.isEditModalOpen = false;
-                        } else {
-                            console.error(result.errors || result.message);
-                        }
-                    } catch (error) {
-                        console.error(error);
-                    } finally {
-                        this.isSubmitting = false;
-                    }
-                },
-
-                openDetailModal(item) {
-                    this.selectedItem = item;
-                    this.isDetailModalOpen = true;
                 },
 
                 openDeleteModal(item) {

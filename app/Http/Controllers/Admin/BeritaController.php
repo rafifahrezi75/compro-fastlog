@@ -59,6 +59,13 @@ class BeritaController extends Controller
         return view('admin.pages.berita.index', compact('beritas', 'stats', 'sources'));
     }
 
+    public function create()
+    {
+        $mode = 'create';
+
+        return view('admin.pages.berita.form', compact('mode'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -120,10 +127,18 @@ class BeritaController extends Controller
     {
         $berita = Berita::findOrFail($id);
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $berita,
-        ]);
+        return view('admin.pages.berita.show', compact('berita'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        $berita = Berita::findOrFail($id);
+        $mode = 'edit';
+
+        return view('admin.pages.berita.form', compact('mode', 'berita'));
     }
 
     /**
