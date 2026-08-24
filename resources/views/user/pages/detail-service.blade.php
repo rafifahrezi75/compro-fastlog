@@ -47,7 +47,7 @@
                     <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                         <h2 class="text-2xl font-bold text-[#052B35] mb-4">{{ __('Service Description') }}</h2>
                         <div class="text-gray-600 leading-relaxed text-base mb-6 space-y-4">
-                            {!! $service->deskripsi_lengkap !!}
+                            {!! __($service->deskripsi_lengkap) !!}
                         </div>
                         <p class="text-gray-600 leading-relaxed text-base">
                             {{ __('service_detail_assurance', ['service' => strtolower(__($service->nama))]) }}
