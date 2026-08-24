@@ -269,7 +269,7 @@
                             </h3>
 
                             <div class="text-sm text-gray-500 group-hover:text-white/90 transition-colors duration-300 mb-4 [&_p]:m-0">
-                                {!! $item->deskripsi_singkat !!}
+                                {!! __($item->deskripsi_singkat) !!}
                             </div>
 
                             <a href="{{ route('services.detail', $item->slug) }}"
@@ -349,7 +349,7 @@
 
                     {{-- Slide asli --}}
                     @foreach ($galleries as $item)
-                        <a href="#" class="group relative h-[420px] overflow-hidden block shrink-0"
+                        <a href="{{ route('gallery') }}" class="group relative h-[420px] overflow-hidden block shrink-0"
                             :style="`width: ${100 / perView}%`">
                             @if ($item->gambar)
                                 <img src="{{ str_starts_with($item->gambar, 'uploads/') ? asset($item->gambar) : asset('storage/' . $item->gambar) }}"
@@ -371,7 +371,7 @@
 
                     {{-- Clone slide pertama, biar transisi ke akhir tetep mulus lanjut ke kanan --}}
                     @foreach ($galleries as $item)
-                        <a href="#" class="group relative h-[420px] overflow-hidden block shrink-0"
+                       <a href="{{ route('gallery') }}" class="group relative h-[420px] overflow-hidden block shrink-0"
                             :style="`width: ${100 / perView}%`">
                             @if ($item->gambar)
                                 <img src="{{ str_starts_with($item->gambar, 'uploads/') ? asset($item->gambar) : asset('storage/' . $item->gambar) }}"

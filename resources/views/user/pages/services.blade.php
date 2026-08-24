@@ -54,7 +54,7 @@
                             <h3 class="text-2xl font-bold text-white mb-3">{{ __($service->nama) }}</h3>
                             <div
                                 class="text-white/80 text-sm leading-relaxed mb-4 line-clamp-2 group-hover:line-clamp-none transition-all [&_p]:m-0 [&_p]:contents">
-                                {!! $service->deskripsi_singkat !!}
+                                {!! __($service->deskripsi_singkat) !!}
                             </div>
                             <span
                                 class="inline-flex items-center text-white font-semibold gap-2 text-sm group-hover:gap-3 transition-all duration-300">
