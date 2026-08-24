@@ -25,13 +25,6 @@ class TestimoniController extends Controller
 
         $testimonis = $query->get();
 
-        if ($request->wantsJson() || $request->ajax()) {
-            return response()->json([
-                'status' => 'success',
-                'data' => $testimonis,
-            ]);
-        }
-
         return view('admin.pages.testimoni.index', compact('testimonis'));
     }
 

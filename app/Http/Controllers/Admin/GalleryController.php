@@ -38,14 +38,6 @@ class GalleryController extends Controller
             'draft' => Gallery::where('status', 'draft')->count(),
         ];
 
-        if ($request->wantsJson() || $request->ajax()) {
-            return response()->json([
-                'status' => 'success',
-                'data' => $gallerys,
-                'stats' => $stats,
-            ]);
-        }
-
         return view('admin.pages.gallery.index', compact('gallerys', 'stats'));
     }
 
