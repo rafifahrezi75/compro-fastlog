@@ -418,24 +418,28 @@
         document.addEventListener('DOMContentLoaded', () => {
             const topBar = document.getElementById('top-bar');
             const navBody = document.getElementById('nav-body');
-            const menuButton = document.getElementById('menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            if (menuButton && mobileMenu) {
-                menuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
 
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 40) {
-                    topBar.classList.add('-mt-14', 'opacity-0');
-                    navBody.classList.remove('bg-transparent');
-                    navBody.classList.add('bg-[#052B35]', 'shadow-lg');
+                const isDesktop = window.innerWidth >= 1024;
+
+                if (isDesktop) {
+                    if (window.scrollY > 40) {
+                        topBar.classList.add('-mt-14', 'opacity-0');
+                        navBody.classList.remove('bg-transparent');
+                        navBody.classList.add('bg-[#052B35]', 'shadow-lg');
+                    } else {
+                        topBar.classList.remove('-mt-14', 'opacity-0');
+                        navBody.classList.add('bg-transparent');
+                        navBody.classList.remove('bg-[#052B35]', 'shadow-lg');
+                    }
                 } else {
+                    // Mobile: top-bar (logo + bendera + hamburger) selalu tampil, tidak boleh hilang
                     topBar.classList.remove('-mt-14', 'opacity-0');
-                    navBody.classList.add('bg-transparent');
-                    navBody.classList.remove('bg-[#052B35]', 'shadow-lg');
+                    if (window.scrollY > 40) {
+                        topBar.classList.add('bg-[#052B35]', 'shadow-lg');
+                    } else {
+                        topBar.classList.remove('shadow-lg');
+                    }
                 }
             });
         });
