@@ -1,2 +1,23 @@
+# ============================================================
+# robots.txt — Fastlog Era Mandiri
+# Terakhir diperbarui: 2026-08-24
+# ============================================================
+
+# Izinkan semua crawler untuk halaman publik
 User-agent: *
-Disallow:
+Allow: /
+
+# Blokir halaman admin & autentikasi dari crawler
+Disallow: /login
+Disallow: /register
+Disallow: /logout
+Disallow: /dashboard
+Disallow: /master
+Disallow: /admin/
+Disallow: /api/
+
+# Blokir parameter query string language switcher yang tidak perlu di-index
+Disallow: /*?lang=*
+
+# Lokasi Sitemap (Ganti URL setelah deploy ke production)
+Sitemap: http://localhost/sitemap.xml

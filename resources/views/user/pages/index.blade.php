@@ -1,5 +1,36 @@
 @extends('user.layouts.app')
 
+{{-- ============================================================ --}}
+{{--  SEO Meta Tags — Halaman Beranda                            --}}
+{{-- ============================================================ --}}
+@section('meta_title', 'Jasa Logistik dan Freight Forwarding Terpercaya')
+@section('meta_description',
+    'Fastlog Era Mandiri menyediakan layanan logistik profesional: Custom Clearance, Reefer
+    Logistic, Freight Forwarding internasional, dan Inland Transport di seluruh Indonesia.')
+@section('meta_canonical', route('home'))
+@section('og_image', asset('images/front-end/fastlog1.png'))
+@section('og_type', 'website')
+
+{{-- JSON-LD: Organization Schema untuk Google Knowledge Panel --}}
+@push('head')
+    <script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'Organization',
+    'name' => 'Fastlog Era Mandiri',
+    'url' => route('home'),
+    'logo' => asset('images/front-end/logo2.png'),
+    'description' => 'Layanan logistik terpercaya: Custom Clearance, Reefer Logistic, Freight Forwarding, dan Inland Transport.',
+    'contactPoint' => [
+        '@type' => 'ContactPoint',
+        'contactType' => 'customer service',
+        'availableLanguage' => ['Indonesian', 'English']
+    ],
+    'sameAs' => []
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
+</script>
+@endpush
+
 @section('content')
     {{-- ============ HERO SLIDER SECTION ============ --}}
     <section class="relative h-[550px] overflow-hidden" x-data="{
@@ -363,7 +394,8 @@
                                     onerror="this.onerror=null; this.src='{{ asset('images/front-end/fastlog1.png') }}';"
                                     class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                             @else
-                                <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">{{ __('No Image') }}</div>
+                                <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+                                    {{ __('No Image') }}</div>
                             @endif
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
                             <div class="absolute inset-0 flex items-end justify-center pb-8">
@@ -384,7 +416,8 @@
                                     onerror="this.onerror=null; this.src='{{ asset('images/front-end/fastlog1.png') }}';"
                                     class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                             @else
-                                <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">{{ __('No Image') }}</div>
+                                <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+                                    {{ __('No Image') }}</div>
                             @endif
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
                             <div class="absolute inset-0 flex items-end justify-center pb-8">
@@ -660,7 +693,8 @@
                                     alt="{{ $news->judul }}"
                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             @else
-                                <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">{{ __('No Image') }}</div>
+                                <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
+                                    {{ __('No Image') }}</div>
                             @endif
                         </div>
                         <div class="p-5 flex-1 flex flex-col">

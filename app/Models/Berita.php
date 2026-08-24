@@ -8,6 +8,14 @@ use Illuminate\Support\Str;
 
 class Berita extends Model
 {
+    /**
+     * Get the route key for the model (use slug instead of id).
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     use HasFactory;
 
     protected $table = 'beritas';

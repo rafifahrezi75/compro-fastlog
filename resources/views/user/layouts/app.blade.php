@@ -4,13 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Fastlog Era Mandiri')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         [x-cloak] {
             display: none !important;
         }
     </style>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- ============================================================ --}}
+    {{--  SEO: Title                                                  --}}
+    {{-- Gunakan @section('meta_title', 'Judul Halaman') di view     --}}
+    {{-- ============================================================ --}}
+    @php
+        $metaTitle      = trim($__env->yieldContent('meta_title'));
+        $siteName       = 'Fastlog Era Mandiri';
+        $fullTitle      = $metaTitle ? "{$metaTitle} | {$siteName}" : $siteName;
+
+        $metaDesc       = trim($__env->yieldContent('meta_description'));
+        if (!$metaDesc) {
+            $metaDesc   = 'Fastlog Era Mandiri — layanan logistik terpercaya meliputi Custom Clearance, Reefer Logistic, Freight Forwarding, dan Inland Transport.';
+        }
+
+        $metaCanonical  = trim($__env->yieldContent('meta_canonical'));
+        if (!$metaCanonical) {
+            $metaCanonical = url()->current();
+        }
+
+        $ogImage        = trim($__env->yieldContent('og_image'));
+        if (!$ogImage) {
+            $ogImage    = asset('images/front-end/fastlog1.png');
+        }
+
+        $ogType         = trim($__env->yieldContent('og_type')) ?: 'website';
+    @endphp
+
+    <title>{{ $fullTitle }}</title>
+
+    {{-- ============================================================ --}}
+    {{--  SEO: Primary Meta Tags                                      --}}
+    {{-- ============================================================ --}}
+    <meta name="description"  content="{{ Str::limit($metaDesc, 160) }}">
+    <meta name="robots"       content="@yield('meta_robots', 'index, follow')">
+    <meta name="author"       content="{{ $siteName }}">
+    <link rel="canonical"     href="{{ $metaCanonical }}">
+
+    {{-- ============================================================ --}}
+    {{--  SEO: Open Graph / Facebook                                  --}}
+    {{-- ============================================================ --}}
+    <meta property="og:type"         content="{{ $ogType }}">
+    <meta property="og:url"          content="{{ $metaCanonical }}">
+    <meta property="og:title"        content="{{ $fullTitle }}">
+    <meta property="og:description"  content="{{ Str::limit($metaDesc, 300) }}">
+    <meta property="og:image"        content="{{ $ogImage }}">
+    <meta property="og:image:alt"    content="{{ $metaTitle ?: $siteName }}">
+    <meta property="og:locale"       content="id_ID">
+    <meta property="og:site_name"    content="{{ $siteName }}">
+
+    {{-- ============================================================ --}}
+    {{--  SEO: Twitter Card                                           --}}
+    {{-- ============================================================ --}}
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="{{ $fullTitle }}">
+    <meta name="twitter:description" content="{{ Str::limit($metaDesc, 200) }}">
+    <meta name="twitter:image"       content="{{ $ogImage }}">
+
+    {{-- ============================================================ --}}
+    {{--  Favicon                                                     --}}
+    {{-- ============================================================ --}}
     @php
         $logoSrc = asset('images/front-end/logo2.png');
         if (isset($infos) && $infos->logo) {
@@ -20,6 +80,17 @@
         }
     @endphp
     <link rel="icon" type="image/png" href="{{ $logoSrc }}?v=1">
+
+    {{-- ============================================================ --}}
+    {{--  Vite Assets (CSS & JS)                                      --}}
+    {{-- ============================================================ --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- ============================================================ --}}
+    {{--  Extra head content (JSON-LD, custom per halaman)            --}}
+    {{-- Gunakan @push('head') ... @endpush di view                  --}}
+    {{-- ============================================================ --}}
+    @stack('head')
 </head>
 
 <body class="font-sans antialiased">

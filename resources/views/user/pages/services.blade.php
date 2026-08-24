@@ -1,6 +1,11 @@
 @extends('user.layouts.app')
 
-@section('title', __('Our Services') . ' - Fastlog Era Mandiri')
+{{-- SEO Meta Tags — Halaman Layanan --}}
+@section('meta_title', 'Layanan Logistik')
+@section('meta_description',
+    'Fastlog Era Mandiri menawarkan layanan logistik lengkap: Custom Clearance, Reefer
+    Logistic, Freight Forwarding internasional, dan Inland Transport di Indonesia.')
+@section('meta_canonical', route('services'))
 
 @section('content')
 

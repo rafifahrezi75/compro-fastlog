@@ -1,6 +1,9 @@
 @extends('user.layouts.app')
 
-@section('title', __('Contact Us') . ' - Fastlog Era Mandiri')
+{{-- SEO Meta Tags — Halaman Kontak --}}
+@section('meta_title', 'Hubungi Kami — Konsultasi Logistik Gratis')
+@section('meta_description', 'Hubungi tim Fastlog Era Mandiri untuk konsultasi layanan logistik, Custom Clearance, Freight Forwarding, dan Inland Transport. Kami siap membantu 24/7.')
+@section('meta_canonical', route('contact'))
 
 @section('content')
 

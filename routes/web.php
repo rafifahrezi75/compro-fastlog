@@ -48,8 +48,8 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/berita', [BeritaController::class, 'frontendIndex'])->name('berita');
 
-    // 2. Route Detail Berita
-    Route::get('/berita/{slug}', [BeritaController::class, 'frontendDetail'])->name('berita.detail');
+    // 2. Route Detail Berita (Route Model Binding via slug)
+    Route::get('/berita/{berita}', [BeritaController::class, 'frontendDetail'])->name('berita.detail');
 
     // Route Halaman Layanan Utama (Daftar Semua Layanan)
     Route::get('/layanan', [ServiceController::class, 'index'])->name('services');
@@ -59,8 +59,8 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/karir', [KarirController::class, 'frontendIndex'])->name('career');
 
-    // Halaman Detail Lowongan Kerja
-    Route::get('/karir/{slug}', [KarirController::class, 'frontendDetail'])->name('career.detail');
+    // Halaman Detail Lowongan Kerja (Route Model Binding via slug)
+    Route::get('/karir/{karir}', [KarirController::class, 'frontendDetail'])->name('career.detail');
 
     // Proses Submit Lamaran Kerja
     Route::post('/karir/apply', [KarirController::class, 'apply'])->name('career.apply');

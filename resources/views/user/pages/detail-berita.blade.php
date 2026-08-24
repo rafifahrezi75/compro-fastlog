@@ -1,5 +1,45 @@
 @extends('user.layouts.app')
 
+{{-- ============================================================ --}}
+{{--  SEO Meta Tags — Halaman Detail Berita                      --}}
+{{-- ============================================================ --}}
+@section('meta_title', $berita->judul)
+@section('meta_description', $berita->excerpt)
+@section('meta_canonical', route('berita.detail', $berita->slug))
+@section('og_image', $berita->gambar_url)
+@section('og_type', 'article')
+
+{{-- JSON-LD: Article Schema untuk Google News & Rich Results --}}
+@push('head')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'NewsArticle',
+    'headline' => $berita->judul,
+    'description' => $berita->excerpt,
+    'image' => [$berita->gambar_url],
+    'datePublished' => $berita->created_at->toIso8601String(),
+    'dateModified' => $berita->updated_at->toIso8601String(),
+    'author' => [
+        '@type' => 'Organization',
+        'name' => 'Fastlog Era Mandiri',
+    ],
+    'publisher' => [
+        '@type' => 'Organization',
+        'name' => 'Fastlog Era Mandiri',
+        'logo' => [
+            '@type' => 'ImageObject',
+            'url' => asset('images/front-end/logo2.png'),
+        ],
+    ],
+    'mainEntityOfPage' => [
+        '@type' => 'WebPage',
+        '@id' => route('berita.detail', $berita->slug),
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
+</script>
+@endpush
+
 @section('content')
 
 {{-- ============ HERO HEADER BANNER ============ --}}

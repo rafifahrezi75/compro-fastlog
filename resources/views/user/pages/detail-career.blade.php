@@ -1,6 +1,51 @@
 @extends('user.layouts.app')
 
-@section('title', $job->nama_karir . ' - ' . __('Career') . ' Fastlog')
+{{-- ============================================================ --}}
+{{--  SEO Meta Tags — Halaman Detail Karir                       --}}
+{{-- ============================================================ --}}
+@section('meta_title', $job->nama_karir . ' — ' . $job->lokasi_lengkap)
+@section('meta_description', Str::limit(strip_tags($job->deskripsi ?? 'Bergabunglah bersama tim Fastlog Era Mandiri. Temukan karir terbaik di bidang logistik, freight forwarding, dan custom clearance.'), 155))
+@section('meta_canonical', route('career.detail', $job->slug))
+@section('og_image', asset('images/front-end/fastlog2.jpg'))
+@section('og_type', 'website')
+
+{{-- JSON-LD: JobPosting Schema — Google akan menampilkan lowongan di hasil pencarian --}}
+@push('head')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'JobPosting',
+    'title' => $job->nama_karir,
+    'description' => strip_tags($job->deskripsi ?? ''),
+    'datePosted' => $job->created_at->toIso8601String(),
+    'employmentType' => strtoupper(str_replace('-', '_', $job->tipe_pekerjaan ?? 'FULL_TIME')),
+    'hiringOrganization' => [
+        '@type' => 'Organization',
+        'name' => 'Fastlog Era Mandiri',
+        'sameAs' => route('home'),
+        'logo' => asset('images/front-end/logo2.png'),
+    ],
+    'jobLocation' => [
+        '@type' => 'Place',
+        'address' => [
+            '@type' => 'PostalAddress',
+            'streetAddress' => $job->alamat_detail ?? '',
+            'addressLocality' => $job->kota ?? '',
+            'addressRegion' => $job->provinsi ?? '',
+            'addressCountry' => $job->negara ?? 'ID',
+        ],
+    ],
+    'baseSalary' => [
+        '@type' => 'MonetaryAmount',
+        'currency' => 'IDR',
+        'value' => [
+            '@type' => 'QuantitativeValue',
+            'unitText' => 'MONTH',
+        ],
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
+</script>
+@endpush
 
 @section('content')
 

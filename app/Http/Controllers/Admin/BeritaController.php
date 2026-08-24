@@ -222,12 +222,21 @@ class BeritaController extends Controller
 
     /**
      * Display frontend berita detail page.
+     * Uses Route Model Binding — Laravel resolves Berita by slug automatically.
      */
-    public function frontendDetail($slug)
+    public function frontendDetail(Berita $berita)
     {
-        $berita = Berita::where('slug', $slug)->where('status', 'published')->firstOrFail();
-        $latest_beritas = Berita::where('id', '!=', $berita->id)->where('status', 'published')->latest()->take(3)->get();
-        
+        // Ensure only published articles are accessible
+        if ($berita->status !== 'published') {
+            abort(404);
+        }
+
+        $latest_beritas = Berita::where('id', '!=', $berita->id)
+            ->where('status', 'published')
+            ->latest()
+            ->take(3)
+            ->get();
+
         return view('user.pages.detail-berita', compact('berita', 'latest_beritas'));
     }
 }

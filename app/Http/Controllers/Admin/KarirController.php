@@ -257,10 +257,16 @@ class KarirController extends Controller
 
     /**
      * Display frontend career detail page.
+     * Uses Route Model Binding — Laravel resolves Karir by slug automatically.
      */
-    public function frontendDetail($slug)
+    public function frontendDetail(Karir $karir)
     {
-        $job = Karir::where('slug', $slug)->where('status', 'Aktif')->firstOrFail();
+        // Ensure only active job postings are accessible
+        if ($karir->status !== 'Aktif') {
+            abort(404);
+        }
+
+        $job = $karir;
         return view('user.pages.detail-career', compact('job'));
     }
 
