@@ -305,7 +305,7 @@
                     </a>
                 </div>
 
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto flex-1">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr
@@ -381,12 +381,20 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="py-6 text-center text-gray-400 text-xs">Belum ada data
+                                    <td colspan="4" class="py-8 text-center text-gray-400 text-xs">Belum ada data
                                         pelamar.</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+
+                <div
+                    class="p-3.5 bg-gray-50/40 dark:bg-white/[0.01] border-t border-gray-100 dark:border-gray-800 text-center mt-auto">
+                    <a href="{{ route('admin.pelamar.index') }}"
+                        class="text-xs font-semibold text-brand-500 hover:underline">
+                        Lihat Semua Pelamar &rarr;
+                    </a>
                 </div>
             </div>
 
@@ -408,7 +416,7 @@
                     </a>
                 </div>
 
-                <div class="p-4 space-y-3">
+                <div class="p-4 space-y-3 flex-1">
                     @forelse($popularKarirs as $job)
                         <div
                             class="p-3 rounded-xl bg-gray-50/75 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 flex items-center justify-between gap-3 hover:border-brand-500/30 transition">
@@ -432,12 +440,12 @@
                             </a>
                         </div>
                     @empty
-                        <div class="py-6 text-center text-gray-400 text-xs">Belum ada data lowongan karir.</div>
+                        <div class="py-8 text-center text-gray-400 text-xs">Belum ada data lowongan karir.</div>
                     @endforelse
                 </div>
 
                 <div
-                    class="p-3.5 bg-gray-50/40 dark:bg-white/[0.01] border-t border-gray-100 dark:border-gray-800 text-center">
+                    class="p-3.5 bg-gray-50/40 dark:bg-white/[0.01] border-t border-gray-100 dark:border-gray-800 text-center mt-auto">
                     <a href="{{ route('admin.karir.create') }}"
                         class="text-xs font-semibold text-brand-500 hover:underline">
                         + Buat Lowongan Kerja Baru
@@ -651,7 +659,10 @@
                             }
                         },
                         yaxis: {
+                            min: 0,
+                            forceNiceScale: true,
                             labels: {
+                                formatter: (val) => Math.floor(val),
                                 style: {
                                     colors: "#94A3B8",
                                     fontSize: "11px"

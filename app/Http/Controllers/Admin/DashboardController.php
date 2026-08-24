@@ -59,25 +59,22 @@ class DashboardController extends Controller
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
         $currentYear = Carbon::now()->year;
 
+        $pelamarByMonth = Pelamar::whereYear('created_at', $currentYear)
+            ->get(['created_at'])
+            ->groupBy(fn ($item) => (int) $item->created_at->format('n'))
+            ->map->count();
+
+        $beritaByMonth = Berita::whereYear('created_at', $currentYear)
+            ->get(['created_at'])
+            ->groupBy(fn ($item) => (int) $item->created_at->format('n'))
+            ->map->count();
+
         $pelamarMonthly = [];
         $beritaMonthly = [];
 
         for ($m = 1; $m <= 12; $m++) {
-            $pelamarCount = Pelamar::whereYear('created_at', $currentYear)->whereMonth('created_at', $m)->count();
-            $beritaCount = Berita::whereYear('created_at', $currentYear)->whereMonth('created_at', $m)->count();
-
-            // Default baseline if newly seeded today so the chart has nice historical curve
-            if ($pelamarCount == 0 && $m <= Carbon::now()->month) {
-                $pelamarMonthly[] = $m == Carbon::now()->month ? Pelamar::count() : max(1, rand(2, 5));
-            } else {
-                $pelamarMonthly[] = $pelamarCount;
-            }
-
-            if ($beritaCount == 0 && $m <= Carbon::now()->month) {
-                $beritaMonthly[] = $m == Carbon::now()->month ? Berita::count() : max(1, rand(1, 4));
-            } else {
-                $beritaMonthly[] = $beritaCount;
-            }
+            $pelamarMonthly[] = $pelamarByMonth->get($m, 0);
+            $beritaMonthly[] = $beritaByMonth->get($m, 0);
         }
 
         // 3. Status Pelamar Breakdown (Donut Chart)
