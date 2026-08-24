@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Info;
+use App\Models\Layanan;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -27,6 +28,13 @@ class AppServiceProvider extends ServiceProvider
 
         if (Schema::hasTable('infos')) {
             View::share('infos', Info::first());
+        }
+
+        if (Schema::hasTable('layanans')) {
+            View::share('navLayanans', Layanan::where('status', 'aktif')
+                ->orderBy('urutan')
+                ->orderBy('id')
+                ->get());
         }
     }
 }

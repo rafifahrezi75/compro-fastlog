@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\InfoController;
 use App\Http\Controllers\Admin\KarirController;
+use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\MarketingController;
 use App\Http\Controllers\Admin\PelamarController;
 use App\Http\Controllers\Admin\TestimoniController;
@@ -75,9 +76,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/master', function () {
-        return view('admin.pages.master.index');
-    })->name('master');
+    // Master Layanan (sumber data halaman front end /layanan)
+    Route::resource('admin/layanan', LayananController::class)
+        ->except(['create', 'edit'])
+        ->names('admin.layanan');
 
     // Master Berita, Karir, Pelamar, Testimoni & Marketing Admin Routes
     Route::resource('admin/berita', BeritaController::class)->names('admin.berita');
