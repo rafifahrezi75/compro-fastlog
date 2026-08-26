@@ -56,7 +56,7 @@
             <span>/</span>
             <a href="{{ route('berita') }}" class="hover:text-[#FF7A3D] transition">{{ __('News') }}</a>
             <span>/</span>
-            <span class="text-white font-medium truncate max-w-xs">{{ $berita->judul }}</span>
+            <span class="text-white font-medium truncate max-w-xs">{{ __($berita->judul) }}</span>
         </div>
     </div>
 </section>
@@ -79,7 +79,7 @@
                 {{-- Judul & Tanggal --}}
                 <div>
                     <h1 class="text-2xl md:text-3xl font-bold text-[#052B35] leading-tight mb-3">
-                        {{ $berita->judul }}
+                        {{ __($berita->judul) }}
                     </h1>
                     <div class="flex items-center gap-2 text-sm text-[#FF7A3D] font-medium">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -89,7 +89,7 @@
 
                 {{-- Isi Artikel / Paragraf --}}
                 <div class="text-gray-600 space-y-4 leading-relaxed text-sm md:text-base">
-                    {!! $berita->isi !!}
+                    {!! __($berita->isi) !!}
                 </div>
 
                 {{-- Share Social Media Buttons --}}
@@ -120,7 +120,7 @@
                                     @endif
                                 </div>
                                 <h4 class="text-xs font-bold text-[#052B35] group-hover:text-[#FF7A3D] transition line-clamp-3 leading-snug mb-2 uppercase">
-                                    {{ $item->judul }}
+                                    {{ __($item->judul) }}
                                 </h4>
                                 <div class="flex items-center gap-1.5 text-[11px] text-[#FF7A3D]">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
