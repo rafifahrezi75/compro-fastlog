@@ -477,7 +477,7 @@
                                     <div
                                         class="h-full bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col min-h-[220px]">
                                         <p class="text-gray-600 text-sm leading-relaxed">
-                                            "{{ $item->testimoni }}"
+                                            "{{ __($item->testimoni) }}"
                                         </p>
 
                                         <div class="mt-auto pt-6 flex items-end justify-between">
@@ -495,11 +495,11 @@
                                                     </div>
                                                 @endif
                                                 <div>
-                                                    <h4 class="font-bold text-[#052B35] text-base">{{ $item->nama }}
+                                                    <h4 class="font-bold text-[#052B35] text-base">{{ __($item->nama) }}
                                                     </h4>
                                                     <p
                                                         class="text-xs text-gray-400 {{ empty($item->perusahaan) ? 'invisible' : '' }}">
-                                                        {{ $item->perusahaan ?? 'placeholder' }}</p>
+                                                        {{ __($item->perusahaan ?? 'placeholder') }}</p>
                                                 </div>
                                             </div>
                                             <span
@@ -667,10 +667,10 @@
                                 {{ \Carbon\Carbon::parse($news->created_at)->translatedFormat('l, d M Y') }}</p>
                             <h3
                                 class="font-bold text-[#052B35] mb-2 leading-snug group-hover:text-[#FF7A3D] transition text-sm md:text-base">
-                                {{ $news->judul }}
+                                {{ __($news->judul) }}
                             </h3>
                             <div class="text-xs md:text-sm text-gray-500 line-clamp-2 mt-auto">
-                                {{ strip_tags($news->isi) }}
+                                {{ __(strip_tags($news->isi)) }}
                             </div>
                         </div>
                     </a>

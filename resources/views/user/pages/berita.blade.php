@@ -56,7 +56,7 @@
                             </div>
                             <h3
                                 class="text-base font-bold text-[#052B35] group-hover:text-[#FF7A3D] transition line-clamp-3 leading-snug">
-                                {{ $news->judul }}
+                                {{ __($news->judul) }}
                             </h3>
                         </div>
 
